@@ -10,6 +10,6 @@ public class HomeController {
     // This method handles HTTP GET requests to "/"
     @GetMapping("/")
     public String home() {
-        return "Welcome to the Home Page Allir í hbv502!";
+        return "Welcome to the Home Page Allir í hbv501!";
     }
 }
