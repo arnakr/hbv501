@@ -20,7 +20,7 @@ public class HomeController {
     // This method handles HTTP GET requests to "/"
     @RequestMapping ("/")
     public String homePage(Model model) {
-        model.addAttribute("recipes", recipeService.findAll());
+        model.addAttribute("recipes", recipeService.getAll());
 
         return "home.html";
     }

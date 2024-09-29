@@ -25,7 +25,7 @@ public class RecipeServiceImplementation implements RecipeService {
     }
 
     @Override
-    public List<Recipe> findAll() {
+    public List<Recipe> getAll() {
         return recipeRepository;
     }
 
@@ -50,5 +50,10 @@ public class RecipeServiceImplementation implements RecipeService {
     @Override
     public void deleteRecipe(Recipe recipe) {
         recipeRepository.remove(recipe);
+    }
+
+    @Override
+    public void editRecipe(Recipe recipe) {
+
     }
 }
