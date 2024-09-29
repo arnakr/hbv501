@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package is.hi.hbv501g.hopur25.controllers;
 
 import org.springframework.stereotype.Controller;
 
