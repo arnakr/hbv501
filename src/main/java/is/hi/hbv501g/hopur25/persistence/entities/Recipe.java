@@ -1,14 +1,25 @@
 package is.hi.hbv501g.hopur25.persistence.entities;
 
+import jakarta.persistence.*;
+import jdk.jfr.Enabled;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "recipes")
 public class Recipe {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long recipeID;
+
     private String title;
     private List<String> ingredients = new ArrayList<String>();
     private int cookTime;
     private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     public Recipe() {
     }
