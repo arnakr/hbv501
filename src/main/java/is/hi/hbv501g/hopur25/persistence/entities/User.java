@@ -1,57 +1,57 @@
 package is.hi.hbv501g.hopur25.persistence.entities;
 
-import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity
-@Table(name = "users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int uid;
+    private long userID;
+    private List<Recipe> userRecipes = new ArrayList<>();
+    private List<Recipe> userFavourites = new ArrayList<>();
+    private List<Review> userReviews = new ArrayList<>();
 
-    private String username; // Changed from 'name' to 'username'
+    private String username;
+    private String email;
     private String password;
-    private int size;
+    private String userPicture;
 
     public User() {
     }
 
-    public User(String username, String password, int size) {
-        this.username = username; // Update constructor
-        this.password = password;
-        this.size = size;
-    }
-
-    public String getUsername() {
-        return username; // Update getter
-    }
-
-    public void setUsername(String username) {
-        this.username = username; // Update setter
-    }
-
-    // Other getters and setters unchanged
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
         this.password = password;
     }
 
-    public int getSize() {
-        return size;
+    public long getUserID() {
+        return userID;
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public void setUserID(long userID) {
+        this.userID = userID;
     }
 
-    public int getUid() {
-        return uid;
+    public List<Recipe> getUserRecipes() {
+        return userRecipes;
     }
 
-    public void setUid(int uid) {
-        this.uid = uid;
+    public void setUserRecipes(List<Recipe> userRecipes) {
+        this.userRecipes = userRecipes;
+    }
+
+    public List<Recipe> getUserFavourites() {
+        return userFavourites;
+    }
+
+    public void setUserFavourites(List<Recipe> userFavourites) {
+        this.userFavourites = userFavourites;
+    }
+
+    public List<Review> getUserReviews() {
+        return userReviews;
+    }
+
+    public void setUserReviews(List<Review> userReviews) {
+        this.userReviews = userReviews;
     }
 }
