@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <title>Login Form</title>
 </head>
-<body>
-<div th:switch="${users}">
+<!-- <div th:switch="${users}">
     <h2 th:case="null">No Users :(</h2>
     <div th:case="*">
         <h2>Users</h2>
@@ -22,6 +21,15 @@
             </tbody>
         </table>
     </div>
-</div>
+</div> -->
+<body>
+<h2>Login to your account</h2>
+<form action="#" th:action="@{/login}" th:object="${user}" method="post">
+    <input type="text" name="username" id="username" placeholder="username" th:field="*{username}"/>
+    <!-- <input type="text" name="email" id="email" placeholder="email" th:field="*{email}"/> -->
+    <input type="text" name="password" id="password" placeholder="password" th.field="*{password}"/>
+    <input type="submit" value="Login"/>
+</form>
 </body>
+
 </html>
