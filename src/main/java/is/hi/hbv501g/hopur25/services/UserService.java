@@ -9,7 +9,6 @@ import java.util.List;
 
 @Service
 public interface UserService {
-    //void register(User user);
 
     User save(User user);
     void delete(User user);

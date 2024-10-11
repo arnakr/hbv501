@@ -22,7 +22,7 @@ public class UserController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String signupGET(User user){
-        return "signUp";
+        return "signup";
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
