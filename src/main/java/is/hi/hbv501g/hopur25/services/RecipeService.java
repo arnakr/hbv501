@@ -6,8 +6,14 @@ import java.util.List;
 
 public interface RecipeService {
     List<Recipe> findAll();
+
     Recipe findByID(long ID);
+
     Recipe addRecipe(Recipe recipe);
+
     void delete(Recipe recipe);
+
     Recipe findByTitle(String title);
+
+    Recipe save(Recipe recipe);
 }

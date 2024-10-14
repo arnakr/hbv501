@@ -6,21 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userID;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String username;
 
-    @Column(nullable=false, unique=true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String password;
-    private String userPicture;
+
+    @Column(nullable = false)
+    private int size;
+
+    private String userPicture;  // Declare the userPicture field
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Recipe> userRecipes = new ArrayList<>();
@@ -28,14 +32,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Recipe> userFavourites = new ArrayList<>();
 
-    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    //List<Review> userReviews = new ArrayList<>();
-
-
-
     public User() {
     }
-
 
     public User(String username, String email, String password) {
         this.username = username;
@@ -67,14 +65,6 @@ public class User {
         this.userFavourites = userFavourites;
     }
 
-//    public List<Review> getUserReviews() {
-//        return userReviews;
-//    }
-
-//    public void setUserReviews(List<Review> userReviews) {
-//        this.userReviews = userReviews;
-//    }
-
     public String getUsername() {
         return username;
     }
@@ -97,5 +87,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUserPicture() {
+        return userPicture;  // Return the userPicture field
+    }
+
+    public void setUserPicture(String userPicture) {
+        this.userPicture = userPicture;  // Assign the input value to the field
     }
 }
