@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecipeServiceImplementation implements RecipeService {
-    private RecipeRepository recipeRepository;
+    private final RecipeRepository recipeRepository;
 
     // private List<Recipe> recipeRepository = new ArrayList<>();
     //private int id_counter = 0;
@@ -39,14 +40,14 @@ public class RecipeServiceImplementation implements RecipeService {
             }
         }
         return null;*/
-    public Recipe findByID(long ID) {
-        return recipeRepository.findById(ID);
+    public Optional<Recipe> findByID(long id) {
+        return recipeRepository.findById(id);
     }
 
     /*
     @Override
     public Recipe findByTitle(String title) {
-        return recipeRepository.findByTitle(title).getFirst(); //skoða hérna hvað við viljum sækja
+        return recipeRepository.findByTitle(title).get(0); //skoða hérna hvað við viljum sækja
     }
     */
 
