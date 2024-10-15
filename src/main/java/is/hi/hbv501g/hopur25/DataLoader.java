@@ -19,7 +19,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (recipeRepository.count() == 0) {
-            Recipe recipe1 = new Recipe("Pancakes", List.of("Hveiti", "Egg", "Mjólk", "Sykur", "Lyftiduft"), 20, "Hrærið hráefnum saman og bakið");
+            Recipe recipe1 = new Recipe("Pönnukökur", List.of("Hveiti", "Egg", "Mjólk", "Sykur", "Lyftiduft"), 20, "Hrærið hráefnum saman og bakið");
             Recipe recipe2 = new Recipe("Spaghetti Bolognese", List.of("Spaghetti", "Tómatar", "Hakk"), 30, "Steikið hakk, sjóðið spaghetti og blandið saman á pönnu");
             recipeRepository.save(recipe1);
             recipeRepository.save(recipe2);
