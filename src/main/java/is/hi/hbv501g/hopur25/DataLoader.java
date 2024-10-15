@@ -1,4 +1,4 @@
-package is.hi.hbv501g.hopur25.loaders; // Place this under the loaders package
+package is.hi.hbv501g.hopur25; // Place this under the loaders package
 
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe; // Adjust the import path as necessary
 import is.hi.hbv501g.hopur25.persistence.repositories.RecipeRepository; // Adjust the import path as necessary
