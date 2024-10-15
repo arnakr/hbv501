@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+label {
+    margin-top: 10px;
+    display: block;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="submit"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 20px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    cursor: pointer;
+    margin-top: 10px; /* Add some space from the button above */
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.ingredient {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.ingredient input[type="text"] {
+    flex: 1;
+    margin-right: 10px;
+}
+
+button {
+    padding: 5px 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #d32f2f;
+}
+
+button[type="button"] {
+    background-color: #008CBA;
+}
+
+button[type="button"]:hover {
+    background-color: #007B9E;
+}
