@@ -1,6 +1,7 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #f9f9f9;
+    margin: 0;
     padding: 20px;
 }
 
@@ -10,7 +11,7 @@ body {
     background: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
@@ -25,31 +26,54 @@ label {
 }
 
 input[type="text"],
+input[type="submit"],
 textarea {
     width: 100%;
-    padding: 8px;
-    margin: 5px 0 15px;
+    padding: 10px;
+    margin: 5px 0 20px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
+input[type="submit"] {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    cursor: pointer;
+    margin-top: 10px; /* Add some space from the button above */
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.ingredient {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.ingredient input[type="text"] {
+    flex: 1;
+    margin-right: 10px;
+}
+
 button {
-    margin-top: 10px;
-    background-color: #4CAF50;
+    padding: 5px 10px;
+    background-color: #f44336;
     color: white;
     border: none;
-    padding: 10px 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
     border-radius: 4px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #d32f2f;
 }
 
-.ingredient {
-    margin-bottom: 10px;
+button[type="button"] {
+    background-color: #008CBA;
+}
+
+button[type="button"]:hover {
+    background-color: #007B9E;
 }
