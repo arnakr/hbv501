@@ -6,18 +6,12 @@
 </head>
 <body>
 <div class="topnav">
-    <a class="active" href="home.html">Heim</a>
+    <a class="active" href="/">Heim</a>
     <a href="#userrecipes">Uppskriftirnar Mínar</a>
-    <a href="settings.html">Stillingar/Mínar Síður</a>
-    <a href="#logout" class="split">Log out</a>
+    <a href="/settings">Stillingar/Mínar Síður</a>
+    <a href="/logout" class="split">Log out</a>
 </div>
 <p th:text="'Welcome, ' + ${LoggedInUser.username}"></p>
 
-<!-- <div class="content">
-
-    <section id="home">
-        <h1>Mataruppskriftir</h1>
-    </section>
-</div> -->
 </body>
 </html>
