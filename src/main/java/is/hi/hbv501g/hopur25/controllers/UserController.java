@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -71,9 +70,8 @@ public class UserController {
             // Store user in session with a consistent key
             session.setAttribute("LoggedInUser", exists);
             model.addAttribute("LoggedInUser", exists);
-            return "LoggedInUser";  // Redirect to home after login
+            return "redirect:/";  // Redirect to home after login
         }
-
         return "redirect:/login";  // Redirect to login if credentials are invalid
     }
 
@@ -87,49 +85,4 @@ public class UserController {
         }
         return "redirect:/";
     }
-
-    //show settings page
-    @RequestMapping("/settings")
-    public String settingsPage(HttpSession session, Model model) {
-        User currentUser = (User) session.getAttribute("LoggedInUser");
-        if (currentUser == null) {
-            return "redirect:/login";
-        }
-
-        model.addAttribute("LoggedInUser", currentUser);
-        return "settings";  // This will look for src/main/resources/templates/settings.html
-    }
-
-    @RequestMapping(value = "/settings", method = RequestMethod.POST)
-    public String settingsPost(@ModelAttribute("LoggedInUser") User updatedUser,
-                               BindingResult result, Model model, HttpSession session) {
-        User currentUser = (User) session.getAttribute("LoggedInUser");
-        if (currentUser == null) {
-            return "redirect:/login";
-        }
-
-//        String confirmPassword = (String) session.getAttribute("confirmPassword");
-//        if (!updatedUser.getPassword().equals(confirmPassword)) {
-//            model.addAttribute("errorMessage", "Passwords do not match. Please try again.");
-//            return "settings";
-//        }
-
-        String error = userService.updateUserSettings(currentUser, updatedUser);
-        if (error != null) {
-            model.addAttribute("errorMessage", error);
-            return "settings";
-        }
-
-        session.setAttribute("LoggedInUser", updatedUser);
-        model.addAttribute("LoggedInUser", updatedUser);
-
-        return "LoggedInUser";
-    }
-
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/login"; // Redirect to login page after logout
-    }
-
 }

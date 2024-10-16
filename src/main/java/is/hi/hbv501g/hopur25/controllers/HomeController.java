@@ -27,11 +27,17 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-    public String homePage(Model model) {
+    public String homePage(Model model, HttpSession session) { // Ensure HttpSession is included
         List<Recipe> allRecipes = recipeService.findAll();
         model.addAttribute("recipes", allRecipes);
-        return "home";
+
+        // Retrieve the logged-in user from the session
+        User loggedInUser = (User) session.getAttribute("LoggedInUser");
+        model.addAttribute("LoggedInUser", loggedInUser); // Add user to the model
+
+        return "home"; // Return the home view
     }
+
 
     @RequestMapping(value = "/createRecipe", method = RequestMethod.GET)
     public String createRecipeForm(Model model) {
