@@ -11,4 +11,6 @@ public interface RecipeService {
     Recipe addRecipe(Recipe recipe);
     void delete(Recipe recipe);
     Recipe findByTitle(String title);
+
+    Recipe save(Recipe recipe);
 }

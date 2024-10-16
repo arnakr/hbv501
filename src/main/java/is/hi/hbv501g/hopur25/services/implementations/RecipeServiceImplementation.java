@@ -27,23 +27,9 @@ public class RecipeServiceImplementation implements RecipeService {
     }
 
     @Override
-    /*public Recipe findByID(long ID) {
-        for (Recipe r: recipeRepository) {
-            if (r.getRecipeID() == ID) {
-                return r;
-            }
-        }
-        return null;*/
     public Optional<Recipe> findByID(long id) {
         return recipeRepository.findById(id);
     }
-
-    /*
-    @Override
-    public Recipe findByTitle(String title) {
-        return recipeRepository.findByTitle(title).get(0); //skoða hérna hvað við viljum sækja
-    }
-    */
 
     @Override
     public Recipe addRecipe(Recipe recipe) {
