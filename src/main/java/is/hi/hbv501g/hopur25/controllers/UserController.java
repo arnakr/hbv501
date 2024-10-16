@@ -22,22 +22,22 @@ public class UserController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String signupGET(User user) {
-        return "signup"; // Return the signup page
+        return "signup";
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String signupPOST(User user, BindingResult result, Model model, HttpSession session) {
+    public String signupPOST(User user, BindingResult result, Model model) {
         // Check for binding errors first
         if (result.hasErrors()) {
             model.addAttribute("errorMessage", "Invalid input. Please check your details.");
-            return "signup"; // Return to signup form with error
+            return "signup"; // Redirect back to signup form
         }
 
         // Check if username already exists
         User exists = userService.findByUsername(user.getUsername());
         if (exists != null) {
             model.addAttribute("errorMessage", "Username already exists. Please choose another.");
-            return "signup"; // Return to signup form with error
+            return "signup"; // Redirect back to signup form
         }
 
         // Set a default value for userPicture if it's not provided
@@ -45,35 +45,34 @@ public class UserController {
             user.setUserPicture("/images/default.jpg"); // Use a local placeholder
         }
 
+
         // Save the user
         userService.save(user);
-
-        // Store the user in session after successful signup
-        session.setAttribute("LoggedInUser", user); // Store user in session
 
         // Redirect to the home page after successful signup
         return "redirect:/";
     }
 
+
     // Login
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginGET(User user) {
-        return "loginRequest"; // Return the login page
+    public String loginForm(User user) {
+        return "loginRequest";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String loginPOST(User user, BindingResult result, Model model, HttpSession session) {
+    public String login(User user, BindingResult result, Model model, HttpSession session) {
         if (result.hasErrors()) {
-            return "loginRequest"; // Return to login form on error
+            return "loginRequest";
         }
         User exists = userService.login(user);
         if (exists != null) {
             // Store user in session with a consistent key
             session.setAttribute("LoggedInUser", exists);
-            return "redirect:/";  // Redirect to home after successful login
+            model.addAttribute("LoggedInUser", exists);
+            return "redirect:/";  // Redirect to home after login
         }
-        model.addAttribute("errorMessage", "Invalid credentials. Please try again.");
-        return "loginRequest";  // Return to login if credentials are invalid
+        return "redirect:/login";  // Redirect to login if credentials are invalid
     }
 
     // Logged in user page
@@ -82,15 +81,8 @@ public class UserController {
         User sessionUser = (User) session.getAttribute("LoggedInUser");
         if (sessionUser != null) {
             model.addAttribute("LoggedInUser", sessionUser);
-            return "LoggedInUser";  // Return user-specific page
+            return "LoggedInUser";
         }
-        return "redirect:/";  // Redirect to home if not logged in
-    }
-
-    // Logout
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public String logout(HttpSession session) {
-        session.invalidate(); // Invalidate the session
-        return "redirect:/"; // Redirect to home page after logout
+        return "redirect:/";
     }
 }
