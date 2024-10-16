@@ -3,22 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Login Form</title>
-    <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
-<div class="container">
-    <h2>Login to your account</h2>
+<h2>Login to your account</h2>
+<form action="#" th:action="@{/login}" th:object="${user}" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <br>
 
-    <!-- Display error messages -->
-    <div th:if="${errorMessage}" class="error-message" style="color: red;">
-        <p th:text="${errorMessage}"></p>
-    </div>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <br>
 
-    <form action="#" th:action="@{/login}" th:object="${user}" method="post">
-        <input type="text" name="username" id="username" placeholder="Username" th:field="*{username}" required/>
-        <input type="password" name="password" id="password" placeholder="Password" th:field="*{password}" required/>
-        <input type="submit" value="Login"/>
-    </form>
-</div>
+    <input type="submit" value="Login"/>
+</form>
 </body>
+
 </html>
