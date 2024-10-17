@@ -24,13 +24,22 @@ public class User {
     @Column(nullable = false)
     private int size;
 
-    private String userPicture;  // Declare the userPicture field
+    private String userPicture;// Declare the userPicture field
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Recipe> userRecipes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Recipe> userFavourites = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_favourites", // New table to hold favorite relationships
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "recipe_id")
+    )
+    private List<Recipe> userFavourites = new ArrayList<>();
+    //@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    //List<Recipe> userFavourites = new ArrayList<>();
 
     public User() {
     }
