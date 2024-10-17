@@ -1,35 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
-<!-- <div th:switch="${users}">
-    <h2 th:case="null">No Users :(</h2>
-    <div th:case="*">
-        <h2>Users</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Username</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="user: ${users}">
-                <td th:text="${recipe.username}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div> -->
 <body>
-<h2>Login to your account</h2>
-<form action="#" th:action="@{/login}" th:object="${user}" method="post">
-    <input type="text" name="username" id="username" placeholder="username" th:field="*{username}"/>
-    <!-- <input type="text" name="email" id="email" placeholder="email" th:field="*{email}"/> -->
-    <input type="text" name="password" id="password" placeholder="password" th.field="*{password}"/>
-    <input type="submit" value="Login"/>
-</form>
-</body>
+<div class="container">
+    <h2>Log In</h2>
 
+    <!-- Display error messages -->
+    <div th:if="${errorMessage}" class="error-message" style="color: red;">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <form action="#" th:action="@{/login}" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required/>
+        <br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required/>
+        <br>
+
+        <input type="submit" value="Log In"/>
+    </form>
+</div>
+</body>
 </html>
