@@ -20,6 +20,8 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     public List<Recipe> search(String keyword);
     */
 
-    @Query("SELECT title FROM Recipe WHERE title LIKE %?1%")
+    @Query(
+            value = "SELECT * FROM Recipes r WHERE r.title LIKE %?1%",
+            nativeQuery = true)
     List<Recipe> search(String keyword);
 }
