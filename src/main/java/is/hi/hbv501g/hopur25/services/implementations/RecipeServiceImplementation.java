@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RecipeServiceImplementation implements RecipeService {
@@ -24,7 +23,7 @@ public class RecipeServiceImplementation implements RecipeService {
     }
 
     @Override
-    public Optional<Recipe> findById(long id) {
+    public Recipe findById(long id) {
         return recipeRepository.findById(id);
     }
 
@@ -46,7 +45,7 @@ public class RecipeServiceImplementation implements RecipeService {
         return recipeRepository.save(recipe);
     }
 
-    @Override
+   @Override
     public List<Recipe> searchByKeyword(String keyword) {
         if (keyword != null) {
             return recipeRepository.search(keyword);

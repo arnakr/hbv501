@@ -87,5 +87,9 @@ public class Recipe {
 
     public void setUser(User currentUser) {
     }
+
+    public boolean isPresent() {
+        return user != null;
+    }
 }
 

@@ -25,9 +25,9 @@ public class RecipeController {
 
     @GetMapping("/recipe/{id}")
     public String getRecipeById(@PathVariable("id") long id, Model model) {
-        Optional<Recipe> recipe = recipeService.findById(id);
+        Recipe recipe = recipeService.findById(id);
         if (recipe.isPresent()) {
-            model.addAttribute("recipe", recipe.get());
+            model.addAttribute("recipe", recipe);
             return "recipe";
         } else {
             model.addAttribute("message", "Recipe not found");
