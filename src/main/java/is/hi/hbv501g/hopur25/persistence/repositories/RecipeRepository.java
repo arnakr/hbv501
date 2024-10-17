@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
@@ -14,5 +13,5 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     List<Recipe> findAll();
     List<Recipe> findByTitle(String title);
-    Optional<Recipe> findById(long id);
+    Recipe findById(long recipeID);
 }
