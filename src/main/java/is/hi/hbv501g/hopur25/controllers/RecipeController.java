@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/recipes")
+@RequestMapping("/recipe")
 public class RecipeController {
 
     private RecipeService recipeService;
@@ -31,7 +31,7 @@ public class RecipeController {
         }
         return new ResponseEntity<>("Uppskrift ekki til", HttpStatus.OK);
     }*/
-   @GetMapping("/{id}")
+   @GetMapping("/recipe/{id}")
    public ResponseEntity<?> getRecipeById(@PathVariable("id") long id) {
        Optional<Recipe> recipe = recipeService.findById(id);
        if (recipe.isPresent()) {
