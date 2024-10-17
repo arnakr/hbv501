@@ -39,9 +39,12 @@ public class RecipeServiceImplementation implements RecipeService {
             }
         }
         return null;*/
-    public Recipe findByID(long ID) {
-        return recipeRepository.findById(ID);
+    @Override
+    public Recipe findByID(long recipeID) {
+        return recipeRepository.findById(recipeID).orElse(null);  // Return null if not found
     }
+
+
 
     /*
     @Override
@@ -79,4 +82,6 @@ public class RecipeServiceImplementation implements RecipeService {
         }
         return recipeRepository.findAll();
     }
+
+
 }

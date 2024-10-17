@@ -10,9 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -65,4 +63,16 @@ public class HomeController {
         recipeService.save(recipe);  // Save the recipe
         return "redirect:/";  // Redirect to home after saving
     }
+
+    @GetMapping("/recipe/{id}")
+    public String viewRecipe(@PathVariable("id") long id, Model model) {
+        Recipe recipe = recipeService.findByID(id);
+        if (recipe == null) {
+            return "error"; // Return an error page or message if the recipe is not found
+        }
+        model.addAttribute("recipe", recipe);
+        return "recipeDetail";  // Your Thymeleaf template for the recipe details page
+    }
+
+
 }

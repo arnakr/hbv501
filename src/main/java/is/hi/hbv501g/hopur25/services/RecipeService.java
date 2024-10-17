@@ -18,4 +18,6 @@ public interface RecipeService {
     Recipe save(Recipe recipe);
 
     List<Recipe> searchByKeyword(String keyword);
+
+    Recipe findById(long recipeID);
 }

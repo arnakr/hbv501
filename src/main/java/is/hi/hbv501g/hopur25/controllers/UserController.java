@@ -72,8 +72,11 @@ public class UserController {
             session.setAttribute("LoggedInUser", exists);
             model.addAttribute("LoggedInUser", exists);
             return "redirect:/";  // Redirect to home after login
+        } else {
+            // Add an error message to the model for invalid credentials
+            model.addAttribute("errorMessage", "Invalid username or password. Please try again.");
+            return "loginRequest";  // Stay on the login page and show the error message
         }
-        return "redirect:/login";  // Redirect to login if credentials are invalid
     }
 
     // Logged in user page
@@ -128,7 +131,7 @@ public class UserController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/login";
+        return "home";
     }
 
 }
