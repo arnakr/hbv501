@@ -23,14 +23,22 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getRecipe(@PathVariable("id") long id) {
-        Optional<Recipe> recipe = recipeService.findByID(id);
+   /** @GetMapping("/{id}")
+    public ResponseEntity<?> getRecipeById(@PathVariable("id") long id) {
+        Optional<Recipe> recipe = recipeService.findById(id);
         if (recipe.isPresent()) {
             return new ResponseEntity<>(recipe.get().toString(), HttpStatus.OK);
         }
         return new ResponseEntity<>("Uppskrift ekki til", HttpStatus.OK);
-    }
-    //public String RecipeController() {
-        //return "";
-    }
+    }*/
+   @GetMapping("/{id}")
+   public ResponseEntity<?> getRecipeById(@PathVariable("id") long id) {
+       Optional<Recipe> recipe = recipeService.findById(id);
+       if (recipe.isPresent()) {
+           return new ResponseEntity<>("Recipe ID: " + recipe.get().getRecipeId() + ", Title: " + recipe.get().getTitle(), HttpStatus.OK);
+       } else {
+           return new ResponseEntity<>("Uppskrift ekki til", HttpStatus.NOT_FOUND);
+       }
+   }
+}
+

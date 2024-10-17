@@ -13,9 +13,6 @@ import java.util.Optional;
 public class RecipeServiceImplementation implements RecipeService {
     private final RecipeRepository recipeRepository;
 
-    // private List<Recipe> recipeRepository = new ArrayList<>();
-    //private int id_counter = 0;
-
     @Autowired
     public RecipeServiceImplementation(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
@@ -27,7 +24,7 @@ public class RecipeServiceImplementation implements RecipeService {
     }
 
     @Override
-    public Optional<Recipe> findByID(long id) {
+    public Optional<Recipe> findById(long id) {
         return recipeRepository.findById(id);
     }
 

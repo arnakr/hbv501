@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface RecipeService {
     List<Recipe> findAll();
-    Optional<Recipe> findByID(long id);
+    Optional<Recipe> findById(long id);
     Recipe addRecipe(Recipe recipe);
     void delete(Recipe recipe);
     Recipe findByTitle(String title);
