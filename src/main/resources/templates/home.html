@@ -2,11 +2,21 @@
 <html xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe Website</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
 <div th:if="${LoggedInUser != null}">
+
+    <div class="topnav">
+        <a class="active" href="loggedin">Heim</a>
+        <a href="#userrecipes">Uppskriftirnar Mínar</a>
+        <a href="/settings">Stillingar/Mínar Síður</a>
+    </div>
+
     <span>Welcome, <span th:text="${LoggedInUser.username}"></span>!</span>
+
 </div>
 
 <div>
@@ -51,7 +61,7 @@
     <!-- Show "Create Recipe" button only if user is logged in -->
     <div th:if="${LoggedInUser != null}">
         <p><a href="/createRecipe">Create Recipe</a></p>
-        <form action="/logout" method="post">
+        <form action="/logout">
             <button type="submit">Log Out</button>
         </form>
     </div>
