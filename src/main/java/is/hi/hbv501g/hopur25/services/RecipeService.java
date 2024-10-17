@@ -16,4 +16,6 @@ public interface RecipeService {
     Recipe findByTitle(String title);
 
     Recipe save(Recipe recipe);
+
+    List<Recipe> searchByKeyword(String keyword);
 }

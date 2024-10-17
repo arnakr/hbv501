@@ -1,13 +1,11 @@
 package is.hi.hbv501g.hopur25.services.implementations;
 
-import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
 import is.hi.hbv501g.hopur25.persistence.repositories.UserRepository;
 import is.hi.hbv501g.hopur25.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,11 +16,6 @@ public class UserServiceImplementation implements UserService {
     public UserServiceImplementation(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
-//    @Override
-//    public void register(User user) {
-//
-//    }
 
     @Override
     public User findByUsername(String username) {
@@ -40,31 +33,43 @@ public class UserServiceImplementation implements UserService {
         System.out.println("User retrieved: " + doesExist);
         if(doesExist != null){
             if(doesExist.getPassword().equals(user.getPassword())){
+
                 return doesExist;
             }
         }
         return null;
     }
 
-//    @Override
-//    public void logout() {
+    @Override
+    public String updateUserSettings(User currentUser, User updatedUser) {
+
+        if (!currentUser.getUsername().equals(updatedUser.getUsername())) {
+            User doesExist = findByUsername(updatedUser.getUsername());
+            if (doesExist != null) {
+                return "Username taken";
+            }
+        }
+
+        if (!currentUser.getEmail().equals(updatedUser.getEmail())) {
+            User doesExist = findByEmail(updatedUser.getEmail());
+            if (doesExist != null) {
+                return "Email taken";
+            }
+        }
+
+        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
+            currentUser.setPassword(updatedUser.getPassword());
+        }
+
+        currentUser.setUsername(updatedUser.getUsername());
+        currentUser.setEmail(updatedUser.getEmail());
+
+        userRepository.save(currentUser);
+
+        return null;
+    }
+
 //
-//    }
-//
-//    @Override
-//    public void updateUsername(User user) {
-//
-//    }
-//
-//    @Override
-//    public void updatePassword(User user) {
-//
-//    }
-//
-//    @Override
-//    public void updateEmail(User user) {
-//
-//    }
 //
 //    @Override
 //    public void updatePicture(User user) {
