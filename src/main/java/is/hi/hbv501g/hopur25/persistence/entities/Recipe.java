@@ -13,7 +13,7 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private long recipeID;
+    private long recipeId;
     private String title;
     private List<String> ingredients = new ArrayList<String>();
     private int cookTime;
@@ -32,12 +32,12 @@ public class Recipe {
         this.description = description;
     }
 
-    public long getRecipeID() {
-        return recipeID;
+    public long getRecipeId() {
+        return recipeId;
     }
 
-    public void setRecipeID(long recipeID) {
-        this.recipeID = recipeID;
+    public void setRecipeId(long recipeId) {
+        this.recipeId = recipeId;
     }
 
     public String getTitle() {
