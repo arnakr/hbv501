@@ -71,4 +71,12 @@ public class RecipeServiceImplementation implements RecipeService {
     public Recipe save(Recipe recipe) {
         return recipeRepository.save(recipe);
     }
+
+    @Override
+    public List<Recipe> searchByKeyword(String keyword) {
+        if (keyword != null) {
+            return recipeRepository.search(keyword);
+        }
+        return recipeRepository.findAll();
+    }
 }

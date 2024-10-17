@@ -6,6 +6,7 @@ import is.hi.hbv501g.hopur25.services.RecipeService;
 import is.hi.hbv501g.hopur25.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,9 +28,10 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-    public String homePage(Model model, HttpSession session) { // Ensure HttpSession is included
-        List<Recipe> allRecipes = recipeService.findAll();
+    public String homePage(Model model, HttpSession session, @Param("keyword") String keyword) { // Ensure HttpSession is included
+        List<Recipe> allRecipes = recipeService.searchByKeyword(keyword);
         model.addAttribute("recipes", allRecipes);
+        model.addAttribute("keyword", keyword);
 
         // Retrieve the logged-in user from the session
         User loggedInUser = (User) session.getAttribute("LoggedInUser");
@@ -37,7 +39,6 @@ public class HomeController {
 
         return "home"; // Return the home view
     }
-
 
     @RequestMapping(value = "/createRecipe", method = RequestMethod.GET)
     public String createRecipeForm(Model model) {
