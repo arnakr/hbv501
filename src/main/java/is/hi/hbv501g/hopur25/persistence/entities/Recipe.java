@@ -1,5 +1,6 @@
 package is.hi.hbv501g.hopur25.persistence.entities;
 
+
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -13,9 +14,9 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private long recipeID;
+    private long recipeId;
     private String title;
-    private List<String> ingredients = new ArrayList<String>();
+    private List<String> ingredients = new ArrayList<>();
     private int cookTime;
     private String description;
 
@@ -30,18 +31,18 @@ public class Recipe {
         this.ingredients = ingredients;
         this.cookTime = cookTime;
         this.description = description;
+        //this.recipeId = recipeId;
     }
 
-    public long getRecipeID() {
-        return recipeID;
+    public long getRecipeId() {
+        return recipeId;
     }
 
-    public void setRecipeID(long recipeID) {
-        this.recipeID = recipeID;
+    public void setRecipeId(long recipeId) {
+        this.recipeId = recipeId;
     }
 
     public String getTitle() {
-
         return title;
     }
 
@@ -85,6 +86,10 @@ public class Recipe {
     }
 
     public void setUser(User currentUser) {
+    }
+
+    public boolean isPresent() {
+        return user != null;
     }
 }
 

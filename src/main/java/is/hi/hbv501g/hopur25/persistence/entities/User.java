@@ -29,8 +29,17 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Recipe> userRecipes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Recipe> userFavourites = new ArrayList<>();
+    //@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    //List<Recipe> userFavourites = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "userFavourites",
+            joinColumns = @JoinColumn(name = "userID"),
+            inverseJoinColumns = @JoinColumn(name = "recipeId")
+    )
+    private List<Recipe> userFavourites = new ArrayList<>();
+
 
     public User() {
     }

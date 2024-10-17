@@ -71,8 +71,9 @@ public class UserController {
             // Store user in session with a consistent key
             session.setAttribute("LoggedInUser", exists);
             model.addAttribute("LoggedInUser", exists);
-            return "redirect:/";  // Redirect to home after login
+            return "LoggedInUser";  // Redirect to home after login
         }
+
         return "redirect:/login";  // Redirect to login if credentials are invalid
     }
 
@@ -82,7 +83,7 @@ public class UserController {
         User sessionUser = (User) session.getAttribute("LoggedInUser");
         if (sessionUser != null) {
             model.addAttribute("LoggedInUser", sessionUser);
-            return "home";
+            return "LoggedInUser";
         }
         return "redirect:/";
     }
@@ -122,13 +123,13 @@ public class UserController {
         session.setAttribute("LoggedInUser", updatedUser);
         model.addAttribute("LoggedInUser", updatedUser);
 
-        return "home";
+        return "LoggedInUser";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/login";
+        return "redirect:/login"; // Redirect to login page after logout
     }
 
 }

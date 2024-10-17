@@ -1,31 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <title>Login Form</title>
 </head>
 <body>
-<div class="container">
-    <h2>Log In</h2>
+<h2>Login to your account</h2>
+<form action="#" th:action="@{/login}" th:object="${user}" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <br>
 
-    <!-- Display error messages -->
-    <div th:if="${errorMessage}" class="error-message" style="color: red;">
-        <p th:text="${errorMessage}"></p>
-    </div>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <br>
 
-    <form action="#" th:action="@{/login}" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required/>
-        <br>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required/>
-        <br>
-
-        <input type="submit" value="Log In"/>
-    </form>
-</div>
+    <input type="submit" value="Login"/>
+</form>
 </body>
+
 </html>
