@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Your Favorite Recipes</title>
+</head>
+<body>
+<h1>Your Favorite Recipes</h1>
+<ul>
+  <li th:each="recipe : ${favorites}">
+    <span th:text="${recipe.title}">Recipe Title</span>
+    <a th:href="@{/recipe/{id}(id=${recipe.recipeID})}">View Recipe</a>
+  </li>
+</ul>
+</body>
+</html>
