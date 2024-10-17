@@ -7,7 +7,7 @@ import java.util.List;
 public interface RecipeService {
     List<Recipe> findAll();
 
-    Recipe findByID(long ID);
+    Recipe findRecipeById(Long id);
 
     Recipe addRecipe(Recipe recipe);
 
@@ -19,5 +19,4 @@ public interface RecipeService {
 
     List<Recipe> searchByKeyword(String keyword);
 
-    Recipe findById(long recipeID);
 }
