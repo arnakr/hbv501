@@ -1,7 +1,6 @@
 package is.hi.hbv501g.hopur25.persistence.entities;
 
 import jakarta.persistence.*;
-import jdk.jfr.Enabled;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +82,9 @@ public class Recipe {
     @Override
     public String toString() {
         return "Title: " + title + ", Ingredients: " + ingredients + ", Cook Time: " + cookTime + ", Description: " + description;
+    }
+
+    public void setUser(User currentUser) {
     }
 }
 

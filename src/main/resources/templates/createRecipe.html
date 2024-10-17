@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a new Recipe</title>
+    <link rel="stylesheet" th:href="@{/css/createRecipe.css}">
+    <script>
+        function addIngredient() {
+            // Create a new input field for an ingredient
+            const ingredientDiv = document.createElement("div");
+            ingredientDiv.className = "ingredient";
+            ingredientDiv.innerHTML = `
+                <input type="text" name="ingredients" placeholder="Ingredient" required />
+                <button type="button" onclick="removeIngredient(this)">Remove</button>
+            `;
+            document.getElementById("ingredientsContainer").appendChild(ingredientDiv);
+        }
+
+        function removeIngredient(button) {
+            // Remove the ingredient input field
+            button.parentElement.remove();
+        }
+
+
+    </script>
+</head>
+<body>
+<div class="container">
+    <h2>Create Recipe</h2>
+
+    <form action="#" th:action="@{/createRecipe}" method="post">
+        <label for="recipeName">Recipe Name:</label>
+        <input type="text" id="recipeName" name="recipeName" required/>
+        <br>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+        <br>
+
+        <label>Ingredients:</label>
+        <div id="ingredientsContainer">
+            <div class="ingredient">
+                <input type="text" name="ingredients" placeholder="Ingredient" required/>
+                <button type="button" onclick="removeIngredient(this)">Remove</button>
+            </div>
+        </div>
+        <button type="button" onclick="addIngredient()">Add Another Ingredient</button>
+        <br>
+
+        <input type="submit" value="Create Recipe"/>
+    </form>
+</div>
+</body>
+</html>
