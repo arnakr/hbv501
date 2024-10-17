@@ -34,6 +34,7 @@
 
 
 
+
         </script>
     </form>
 </div>
@@ -54,7 +55,7 @@
             <tbody>
             <tr th:each="recipe: ${recipes}">
                 <!-- Create a link to the recipe detail page -->
-                <td><a th:href="@{'/recipe/' + ${recipe.recipeID}}" th:text="${recipe.title}"></a></td>
+                <td><a th:href="@{'/recipe/' + ${recipe.recipeId}}" th:text="${recipe.title}"></a></td>
                 <td th:text="${recipe.ingredients}"></td>
                 <td th:text="${recipe.cookTime}"></td>
                 <td th:text="${recipe.description}"></td>
