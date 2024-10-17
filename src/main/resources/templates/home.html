@@ -5,32 +5,46 @@
     <title>Recipe Website</title>
 </head>
 <body>
-    <div th:switch="${recipes}">
-        <h2 th:case="null">No Recipes :(</h2>
-        <div th:case="*">
-            <h2>Recipes</h2>
-            <table>
-                <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Ingredients</th>
-                    <th>Cook Time</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="recipe: ${recipes}">
-                    <td th:text="${recipe.title}"></td>
-                    <td th:text="${recipe.ingredients}"></td>
-                    <td th:text="${recipe.cookTime}"></td>
-                    <td th:text="${recipe.description}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-
+<div th:if="${LoggedInUser != null}">
+    <span>Welcome, <span th:text="${LoggedInUser.username}"></span>!</span>
+</div>
+<div th:switch="${recipes}">
+    <h2 th:case="null">No Recipes :(</h2>
+    <div th:case="*">
+        <h2>Recipes</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Ingredients</th>
+                <th>Cook Time</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="recipe: ${recipes}">
+                <td th:text="${recipe.title}"></td>
+                <td th:text="${recipe.ingredients}"></td>
+                <td th:text="${recipe.cookTime}"></td>
+                <td th:text="${recipe.description}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Show "Create Recipe" button only if user is logged in -->
+    <div th:if="${LoggedInUser != null}">
+        <p><a href="/createRecipe">Create Recipe</a></p>
+        <form action="/logout" method="post">
+            <button type="submit">Log Out</button>
+        </form>
     </div>
 
+    <!-- Show Sign Up and Log In links only if user is not logged in -->
+    <div th:if="${LoggedInUser == null}">
+        <p><a href="/signup">Sign Up</a></p>
+        <p><a href="/login">Log In</a></p>
+    </div>
+</div>
 </body>
 </html>
+
