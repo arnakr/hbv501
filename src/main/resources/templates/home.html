@@ -10,9 +10,10 @@
 <div th:if="${LoggedInUser != null}">
 
     <div class="topnav">
-        <a class="active" href="loggedin">Heim</a>
+        <a class="active" href="home">Heim</a>
         <a href="#userrecipes">Uppskriftirnar Mínar</a>
         <a href="/settings">Stillingar/Mínar Síður</a>
+        <a href="/favorites">Favorites recipes</a>
     </div>
 
     <span>Welcome, <span th:text="${LoggedInUser.username}"></span>!</span>
@@ -21,16 +22,21 @@
 
 <div>
     <form th:action="@{/}">
-        Filter: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required />
+        Filter: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required/>
         &nbsp;
-        <input type="submit" value="Search" />
+        <input type="submit" value="Search"/>
         &nbsp;
-        <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+        <input type="button" value="Clear" id="btnClear" onclick="clearSearch()"/>
 
         <script type="text/javascript">
             function clearSearch() {
                 window.location = "[[@{/}]]";
             }
+
+
+
+
+
         </script>
     </form>
 </div>
@@ -50,7 +56,8 @@
             </thead>
             <tbody>
             <tr th:each="recipe: ${recipes}">
-                <td th:text="${recipe.title}"></td>
+                <!-- Create a link to the recipe detail page -->
+                <td><a th:href="@{'/recipe/' + ${recipe.recipeId}}" th:text="${recipe.title}"></a></td>
                 <td th:text="${recipe.ingredients}"></td>
                 <td th:text="${recipe.cookTime}"></td>
                 <td th:text="${recipe.description}"></td>

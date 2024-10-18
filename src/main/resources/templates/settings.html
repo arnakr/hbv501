@@ -11,23 +11,24 @@
     <a class="active" href="/loggedin">Heim</a>
     <a href="#userrecipes">Uppskriftirnar Mínar</a>
     <a href="/settings">Stillingar/Mínar Síður</a>
+    <a href="/favorites">Favorites recipes</a>
     <a href="/logout" class="split">Log out</a>
 </div>
 
 <form action="/updateSettings" th:action="@{/settings}" th:object="${LoggedInUser}" method="post">
     <div>
         <label for="username">New Username:</label>
-        <input type="text" id="username" th:field="*{username}" placeholder="Enter new username" />
+        <input type="text" id="username" th:field="*{username}" placeholder="Enter new username"/>
     </div>
 
     <div>
         <label for="email">New Email:</label>
-        <input type="email" id="email" th:field="*{email}" placeholder="Enter new email" />
+        <input type="email" id="email" th:field="*{email}" placeholder="Enter new email"/>
     </div>
 
     <div>
         <label for="password">New Password:</label>
-        <input type="password" id="password" th:field="*{password}" placeholder="Enter new password" />
+        <input type="password" id="password" th:field="*{password}" placeholder="Enter new password"/>
     </div>
 
     <div>
