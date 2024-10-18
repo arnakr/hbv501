@@ -7,12 +7,12 @@ import is.hi.hbv501g.hopur25.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImplementation implements UserService {
-   private UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     public UserServiceImplementation(UserRepository userRepository) {
@@ -33,8 +33,8 @@ public class UserServiceImplementation implements UserService {
     public User login(User user) {
         User doesExist = findByUsername(user.getUsername());
         System.out.println("User retrieved: " + doesExist);
-        if(doesExist != null){
-            if(doesExist.getPassword().equals(user.getPassword())){
+        if (doesExist != null) {
+            if (doesExist.getPassword().equals(user.getPassword())) {
 
                 return doesExist;
             }
@@ -70,14 +70,15 @@ public class UserServiceImplementation implements UserService {
 
         return null;
     }
+
+    @Override
     public User addFavoriteRecipe(Long userId, Recipe recipe) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            user.getUserFavourites().add(recipe); // Add recipe to favorites
-            return userRepository.save(user); // Save updated user
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            user.getUserFavourites().add(recipe);  // Add the recipe to the user's favorites
+            userRepository.save(user);  // Save the updated user to the database
         }
-        return null; // Handle user not found case
+        return user;
     }
 
     @Override
@@ -86,17 +87,28 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    public User removeFavoriteRecipe(Long userId, Recipe recipe) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.getUserFavourites().remove(recipe);
+        userRepository.save(user);
+        return user;
+    }
+
+
+    @Override
+    public List<Recipe> getUserFavorites(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        return (user != null) ? user.getUserFavourites() : new ArrayList<>();
+    }
+
+
+
+
+    @Override
     public User findById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
-    public List<Recipe> getUserFavorites(Long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
-            return optionalUser.get().getUserFavourites();
-        }
-        return null;
-    }
 
     @Override
     public void saveUser(User user) {

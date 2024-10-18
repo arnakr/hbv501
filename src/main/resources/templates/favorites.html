@@ -1,15 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Your Favorite Recipes</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Favorites</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<h1>Your Favorite Recipes</h1>
-<ul>
-  <li th:each="recipe : ${favorites}">
-    <span th:text="${recipe.title}">Recipe Title</span>
-    <a th:href="@{/recipe/{id}(id=${recipe.recipeID})}">View Recipe</a>
-  </li>
-</ul>
+<div class="topnav">
+    <a class="active" href="/">Heim</a>
+    <a href="#userrecipes">Uppskriftirnar Mínar</a>
+    <a href="/settings">Stillingar/Mínar Síður</a>
+    <a href="/favorites">Favorite Recipes</a>
+    <a href="/logout" class="split">Log out</a>
+</div>
+
+<div th:if="${LoggedInUser != null}">
+    <h1>Favorites for <span th:text="${LoggedInUser.username}"></span></h1>
+</div>
+
+<div th:switch="${favoriteRecipes}">
+    <!-- Case when the list is empty -->
+    <h3 th:if="${favoriteRecipes.empty}">You have no favorite recipes yet!</h3>
+
+    <!-- Case when there are favorite recipes -->
+    <div th:unless="${favoriteRecipes.empty}">
+        <h2>Your Favorite Recipes</h2>
+        <ul>
+            <li th:each="recipe : ${favoriteRecipes}">
+                <a th:href="@{'/recipe/' + ${recipe.recipeId}}"><span th:text="${recipe.title}"></span></a>
+                <p th:text="'Cook Time: ' + ${recipe.cookTime} + ' minutes'"></p>
+                <p th:text="${recipe.description}"></p>
+
+                <!-- Add a "Delete from Favorites" form -->
+                <form th:action="@{'/recipe/' + ${recipe.recipeId} + '/removeFromFavorites'}" method="post">
+                    <button type="submit">Remove from Favorites</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
 </body>
 </html>

@@ -134,4 +134,20 @@ public class UserController {
         return "home";
     }
 
+    //show favorites page
+    // Show the favorites page
+    @RequestMapping(value = "/favorites", method = RequestMethod.GET)
+    public String showFavorites(HttpSession session, Model model) {
+        // Get the logged-in user from session
+        User currentUser = (User) session.getAttribute("LoggedInUser");
+        if (currentUser == null) {
+            return "redirect:/login";  // Redirect to login if not logged in
+        }
+
+        // Get the user's favorite recipes
+        model.addAttribute("favoriteRecipes", userService.getUserFavorites(currentUser.getUserID()));
+        model.addAttribute("LoggedInUser", currentUser);  // Add user info for the header or navigation
+        return "favorites";  // Display the favorites.html template
+    }
+
 }
