@@ -13,7 +13,7 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private long recipeID;
+    private long recipeId;
     private String title;
     private List<String> ingredients = new ArrayList<String>();
     private int cookTime;
@@ -21,6 +21,9 @@ public class Recipe {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @ManyToMany(mappedBy = "userFavourites")
+    private List<User> usersWhoFavorited = new ArrayList<>();
 
     public Recipe() {
     }
@@ -32,12 +35,12 @@ public class Recipe {
         this.description = description;
     }
 
-    public long getRecipeID() {
-        return recipeID;
+    public long getRecipeId() {
+        return recipeId;
     }
 
-    public void setRecipeID(long recipeID) {
-        this.recipeID = recipeID;
+    public void setRecipeId(long recipeId) {
+        this.recipeId = recipeId;
     }
 
     public String getTitle() {
@@ -85,6 +88,13 @@ public class Recipe {
     }
 
     public void setUser(User currentUser) {
+    }
+    public List<User> getUsersWhoFavorited() {
+        return usersWhoFavorited;
+    }
+
+    public void setUsersWhoFavorited(List<User> usersWhoFavorited) {
+        this.usersWhoFavorited = usersWhoFavorited;
     }
 }
 

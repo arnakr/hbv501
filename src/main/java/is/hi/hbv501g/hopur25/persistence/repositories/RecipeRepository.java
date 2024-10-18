@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     Recipe save(Recipe recipe);
@@ -14,7 +14,8 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     List<Recipe> findAll();
     List<Recipe> findByTitle(String title);
-    Recipe findById(long recipeID);
+
+
 
    /* @Query("SELECT * FROM Recipe WHERE title LIKE %?1%")
     public List<Recipe> search(String keyword);
