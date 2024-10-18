@@ -20,6 +20,9 @@ public interface UserService {
     User addFavoriteRecipe(Long user, Recipe recipe); //skoða
     User removeFavoriteRecipe(User user, Recipe recipe); //skoða
     User findById(Long id);
+
+    User removeFavoriteRecipe(Long userId, Recipe recipe);
+
     List<Recipe> getUserFavorites(Long userId); //Skoða
 
 

@@ -72,8 +72,11 @@ public class UserController {
             session.setAttribute("LoggedInUser", exists);
             model.addAttribute("LoggedInUser", exists);
             return "redirect:/";  // Redirect to home after login
+        } else {
+            // Add an error message to the model for invalid credentials
+            model.addAttribute("errorMessage", "Invalid username or password. Please try again.");
+            return "loginRequest";  // Stay on the login page and show the error message
         }
-        return "redirect:/login";  // Redirect to login if credentials are invalid
     }
 
     // Logged in user page
@@ -128,7 +131,23 @@ public class UserController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/login";
+        return "home";
+    }
+
+    //show favorites page
+    // Show the favorites page
+    @RequestMapping(value = "/favorites", method = RequestMethod.GET)
+    public String showFavorites(HttpSession session, Model model) {
+        // Get the logged-in user from session
+        User currentUser = (User) session.getAttribute("LoggedInUser");
+        if (currentUser == null) {
+            return "redirect:/login";  // Redirect to login if not logged in
+        }
+
+        // Get the user's favorite recipes
+        model.addAttribute("favoriteRecipes", userService.getUserFavorites(currentUser.getUserID()));
+        model.addAttribute("LoggedInUser", currentUser);  // Add user info for the header or navigation
+        return "favorites";  // Display the favorites.html template
     }
 
 }
