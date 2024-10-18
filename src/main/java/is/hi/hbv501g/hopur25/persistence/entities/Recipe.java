@@ -22,6 +22,9 @@ public class Recipe {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @ManyToMany(mappedBy = "userFavourites")
+    private List<User> usersWhoFavorited = new ArrayList<>();
+
     public Recipe() {
     }
 
@@ -85,6 +88,13 @@ public class Recipe {
     }
 
     public void setUser(User currentUser) {
+    }
+    public List<User> getUsersWhoFavorited() {
+        return usersWhoFavorited;
+    }
+
+    public void setUsersWhoFavorited(List<User> usersWhoFavorited) {
+        this.usersWhoFavorited = usersWhoFavorited;
     }
 }
 
