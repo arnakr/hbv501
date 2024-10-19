@@ -2,6 +2,8 @@ package is.hi.hbv501g.hopur25.controllers;
 
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
+import is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestriction;
+import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
 import is.hi.hbv501g.hopur25.services.RecipeService;
 import is.hi.hbv501g.hopur25.services.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -13,9 +15,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+/**
+ *
+ *
+ *
+ *
+ */
 @Controller
 public class HomeController {
     private final RecipeService recipeService;
@@ -27,11 +36,28 @@ public class HomeController {
         this.userService = userService;
     }
 
+    /*
     @RequestMapping("/")
     public String homePage(Model model, HttpSession session, @Param("keyword") String keyword) { // Ensure HttpSession is included
-        List<Recipe> allRecipes = recipeService.searchByKeyword(keyword);
+        List<Recipe> allRecipes = recipeService.searchByKeyword(keyword, keyword);
         model.addAttribute("recipes", allRecipes);
         model.addAttribute("keyword", keyword);
+
+        // Retrieve the logged-in user from the session
+        User loggedInUser = (User) session.getAttribute("LoggedInUser");
+        model.addAttribute("LoggedInUser", loggedInUser); // Add user to the model
+
+        return "home"; // Return the home view
+    }
+     */
+
+    @RequestMapping("/")
+    public String homePage(Model model, HttpSession session, @Param("keyword") String keyword,
+                           @RequestParam(value = "dietaryRestrictions", required = false) List<DietaryRestriction> selectedDietaryRestrictions,
+                           @RequestParam(value = "mealCategories", required = false) List<MealCategory> selectedMealCategories) {
+        // Filter recipes based on selected dietary restrictions, meal categories and keyword
+        List<Recipe> filteredRecipes = recipeService.searchByKeywordAndCriteria(keyword, selectedDietaryRestrictions, selectedMealCategories);
+        model.addAttribute("recipes", filteredRecipes);
 
         // Retrieve the logged-in user from the session
         User loggedInUser = (User) session.getAttribute("LoggedInUser");

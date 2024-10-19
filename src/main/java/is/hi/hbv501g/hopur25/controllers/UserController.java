@@ -46,14 +46,12 @@ public class UserController {
             user.setUserPicture("/images/default.jpg"); // Use a local placeholder
         }
 
-
         // Save the user
         userService.save(user);
 
         // Redirect to the home page after successful signup
         return "redirect:/";
     }
-
 
     // Login
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -149,5 +147,4 @@ public class UserController {
         model.addAttribute("LoggedInUser", currentUser);  // Add user info for the header or navigation
         return "favorites";  // Display the favorites.html template
     }
-
 }
