@@ -18,7 +18,10 @@
                 <a class="active" href="loggedin">Heim</a>
                 <a href="#userrecipes">Uppskriftirnar Mínar</a>
                 <a href="/settings">Stillingar/Mínar Síður</a>
+                <a href="/favorites">Favorites recipes</a>
             </div>
+
+            <span>Welcome, <span th:text="${LoggedInUser.username}"></span>!</span>
 
             <!-- Show "Create Recipe" button only if user is logged in -->
             <div>
@@ -27,7 +30,6 @@
                     <button type="submit">Log Out</button>
                 </form>
             </div>
-            <span>Welcome, <span th:text="${LoggedInUser.username}"></span>!</span>
         </div>
 
         <!-- Show Sign Up and Log In links only if user is not logged in -->
@@ -73,11 +75,18 @@
                         <thead>
                         <tr>
                             <th>Title</th>
+                            <th>Ingredients</th>
+                            <th>Cook Time</th>
+                            <th>Description</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="recipe: ${recipes}">
-                            <td th:text="${recipe.title}"></td>
+                            <!-- Create a link to the recipe detail page -->
+                            <td><a th:href="@{'/recipe/' + ${recipe.recipeId}}" th:text="${recipe.title}"></a></td>
+                            <td th:text="${recipe.ingredients}"></td>
+                            <td th:text="${recipe.cookTime}"></td>
+                            <td th:text="${recipe.description}"></td>
                         </tr>
                         </tbody>
                     </table>
