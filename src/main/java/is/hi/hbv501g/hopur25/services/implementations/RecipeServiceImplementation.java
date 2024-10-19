@@ -1,17 +1,18 @@
 package is.hi.hbv501g.hopur25.services.implementations;
 
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
+import is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestriction;
+import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
 import is.hi.hbv501g.hopur25.persistence.repositories.RecipeRepository;
 import is.hi.hbv501g.hopur25.services.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class RecipeServiceImplementation implements RecipeService {
-    private RecipeRepository recipeRepository;
+    private final RecipeRepository recipeRepository;
 
     @Autowired
     public RecipeServiceImplementation(RecipeRepository recipeRepository) {
@@ -48,10 +49,28 @@ public class RecipeServiceImplementation implements RecipeService {
     }
 
     @Override
-    public List<Recipe> searchByKeyword(String keyword) {
+    public List<Recipe> searchByKeywordAndCriteria(String keyword, List<DietaryRestriction> selectedDietaryRestrictions, List<MealCategory> selectedMealCategories) {
+        Set<Recipe> currentRecipes = new HashSet<>(recipeRepository.findAll());
+
         if (keyword != null) {
-            return recipeRepository.search(keyword);
+            List<Recipe> searchByKeyword = recipeRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(keyword, keyword);
+            currentRecipes.retainAll(searchByKeyword);
         }
-        return recipeRepository.findAll();
+
+        if (selectedDietaryRestrictions != null) {
+            for (DietaryRestriction dietaryRestriction : selectedDietaryRestrictions) {
+                 List<Recipe> searchByDiet = recipeRepository.findByDietaryRestrictions(dietaryRestriction);
+                 currentRecipes.retainAll(searchByDiet);
+            }
+        }
+
+        if (selectedMealCategories != null) {
+            for (MealCategory mealCategory : selectedMealCategories) {
+                List<Recipe> searchByMeal = recipeRepository.findByMealCategories(mealCategory);
+                currentRecipes.retainAll(searchByMeal);
+            }
+        }
+
+        return new ArrayList<>(currentRecipes);
     }
 }
