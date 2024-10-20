@@ -32,18 +32,50 @@
 </div>
 
 <div>
-    <form th:action="@{/}">
-        Filter: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required />
-        &nbsp;
-        <input type="submit" value="Search" />
-        &nbsp;
-        <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+    <form method="get" th:action="@{/}">
+        <!-- Keyword search -->
+        <label for="keyword">Search by keyword:</label>
+        <input type="text" id="keyword" name="keyword" placeholder="Search recipes...">
 
-        <script type="text/javascript">
-            function clearSearch() {
-                window.location = "[[@{/}]]";
-            }
-        </script>
+        <!-- Dietary Restrictions -->
+        <label>Dietary Restrictions:</label>
+        <div id="dietaryRestrictionsContainer">
+            <label>
+                <input type="checkbox" name="dietaryRestrictions" value="VEGAN"> Vegan
+            </label>
+            <label>
+                <input type="checkbox" name="dietaryRestrictions" value="VEGETARIAN"> Vegetarian
+            </label>
+            <label>
+                <input type="checkbox" name="dietaryRestrictions" value="GLUTEN_FREE"> Gluten-Free
+            </label>
+            <label>
+                <input type="checkbox" name="dietaryRestrictions" value="DAIRY_FREE"> Dairy-Free
+            </label>
+            <label>
+                <input type="checkbox" name="dietaryRestrictions" value="NUT_FREE"> Nut-Free
+            </label>
+        </div>
+
+        <!-- Meal Categories -->
+        <label >Meal Categories:</label>
+        <div id="mealCategories">
+            <label>
+                <input type="checkbox" name="mealCategories" value="BREAKFAST"> Breakfast
+            </label>
+            <label>
+                <input type="checkbox" name="mealCategories" value="LUNCH"> Lunch
+            </label>
+            <label>
+                <input type="checkbox" name="mealCategories" value="DINNER"> Dinner
+            </label>
+            <label>
+                <input type="checkbox" name="mealCategories" value="SNACK"> Snack
+            </label>
+        </div>
+
+        <!-- Filter Button -->
+        <input type="submit" value="Filter Recipes">
     </form>
 </div>
 
@@ -58,24 +90,31 @@
                 <th>Ingredients</th>
                 <th>Cook Time</th>
                 <th>Description</th>
+                <th>Meal Category</th>
+                <th>Dietary Restrictions</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="recipe: ${recipes}">
-                <!-- Create a link to the recipe detail page -->
+
                 <td><a th:href="@{'/recipe/' + ${recipe.recipeId}}" th:text="${recipe.title}"></a></td>
                 <td th:text="${recipe.ingredients}"></td>
                 <td th:text="${recipe.cookTime}"></td>
                 <td th:text="${recipe.description}"></td>
+                <td>
+                    <span th:each="category : ${recipe.mealCategories}" th:text="${category}"></span>
+                </td>
+                <td>
+                    <span th:each="restriction : ${recipe.dietaryRestrictions}" th:text="${restriction}"></span>
+                </td>
             </tr>
             </tbody>
         </table>
     </div>
-    <!-- Show "Create Recipe" button only if user is logged in -->
+
     <div th:if="${LoggedInUser != null}">
         <p><a href="/createRecipe">Create Recipe</a></p>
     </div>
-
 </div>
 </body>
 </html>

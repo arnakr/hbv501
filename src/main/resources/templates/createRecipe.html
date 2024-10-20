@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create a new Recipe</title>
     <link rel="stylesheet" th:href="@{/css/createRecipe.css}">
+
     <script>
         function addIngredient() {
             const ingredientDiv = document.createElement("div");
@@ -20,7 +21,6 @@
             button.parentElement.remove();
         }
 
-
     </script>
 </head>
 <body>
@@ -28,14 +28,17 @@
     <h2>Create Recipe</h2>
 
     <form action="#" th:action="@{/createRecipe}" method="post">
+        <!-- Recipe Name -->
         <label for="recipeName">Recipe Name:</label>
         <input type="text" id="recipeName" name="title" required/>
         <br>
 
+        <!-- Description -->
         <label for="description">Description:</label>
         <textarea id="description" name="description" required></textarea>
         <br>
 
+        <!-- Ingredients -->
         <label>Ingredients:</label>
         <div id="ingredientsContainer">
             <div class="ingredient">
@@ -46,11 +49,51 @@
         <button type="button" onclick="addIngredient()">Add Another Ingredient</button>
         <br>
 
-        <!-- New Cook Time input -->
+        <!-- Cook Time -->
         <label for="cookTime">Cook Time (minutes):</label>
         <input type="number" id="cookTime" name="cookTime" required min="1"/>
         <br>
 
+        <!-- Filters: Meal Categories -->
+        <label>Meal Category:</label>
+        <div id="mealCategories">
+            <label>
+                <input type="checkbox" name="mealCategories" value="BREAKFAST"> Breakfast
+            </label>
+            <label>
+                <input type="checkbox" name="mealCategories" value="LUNCH"> Lunch
+            </label>
+            <label>
+                <input type="checkbox" name="mealCategories" value="DINNER"> Dinner
+            </label>
+            <label>
+                <input type="checkbox" name="mealCategories" value="SNACK"> Snack
+            </label>
+        </div>
+        <br>
+
+        <!-- Dietary Restrictions -->
+        <label>Dietary Restrictions:</label>
+        <div id="dietaryRestrictionsContainer">
+            <label>
+                <input type="checkbox" name="dietaryRestrictions" value="VEGAN"> Vegan
+            </label>
+            <label>
+                <input type="checkbox" name="dietaryRestrictions" value="VEGETARIAN"> Vegetarian
+            </label>
+            <label>
+                <input type="checkbox" name="dietaryRestrictions" value="GLUTEN_FREE"> Gluten-Free
+            </label>
+            <label>
+                <input type="checkbox" name="dietaryRestrictions" value="DAIRY_FREE"> Dairy-Free
+            </label>
+            <label>
+                <input type="checkbox" name="dietaryRestrictions" value="NUT_FREE"> Nut-Free
+            </label>
+        </div>
+        <br>
+
+        <!-- Submit Button -->
         <input type="submit" value="Create Recipe"/>
     </form>
 </div>
