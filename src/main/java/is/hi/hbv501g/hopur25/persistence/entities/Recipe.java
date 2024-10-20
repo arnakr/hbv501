@@ -64,6 +64,14 @@ public class Recipe {
     }
 
     /* Getters and setters */
+    public long getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(long recipeId) {
+        this.recipeId = recipeId;
+    }
+
     public String getTitle() {
         return title;
     }
