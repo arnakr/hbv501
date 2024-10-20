@@ -7,13 +7,24 @@
     <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
+<!-- Show Sign Up and Log In links only if user is not logged in -->
+<div th:if="${LoggedInUser == null}">
+
+    <div class="topnav">
+        <a class="active" href="/">Heim</a>
+        <a href="/signup">Sign Up</a>
+        <a href="/login">Log In</a>
+    </div>
+</div>
+
 <div th:if="${LoggedInUser != null}">
 
     <div class="topnav">
-        <a class="active" href="loggedin">Heim</a>
+        <a class="active" href="/">Heim</a>
         <a href="#userrecipes">Uppskriftirnar Mínar</a>
+        <a href="/favorites">Uppáhalds Uppskriftir</a>
         <a href="/settings">Stillingar/Mínar Síður</a>
-        <a href="/favorites">Favorites recipes</a>
+        <a href="/logout" class="split">Skrá þig út</a>
     </div>
 
     <span>Welcome, <span th:text="${LoggedInUser.username}"></span>!</span>
@@ -63,16 +74,8 @@
     <!-- Show "Create Recipe" button only if user is logged in -->
     <div th:if="${LoggedInUser != null}">
         <p><a href="/createRecipe">Create Recipe</a></p>
-        <form action="/logout">
-            <button type="submit">Log Out</button>
-        </form>
     </div>
 
-    <!-- Show Sign Up and Log In links only if user is not logged in -->
-    <div th:if="${LoggedInUser == null}">
-        <p><a href="/signup">Sign Up</a></p>
-        <p><a href="/login">Log In</a></p>
-    </div>
 </div>
 </body>
 </html>

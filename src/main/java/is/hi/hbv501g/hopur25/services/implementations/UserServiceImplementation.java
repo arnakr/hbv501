@@ -101,9 +101,6 @@ public class UserServiceImplementation implements UserService {
         return (user != null) ? user.getUserFavourites() : new ArrayList<>();
     }
 
-
-
-
     @Override
     public User findById(Long id) {
         return userRepository.findById(id).orElse(null);
@@ -114,23 +111,6 @@ public class UserServiceImplementation implements UserService {
     public void saveUser(User user) {
         userRepository.save(user);
     }
-
-//
-//
-//    @Override
-//    public void updatePicture(User user) {
-//
-//    }
-//
-//    @Override
-//    public ArrayList<Recipe> getUserFavourites() {
-//        return null;
-//    }
-//
-//    @Override
-//    public ArrayList<Recipe> getUserRecipes() {
-//        return null;
-//    }
 
     @Override
     public User save(User user) {

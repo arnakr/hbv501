@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Favorites</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <title>Uppáhalds Uppskriftir</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
 <div class="topnav">
     <a class="active" href="/">Heim</a>
     <a href="#userrecipes">Uppskriftirnar Mínar</a>
+    <a href="/favorites">Uppáhalds Uppskriftir</a>
     <a href="/settings">Stillingar/Mínar Síður</a>
-    <a href="/favorites">Favorite Recipes</a>
-    <a href="/logout" class="split">Log out</a>
+    <a href="/logout" class="split">Skrá þig út</a>
 </div>
 
 <div th:if="${LoggedInUser != null}">
