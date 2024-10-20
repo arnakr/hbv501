@@ -6,94 +6,116 @@
     <title>Recipe Website</title>
     <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
-
 <body>
-    <header>
-        <h1>Uppsriftasíða?</h1>
-    </header>
+<!-- Show Sign Up and Log In links only if user is not logged in -->
+<div th:if="${LoggedInUser == null}">
 
-    <nav>
-        <div th:if="${LoggedInUser != null}">
-            <div class="topnav">
-                <a class="active" href="loggedin">Heim</a>
-                <a href="#userrecipes">Uppskriftirnar Mínar</a>
-                <a href="/settings">Stillingar/Mínar Síður</a>
-                <a href="/favorites">Favorites recipes</a>
-            </div>
+    <div class="topnav">
+        <a class="active" href="/">Heim</a>
+        <a href="/signup">Sign Up</a>
+        <a href="/login">Log In</a>
+    </div>
+</div>
 
-            <span>Welcome, <span th:text="${LoggedInUser.username}"></span>!</span>
+<div th:if="${LoggedInUser != null}">
 
-            <!-- Show "Create Recipe" button only if user is logged in -->
-            <div>
-                <p><a href="/createRecipe">Create Recipe</a></p>
-                <form action="/logout">
-                    <button type="submit">Log Out</button>
-                </form>
-            </div>
+    <div class="topnav">
+        <a class="active" href="/">Heim</a>
+        <a href="#userrecipes">Uppskriftirnar Mínar</a>
+        <a href="/favorites">Uppáhalds Uppskriftir</a>
+        <a href="/settings">Stillingar/Mínar Síður</a>
+        <a href="/logout" class="split">Skrá þig út</a>
+    </div>
+
+    <span>Welcome, <span th:text="${LoggedInUser.username}"></span>!</span>
+
+</div>
+
+<div>
+    <form method="get" th:action="@{/}">
+        <!-- Keyword search -->
+        <label for="keyword">Search by keyword:</label>
+        <input type="text" id="keyword" name="keyword" placeholder="Search recipes...">
+
+        <!-- Dietary Restrictions -->
+        <label>Dietary Restrictions:</label>
+        <div id="dietaryRestrictionsContainer">
+            <label>
+                <input type="checkbox" name="dietaryRestrictions" value="VEGAN"> Vegan
+            </label>
+            <label>
+                <input type="checkbox" name="dietaryRestrictions" value="VEGETARIAN"> Vegetarian
+            </label>
+            <label>
+                <input type="checkbox" name="dietaryRestrictions" value="GLUTEN_FREE"> Gluten-Free
+            </label>
+            <label>
+                <input type="checkbox" name="dietaryRestrictions" value="DAIRY_FREE"> Dairy-Free
+            </label>
+            <label>
+                <input type="checkbox" name="dietaryRestrictions" value="NUT_FREE"> Nut-Free
+            </label>
         </div>
 
-        <!-- Show Sign Up and Log In links only if user is not logged in -->
-        <div th:if="${LoggedInUser == null}">
-            <p><a href="/signup">Sign Up</a></p>
-            <p><a href="/login">Log In</a></p>
+        <!-- Meal Categories -->
+        <label >Meal Categories:</label>
+        <div id="mealCategories">
+            <label>
+                <input type="checkbox" name="mealCategories" value="BREAKFAST"> Breakfast
+            </label>
+            <label>
+                <input type="checkbox" name="mealCategories" value="LUNCH"> Lunch
+            </label>
+            <label>
+                <input type="checkbox" name="mealCategories" value="DINNER"> Dinner
+            </label>
+            <label>
+                <input type="checkbox" name="mealCategories" value="SNACK"> Snack
+            </label>
         </div>
-    </nav>
 
-    <main>
-        <section>
-            <form th:action="@{/}">
-                Filter: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" />
-                <h2>Dietary Restrictions:</h2>
-                <ul>
-                    <li th:each="restriction : ${T(is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestriction).values()}">
-                        <input type="checkbox" name="dietaryRestrictions" th:value="${restriction.name()}" />
-                        <label th:text="${restriction.name()}"></label>
-                    </li>
-                </ul>
-                <h2>Meal Categories:</h2>
-                <ul>
-                    <li th:each="category : ${T(is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory).values()}">
-                        <input type="checkbox" name="dietaryRestrictions" th:value="${category.name()}" />
-                        <label th:text="${category.name()}"></label>
-                    </li>
-                </ul>
-                <input type="submit" value="Search" />
-                <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
-                <script type="text/javascript">
-                    function clearSearch() {
-                        window.location = "[[@{/}]]";
-                    }
-                </script>
-            </form>
-        </section>
-        <section>
-            <div th:switch="${recipes}">
-                <h2 th:case="null">No Recipes :(</h2>
-                <div th:case="*">
-                    <h2>Recipes</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Ingredients</th>
-                            <th>Cook Time</th>
-                            <th>Description</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="recipe: ${recipes}">
-                            <!-- Create a link to the recipe detail page -->
-                            <td><a th:href="@{'/recipe/' + ${recipe.recipeId}}" th:text="${recipe.title}"></a></td>
-                            <td th:text="${recipe.ingredients}"></td>
-                            <td th:text="${recipe.cookTime}"></td>
-                            <td th:text="${recipe.description}"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-    </main>
+        <!-- Filter Button -->
+        <input type="submit" value="Filter Recipes">
+    </form>
+</div>
+
+<div th:switch="${recipes}">
+    <h2 th:case="null">No Recipes :(</h2>
+    <div th:case="*">
+        <h2>Recipes</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Ingredients</th>
+                <th>Cook Time</th>
+                <th>Description</th>
+                <th>Meal Category</th>
+                <th>Dietary Restrictions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="recipe: ${recipes}">
+
+                <td><a th:href="@{'/recipe/' + ${recipe.recipeId}}" th:text="${recipe.title}"></a></td>
+                <td th:text="${recipe.ingredients}"></td>
+                <td th:text="${recipe.cookTime}"></td>
+                <td th:text="${recipe.description}"></td>
+                <td>
+                    <span th:each="category : ${recipe.mealCategories}" th:text="${category}"></span>
+                </td>
+                <td>
+                    <span th:each="restriction : ${recipe.dietaryRestrictions}" th:text="${restriction}"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${LoggedInUser != null}">
+        <p><a href="/createRecipe">Create Recipe</a></p>
+    </div>
+</div>
 </body>
 </html>
 

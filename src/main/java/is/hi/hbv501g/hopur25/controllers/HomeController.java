@@ -52,12 +52,17 @@ public class HomeController {
      */
 
     @RequestMapping("/")
-    public String homePage(Model model, HttpSession session, @Param("keyword") String keyword,
+    public String homePage(Model model, HttpSession session,
+                           @RequestParam(value = "keyword", required = false) String keyword,
                            @RequestParam(value = "dietaryRestrictions", required = false) List<DietaryRestriction> selectedDietaryRestrictions,
                            @RequestParam(value = "mealCategories", required = false) List<MealCategory> selectedMealCategories) {
         // Filter recipes based on selected dietary restrictions, meal categories and keyword
         List<Recipe> filteredRecipes = recipeService.searchByKeywordAndCriteria(keyword, selectedDietaryRestrictions, selectedMealCategories);
         model.addAttribute("recipes", filteredRecipes);
+
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("selectedDietaryRestrictions", selectedDietaryRestrictions);
+        model.addAttribute("selectedMealCategories", selectedMealCategories);
 
         // Retrieve the logged-in user from the session
         User loggedInUser = (User) session.getAttribute("LoggedInUser");
@@ -85,7 +90,7 @@ public class HomeController {
             recipe.setUser(currentUser);  // Set the user for the recipe
         } else {
             // Optionally, handle the case where there is no logged-in user
-            return "redirect:/login";  // Redirect to login if no user is logged in
+            return "redirect:/login";  // Redirect to log in if no user is logged in
         }
 
         recipeService.save(recipe);  // Save the recipe

@@ -59,8 +59,8 @@ public class RecipeServiceImplementation implements RecipeService {
 
         if (selectedDietaryRestrictions != null) {
             for (DietaryRestriction dietaryRestriction : selectedDietaryRestrictions) {
-                 List<Recipe> searchByDiet = recipeRepository.findByDietaryRestrictions(dietaryRestriction);
-                 currentRecipes.retainAll(searchByDiet);
+                List<Recipe> searchByDiet = recipeRepository.findByDietaryRestrictions(dietaryRestriction);
+                currentRecipes.retainAll(searchByDiet);
             }
         }
 
