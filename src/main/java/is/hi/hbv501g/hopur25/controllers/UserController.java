@@ -21,23 +21,49 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * Handles the GET request for the signup page.
+     *
+     * @param user The user object (optional).
+     * @return The name of the signup view to render.
+     */
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String signupGET(User user) {
         return "signup";
     }
 
+    /**
+     * Handles user signup submissions.
+     * <p>
+     * Validates input and checks for existing usernames and emails.
+     * Saves the new user if all checks pass; otherwise,
+     * returns an error message in the form.
+     *
+     * @param user   The user object containing signup data.
+     * @param result Holds validation errors, if any.
+     * @param model  The model for passing attributes to the view.
+     * @return Redirects to the home page if signup is successful, otherwise
+     * returns to the signup view on error.
+     */
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String signupPOST(User user, BindingResult result, Model model) {
         // Check for binding errors first
         if (result.hasErrors()) {
-            model.addAttribute("errorMessage", "Invalid input. Please check your details.");
+            model.addAttribute("errorMessage", "Ógild inntak. Vinsamlegast athugaðu upplýsingarnar þínar");
             return "signup"; // Redirect back to signup form
         }
 
         // Check if username already exists
-        User exists = userService.findByUsername(user.getUsername());
-        if (exists != null) {
-            model.addAttribute("errorMessage", "Username already exists. Please choose another.");
+        User existsByUsername = userService.findByUsername(user.getUsername());
+        if (existsByUsername != null) {
+            model.addAttribute("errorMessage", "Notendanafn er þegar til. Vinsamlegast veldu annað");
+            return "signup"; // Redirect back to signup form
+        }
+
+        // Check if email already exists
+        User existsByEmail = userService.findByEmail(user.getEmail());
+        if (existsByEmail != null) {
+            model.addAttribute("errorMessage", "Netfang er þegar skráð. Vinsamlegast notaðu annað netfang");
             return "signup"; // Redirect back to signup form
         }
 
@@ -53,12 +79,32 @@ public class UserController {
         return "redirect:/";
     }
 
-    // Login
+
+    /**
+     * Handles the GET request for the login page.
+     *
+     * @param user The user object (optional).
+     * @return The name of the login view to render.
+     */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginForm(User user) {
         return "loginRequest";
     }
 
+    /**
+     * Handles user login submissions.
+     * <p>
+     * Validates input and authenticates the user. If successful login,
+     * stores the user in the session and redirects to the home page.
+     * If authentication fails, returns to the login page with an error message.
+     *
+     * @param user    The user object containing login credentials.
+     * @param result  Holds validation errors, if any.
+     * @param model   The model for passing attributes to the view.
+     * @param session The HTTP session to store logged-in user data.
+     * @return Redirects to the home page if login is successful,
+     * or returns to the login page on error.
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(User user, BindingResult result, Model model, HttpSession session) {
         if (result.hasErrors()) {
@@ -72,23 +118,22 @@ public class UserController {
             return "redirect:/";  // Redirect to home after login
         } else {
             // Add an error message to the model for invalid credentials
-            model.addAttribute("errorMessage", "Invalid username or password. Please try again.");
+            model.addAttribute("errorMessage", "Rangt notendanafn eða lykilorð. Vinsamlega reyndu aftur");
             return "loginRequest";  // Stay on the login page and show the error message
         }
     }
 
-    // Logged in user page
-    @RequestMapping(value = "/loggedin", method = RequestMethod.GET)
-    public String loggedinGET(HttpSession session, Model model) {
-        User sessionUser = (User) session.getAttribute("LoggedInUser");
-        if (sessionUser != null) {
-            model.addAttribute("LoggedInUser", sessionUser);
-            return "home";
-        }
-        return "redirect:/";
-    }
 
-    //show settings page
+    /**
+     * Displays the settings page for the logged-in user.
+     * <p>
+     * Redirects to the login page if the user is not authenticated.
+     *
+     * @param session The HTTP session to retrieve the logged-in user.
+     * @param model   The model for passing attributes to the view.
+     * @return The name of the settings view or
+     * if not logged in, redirect to the login page.
+     */
     @RequestMapping("/settings")
     public String settingsPage(HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("LoggedInUser");
@@ -100,6 +145,19 @@ public class UserController {
         return "settings";  // This will look for src/main/resources/templates/settings.html
     }
 
+    /**
+     * Processes the settings update submission.
+     * <p>
+     * Validates the user and updates settings. Redirects to the login page
+     * if the user is not authenticated. Returns error messages if any updates fail.
+     *
+     * @param updatedUser The user object containing updated settings.
+     * @param result      Holds validation errors, if any.
+     * @param model       The model for passing attributes to the view.
+     * @param session     The HTTP session to retrieve the logged-in user.
+     * @return Redirects to the home page if settings are updated successfully,
+     * or returns to the settings page on error.
+     */
     @RequestMapping(value = "/settings", method = RequestMethod.POST)
     public String settingsPost(@ModelAttribute("LoggedInUser") User updatedUser,
                                BindingResult result, Model model, HttpSession session) {
@@ -126,14 +184,31 @@ public class UserController {
         return "home";
     }
 
+    /**
+     * Handles user logout by invalidating the current session.
+     * <p>
+     * Redirects the user to the home page after logging out.
+     *
+     * @param session The HTTP session to be invalidated.
+     * @return A redirect to the home page.
+     */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session) {
         session.invalidate();
-        return "home";
+        return "redirect:/";
     }
 
-    //show favorites page
-    // Show the favorites page
+    /**
+     * Displays the favorites page for the logged-in user.
+     * <p>
+     * Redirects to the login page if the user is not authenticated.
+     * Retrieves the user's favorite recipes and adds them to the model
+     * for display on the favorites page.
+     *
+     * @param session The HTTP session to retrieve the logged-in user.
+     * @param model   The model for passing attributes to the view.
+     * @return The name of the favorites view or a redirect to the login page.
+     */
     @RequestMapping(value = "/favorites", method = RequestMethod.GET)
     public String showFavorites(HttpSession session, Model model) {
         // Get the logged-in user from session
@@ -144,7 +219,7 @@ public class UserController {
 
         // Get the user's favorite recipes
         model.addAttribute("favoriteRecipes", userService.getUserFavorites(currentUser.getUserID()));
-        model.addAttribute("LoggedInUser", currentUser);  // Add user info for the header or navigation
+        model.addAttribute("LoggedInUser", currentUser);  // Add user info for the header
         return "favorites";  // Display the favorites.html template
     }
 }

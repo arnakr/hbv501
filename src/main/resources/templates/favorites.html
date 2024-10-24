@@ -16,16 +16,16 @@
 </div>
 
 <div th:if="${LoggedInUser != null}">
-    <h1>Favorites for <span th:text="${LoggedInUser.username}"></span></h1>
+    <h1 th:text="'Uppáhalds uppskriftir fyrir ' + ${LoggedInUser.username}"></h1>
 </div>
 
 <div th:switch="${favoriteRecipes}">
     <!-- Case when the list is empty -->
-    <h3 th:if="${favoriteRecipes.empty}">You have no favorite recipes yet!</h3>
+    <h3 th:if="${favoriteRecipes.empty}">Engar uppáhalds uppskriftir :(</h3>
 
     <!-- Case when there are favorite recipes -->
     <div th:unless="${favoriteRecipes.empty}">
-        <h2>Your Favorite Recipes</h2>
+        <h2>Þínar uppáhalds uppskriftir</h2>
         <ul>
             <li th:each="recipe : ${favoriteRecipes}">
                 <a th:href="@{'/recipe/' + ${recipe.recipeId}}"><span th:text="${recipe.title}"></span></a>
@@ -34,7 +34,7 @@
 
                 <!-- Add a "Delete from Favorites" form -->
                 <form th:action="@{'/recipe/' + ${recipe.recipeId} + '/removeFromFavorites'}" method="post">
-                    <button type="submit">Remove from Favorites</button>
+                    <button type="submit">Eyða</button>
                 </form>
             </li>
         </ul>

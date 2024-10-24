@@ -3,22 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Website</title>
+    <title>Uppskriftir</title>
     <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
-<!-- Show Sign Up and Log In links only if user is not logged in -->
+<!-- Show Nýskráning and Skrá inn links only if user is not logged in -->
 <div th:if="${LoggedInUser == null}">
 
     <div class="topnav">
         <a class="active" href="/">Heim</a>
-        <a href="/signup">Sign Up</a>
-        <a href="/login">Log In</a>
+        <a href="/signup">Nýskráning</a>
+        <a href="/login">Skrá inn</a>
     </div>
 </div>
-
+<!-- Show everything here if user is logged in -->
 <div th:if="${LoggedInUser != null}">
-
     <div class="topnav">
         <a class="active" href="/">Heim</a>
         <a href="#userrecipes">Uppskriftirnar Mínar</a>
@@ -27,7 +26,7 @@
         <a href="/logout" class="split">Skrá þig út</a>
     </div>
 
-    <span>Welcome, <span th:text="${LoggedInUser.username}"></span>!</span>
+    <h1><span>Velkominn, <span th:text="${LoggedInUser.username}"></span>!</span></h1>
 
 </div>
 
@@ -58,7 +57,7 @@
         </div>
 
         <!-- Meal Categories -->
-        <label >Meal Categories:</label>
+        <label>Meal Categories:</label>
         <div id="mealCategories">
             <label>
                 <input type="checkbox" name="mealCategories" value="BREAKFAST"> Breakfast
@@ -112,9 +111,7 @@
         </table>
     </div>
 
-    <div th:if="${LoggedInUser != null}">
-        <p><a href="/createRecipe">Create Recipe</a></p>
-    </div>
+
 </div>
 </body>
 </html>

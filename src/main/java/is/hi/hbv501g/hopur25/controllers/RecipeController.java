@@ -25,6 +25,15 @@ public class RecipeController {
         this.userService = userService;
     }
 
+    /**
+     * Retrieves a recipe by its ID and adds it to the model for display.
+     * If the recipe is not found, returns an error page.
+     *
+     * @param id      the ID of the recipe to retrieve
+     * @param model   the model to hold attributes for the view
+     * @param session the HTTP session to retrieve the logged-in user
+     * @return the name of the view template for the recipe detail page or error
+     */
     @GetMapping("/recipe/{id}")
     public String getRecipeById(@PathVariable("id") Long id, Model model, HttpSession session) {
         Recipe recipe = recipeService.findRecipeById(id);
@@ -42,6 +51,15 @@ public class RecipeController {
         return "recipe";  // This renders the recipe detail page
     }
 
+    /**
+     * Retrieves the favorite recipes of a user by their user ID.
+     * Redirects to the login page if the user is not logged in.
+     *
+     * @param userId  the ID of the user whose favorites to retrieve
+     * @param model   the model to hold attributes for the view
+     * @param session the HTTP session to retrieve the logged-in user
+     * @return the name of the view template for the favorites page
+     */
     @GetMapping("/user/{userId}/favorites")
     public String getFavoriteRecipes(@PathVariable Long userId, Model model, HttpSession session) {
         User loggedInUser = (User) session.getAttribute("LoggedInUser");
@@ -55,8 +73,14 @@ public class RecipeController {
     }
 
 
-
-    // Method to handle adding a recipe to favorites
+    /**
+     * Adds a recipe to the logged-in user's favorites.
+     * Redirects to the login page if the user is not logged in.
+     *
+     * @param recipeId the ID of the recipe to add to favorites
+     * @param session  the HTTP session to retrieve the logged-in user
+     * @return the redirect URL to the user's favorites page
+     */
     @PostMapping("/recipe/{recipeId}/addToFavorites")
     public String addFavoriteRecipe(@PathVariable Long recipeId, HttpSession session) {
         // Retrieve the logged-in user from the session
@@ -78,7 +102,14 @@ public class RecipeController {
         return "redirect:/favorites";
     }
 
-    //Remove from favorites
+    /**
+     * Removes a recipe from the logged-in user's favorites.
+     * Redirects to the login page if the user is not logged in.
+     *
+     * @param recipeId the ID of the recipe to remove from favorites
+     * @param session  the HTTP session to retrieve the logged-in user
+     * @return the redirect URL to the user's favorites page
+     */
     @PostMapping("/recipe/{recipeId}/removeFromFavorites")
     public String removeFavoriteRecipe(@PathVariable Long recipeId, HttpSession session) {
         // Retrieve the logged-in user from the session
@@ -99,8 +130,6 @@ public class RecipeController {
         // Redirect to the user's favorites page
         return "redirect:/user/" + loggedInUser.getUserID() + "/favorites";
     }
-
-
 
 
 }

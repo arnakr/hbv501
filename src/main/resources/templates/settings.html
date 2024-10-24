@@ -12,27 +12,28 @@
     <a href="#userrecipes">Uppskriftirnar Mínar</a>
     <a href="/favorites">Uppáhalds Uppskriftir</a>
     <a href="/settings">Stillingar/Mínar Síður</a>
+    <a href="/createRecipe">Nýtt uppskrift</a>
     <a href="/logout" class="split">Skrá þig út</a>
 </div>
 
 <form action="/updateSettings" th:action="@{/settings}" th:object="${LoggedInUser}" method="post">
     <div>
-        <label for="username">New Username:</label>
-        <input type="text" id="username" th:field="*{username}" placeholder="Enter new username"/>
+        <label for="username">Nýtt notendanafn</label>
+        <input type="text" id="username" th:field="*{username}" placeholder="Sláðu inn nýtt notendanafn"/>
     </div>
 
     <div>
-        <label for="email">New Email:</label>
-        <input type="email" id="email" th:field="*{email}" placeholder="Enter new email"/>
+        <label for="email">Nýtt netfang</label>
+        <input type="email" id="email" th:field="*{email}" placeholder="Sláðu inn nýtt netfang"/>
     </div>
 
     <div>
-        <label for="password">New Password:</label>
-        <input type="password" id="password" th:field="*{password}" placeholder="Enter new password"/>
+        <label for="password">Nýtt lykilorð:</label>
+        <input type="password" id="password" th:field="*{password}" placeholder="Sláðu inn nýtt lykilorð"/>
     </div>
 
     <div>
-        <button type="submit">Update Settings</button>
+        <button type="submit">Uppfæra stillingar</button>
     </div>
 
     <p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></p>

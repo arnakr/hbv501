@@ -1,100 +1,112 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="is" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create a new Recipe</title>
+    <title>Búa til nýja uppskrift</title>
     <link rel="stylesheet" th:href="@{/css/createRecipe.css}">
 
     <script>
+        let ingredientCount = 2; // Track the number of ingredient fields
+
         function addIngredient() {
-            const ingredientDiv = document.createElement("div");
-            ingredientDiv.className = "ingredient";
-            ingredientDiv.innerHTML = `
-                <input type="text" name="ingredients" placeholder="Ingredient" required />
-                <button type="button" onclick="removeIngredient(this)">Remove</button>
-            `;
-            document.getElementById("ingredientsContainer").appendChild(ingredientDiv);
+            if (ingredientCount < 10) { // Limit to a maximum of 10 ingredients
+                const ingredientDiv = document.createElement("div");
+                ingredientDiv.className = "ingredient";
+                ingredientDiv.innerHTML = `
+                    <input type="text" name="ingredients" placeholder="Innihaldsefni" required />
+                    <button type="button" onclick="removeIngredient(this)">Fjarlægja</button>
+                `;
+                document.getElementById("ingredientsContainer").appendChild(ingredientDiv);
+                ingredientCount++;
+            } else {
+                alert("Max 10 innihaldsefni leyfð.");
+            }
         }
 
         function removeIngredient(button) {
             button.parentElement.remove();
+            ingredientCount--; // Decrement count when an ingredient is removed
         }
 
     </script>
 </head>
 <body>
 <div class="container">
-    <h2>Create Recipe</h2>
+    <h2>Búa til uppskrift</h2>
 
     <form action="#" th:action="@{/createRecipe}" method="post">
         <!-- Recipe Name -->
-        <label for="recipeName">Recipe Name:</label>
+        <label for="recipeName">Nafn uppskriftar:</label>
         <input type="text" id="recipeName" name="title" required/>
         <br>
 
         <!-- Description -->
-        <label for="description">Description:</label>
+        <label for="description">Skýring:</label>
         <textarea id="description" name="description" required></textarea>
         <br>
 
         <!-- Ingredients -->
-        <label>Ingredients:</label>
+        <label>Innihaldsefni:</label>
         <div id="ingredientsContainer">
             <div class="ingredient">
-                <input type="text" name="ingredients" placeholder="Ingredient" required/>
-                <button type="button" onclick="removeIngredient(this)">Remove</button>
+                <input type="text" name="ingredients" placeholder="Innihaldsefni" required/>
+                <!-- No remove button for the first two ingredients -->
+            </div>
+            <div class="ingredient">
+                <input type="text" name="ingredients" placeholder="Innihaldsefni" required/>
+                <!-- No remove button for the first two ingredients -->
             </div>
         </div>
-        <button type="button" onclick="addIngredient()">Add Another Ingredient</button>
+        <button type="button" onclick="addIngredient()">Bæta við öðru innihaldsefni</button>
         <br>
 
         <!-- Cook Time -->
-        <label for="cookTime">Cook Time (minutes):</label>
+        <label for="cookTime">Tilbúningstími (mínútur):</label>
         <input type="number" id="cookTime" name="cookTime" required min="1"/>
         <br>
 
         <!-- Filters: Meal Categories -->
-        <label>Meal Category:</label>
+        <label>Máltíðaflokkur:</label>
         <div id="mealCategories">
             <label>
-                <input type="checkbox" name="mealCategories" value="BREAKFAST"> Breakfast
+                <input type="checkbox" name="mealCategories" value="BREAKFAST"> Morgunmatur
             </label>
             <label>
-                <input type="checkbox" name="mealCategories" value="LUNCH"> Lunch
+                <input type="checkbox" name="mealCategories" value="LUNCH"> Hádegismatur
             </label>
             <label>
-                <input type="checkbox" name="mealCategories" value="DINNER"> Dinner
+                <input type="checkbox" name="mealCategories" value="DINNER"> Kvöldmatur
             </label>
             <label>
-                <input type="checkbox" name="mealCategories" value="SNACK"> Snack
+                <input type="checkbox" name="mealCategories" value="SNACK"> Millimál
             </label>
         </div>
         <br>
 
         <!-- Dietary Restrictions -->
-        <label>Dietary Restrictions:</label>
+        <label>Fæðutakmarkanir:</label>
         <div id="dietaryRestrictionsContainer">
             <label>
                 <input type="checkbox" name="dietaryRestrictions" value="VEGAN"> Vegan
             </label>
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="VEGETARIAN"> Vegetarian
+                <input type="checkbox" name="dietaryRestrictions" value="VEGETARIAN"> Grænmetisfæða
             </label>
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="GLUTEN_FREE"> Gluten-Free
+                <input type="checkbox" name="dietaryRestrictions" value="GLUTEN_FREE"> Glútenlaust
             </label>
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="DAIRY_FREE"> Dairy-Free
+                <input type="checkbox" name="dietaryRestrictions" value="DAIRY_FREE"> Mjólkurlaust
             </label>
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="NUT_FREE"> Nut-Free
+                <input type="checkbox" name="dietaryRestrictions" value="NUT_FREE"> Hnetulaust
             </label>
         </div>
         <br>
 
         <!-- Submit Button -->
-        <input type="submit" value="Create Recipe"/>
+        <input type="submit" value="Búa til uppskrift"/>
     </form>
 </div>
 </body>
