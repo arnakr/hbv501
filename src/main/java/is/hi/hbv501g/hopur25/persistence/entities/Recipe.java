@@ -4,6 +4,7 @@ import is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestrictio
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -48,6 +49,8 @@ public class Recipe {
     @ManyToMany(mappedBy = "userFavourites")
     private List<User> usersWhoFavorited = new ArrayList<>();
 
+    private LocalDateTime uploadTime = LocalDateTime.now();
+
     /* Constructors */
     public Recipe() {
     }
@@ -61,6 +64,7 @@ public class Recipe {
         this.mealCategories = mealCategories;
         this.user = user;
         this.usersWhoFavorited = usersWhoFavorited;
+        this.uploadTime = LocalDateTime.now();
     }
 
     /* Getters and setters */
@@ -140,6 +144,11 @@ public class Recipe {
     public String toString() {
         return "Title: " + title + ", Ingredients: " + ingredients + ", Cook Time: " + cookTime + ", Description: " + description;
     }
+    public LocalDateTime getUploadTime() {
+        return uploadTime;
+    }
 
-
+    public void setUploadTime(LocalDateTime uploadTime) {
+        this.uploadTime = uploadTime;
+    }
 }

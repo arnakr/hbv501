@@ -6,6 +6,7 @@ import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
 
 import java.util.List;
 
+
 public interface RecipeService {
 
     /**
@@ -49,4 +50,34 @@ public interface RecipeService {
     Recipe save(Recipe recipe);
 
     List<Recipe> searchByKeywordAndCriteria(String keyword, List<DietaryRestriction> selectedDietaryRestrictions, List<MealCategory> selectedMealCategories);
+
+    /**
+     * Retrieves a list of all recipes, sorted by their upload timestamp in ascending order.
+     *
+     * @return a list of {@link Recipe} objects sorted by upload time, from newest to oldest
+     */
+    List<Recipe> getRecipesSortedByUploadTimeAsc();
+
+    /**
+     * Retrieves a list of all recipes, sorted by their upload timestamp in descending order.
+     *
+     * @return a list of {@link Recipe} objects sorted by upload time, from oldest to newest
+     */
+    List<Recipe> getRecipesSortedByUploadTimeDesc();
+
+    /**
+     * Retrieves a list of all recipes, sorted by their alphabetical order in ascending order.
+     *
+     * @return a list of {@link Recipe} objects sorted by reverse alphabetical order
+     */
+    List<Recipe> getRecipesSortedByTitleAsc();
+
+    /**
+     * Retrieves a list of all recipes, sorted by their alphabetical order in descending order.
+     *
+     * @return a list of {@link Recipe} objects sorted by alphabetical order
+     */
+    List<Recipe> getRecipesSortedByTitleDesc();
+
 }
+

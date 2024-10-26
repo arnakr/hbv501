@@ -3,11 +3,11 @@ package is.hi.hbv501g.hopur25.persistence.repositories;
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestriction;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
+import jakarta.persistence.criteria.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
+import java.time.LocalDateTime;
 import java.util.List;
 /**
  * Repository interface for managing {@link Recipe} entities.
@@ -47,11 +47,13 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
      * @return a {@link List} of {@link Recipe} entities that match the specified title
      */
     List<Recipe> findByTitle(String title);
+
     Recipe findByRecipeId(Long id);
 
     List<Recipe> findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String title, String description );
 
     List<Recipe> findByMealCategories(MealCategory mealCategory);
+
 
    /* @Query("SELECT * FROM Recipe WHERE title LIKE %?1%")
     public List<Recipe> search(String keyword);
@@ -63,4 +65,13 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     List<Recipe> search(String keyword);
 
     List<Recipe> findByDietaryRestrictions(DietaryRestriction dietaryRestriction);
+
+    List<Recipe> findAllByOrderByUploadTimeAsc();
+
+    List<Recipe> findAllByOrderByUploadTimeDesc();
+
+    List<Recipe> findAllByOrderByTitleAsc();
+
+    List<Recipe> findAllByOrderByTitleDesc();
+
 }
