@@ -78,6 +78,18 @@
     </form>
 </div>
 
+<div>
+    <form>
+    <!-- Sort Order Dropdown -->
+    <label for="sortOrder">Sort by:</label>
+    <select id="sortOrder" name="sort">
+        <option value="asc" th:selected="${sort == 'asc'}">Elst efst</option>
+        <option value="desc" th:selected="${sort == 'desc'}">Nýjast efst</option>
+    </select>
+    <input type="submit" value="Raða">
+    </form>
+</div>
+
 <div th:switch="${recipes}">
     <h2 th:case="null">No Recipes :(</h2>
     <div th:case="*">
@@ -110,9 +122,6 @@
             </tbody>
         </table>
     </div>
-
-
 </div>
 </body>
 </html>
-

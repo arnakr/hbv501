@@ -11,6 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class RecipeController {
@@ -72,7 +75,6 @@ public class RecipeController {
         return "favorites";
     }
 
-
     /**
      * Adds a recipe to the logged-in user's favorites.
      * Redirects to the login page if the user is not logged in.
@@ -131,5 +133,32 @@ public class RecipeController {
         return "redirect:/user/" + loggedInUser.getUserID() + "/favorites";
     }
 
+   /* @GetMapping("/sorted/asc")
+    public String getRecipesSortedAsc(Model model) {
+        List<Recipe> sortedRecipes = recipeService.getRecipesSortedByUploadTimeAsc();
+        model.addAttribute("recipes", sortedRecipes);
+        return "home";
+    }
+
+    @GetMapping("/sorted/desc")
+    public String getRecipesSortedDesc(Model model) {
+        List<Recipe> sortedRecipes = recipeService.getRecipesSortedByUploadTimeDesc();
+        model.addAttribute("recipes", sortedRecipes);
+        return "home";
+    } */
+
+    @GetMapping("/")
+    public String getHomePage(@RequestParam(name = "sort", required = false, defaultValue = "desc") String sortOrder, Model model) {
+        List<Recipe> recipes;
+        if ("asc".equalsIgnoreCase(sortOrder)) {
+            recipes = recipeService.getRecipesSortedByUploadTimeAsc();
+        } else {
+            recipes = recipeService.getRecipesSortedByUploadTimeDesc();
+        }
+
+        model.addAttribute("recipes", recipes);
+        model.addAttribute("sort", sortOrder);
+        return "home"; // Render home.html
+    }
 
 }

@@ -128,4 +128,14 @@ public class RecipeServiceImplementation implements RecipeService {
 
         return new ArrayList<>(currentRecipes);
     }
+//setja javadocs
+   @Override
+    public List<Recipe> getRecipesSortedByUploadTimeAsc() {
+        return recipeRepository.findAllByOrderByUploadTimeAsc();
 }
+    @Override
+    public List<Recipe> getRecipesSortedByUploadTimeDesc() {
+        return recipeRepository.findAllByOrderByUploadTimeDesc();
+    }
+}
+
