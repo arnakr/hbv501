@@ -11,7 +11,9 @@ public interface UserService {
 
     void saveUser(User user);
     User save(User user);
-    void delete(User user);
+
+    void deleteUser(Long userID);
+
     List<User> findAll();
     User findByUsername(String username);
     User findByEmail(String email);
@@ -20,7 +22,6 @@ public interface UserService {
     User addFavoriteRecipe(Long user, Recipe recipe); //skoða
     User removeFavoriteRecipe(User user, Recipe recipe); //skoða
     User findById(Long id);
-
     User removeFavoriteRecipe(Long userId, Recipe recipe);
 
     List<Recipe> getUserFavorites(Long userId); //Skoða

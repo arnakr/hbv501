@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stillingar</title>
     <link rel="stylesheet" th:href="@{/css/home.css}">
+
+    <script>
+        function confirmDeletion() {
+            if (confirm("Ertu viss um að þú viljir eyða notanda aðganginum þínum? Þessi aðgerð er óafturkallanleg.")) {
+                document.getElementById("deleteForm").submit();
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="topnav">
@@ -39,6 +47,10 @@
     <p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></p>
 </form>
 
-
+<form id="deleteForm" th:action="@{/deleteUser}" method="post" style="margin-top: 20px;">
+    <button type="button" onclick="confirmDeletion()" style="background-color: red; color: white; padding: 5px 10px; width: min-content; border: none; cursor: pointer;">
+        Eyða aðganginum mínum
+    </button>
+</form>
 </body>
 </html>
