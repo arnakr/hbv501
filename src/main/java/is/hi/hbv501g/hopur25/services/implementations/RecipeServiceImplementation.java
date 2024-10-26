@@ -1,11 +1,15 @@
 package is.hi.hbv501g.hopur25.services.implementations;
 
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
+import is.hi.hbv501g.hopur25.persistence.entities.User;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestriction;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
 import is.hi.hbv501g.hopur25.persistence.repositories.RecipeRepository;
+import is.hi.hbv501g.hopur25.persistence.repositories.UserRepository;
 import is.hi.hbv501g.hopur25.services.RecipeService;
+import is.hi.hbv501g.hopur25.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,6 +22,7 @@ import java.util.*;
 @Service
 public class RecipeServiceImplementation implements RecipeService {
     private final RecipeRepository recipeRepository;
+    private final UserService userService;
 
     /**
      * Constructor to initialize the RecipeRepository.
@@ -25,8 +30,9 @@ public class RecipeServiceImplementation implements RecipeService {
      * @param recipeRepository the {@link RecipeRepository} to be used for data access
      */
     @Autowired
-    public RecipeServiceImplementation(RecipeRepository recipeRepository) {
+    public RecipeServiceImplementation(RecipeRepository recipeRepository, @Qualifier("userService") UserService userService) {
         this.recipeRepository = recipeRepository;
+        this.userService = userService;
     }
 
     /**

@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Controller
 public class UserController {
@@ -78,7 +78,6 @@ public class UserController {
         // Redirect to the home page after successful signup
         return "redirect:/";
     }
-
 
     /**
      * Handles the GET request for the login page.
@@ -221,5 +220,18 @@ public class UserController {
         model.addAttribute("favoriteRecipes", userService.getUserFavorites(currentUser.getUserID()));
         model.addAttribute("LoggedInUser", currentUser);  // Add user info for the header
         return "favorites";  // Display the favorites.html template
+    }
+
+    /**
+     * Deletes the currently authenticated user's account and redirects to the home page.
+     *
+     * @param principal the authenticated user principal
+     * @return a redirect to the home page
+    */
+    @PostMapping("/deleteUser")
+    public String deleteUser(Principal principal) {
+        Long userId = Long.parseLong(principal.getName());
+        userService.deleteUser(userId);
+        return "redirect:/";
     }
 }
