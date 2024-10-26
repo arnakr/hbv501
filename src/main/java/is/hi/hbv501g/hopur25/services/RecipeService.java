@@ -64,5 +64,20 @@ public interface RecipeService {
      * @return a list of {@link Recipe} objects sorted by upload time, from oldest to newest
      */
     List<Recipe> getRecipesSortedByUploadTimeDesc();
+
+    /**
+     * Retrieves a list of all recipes, sorted by their alphabetical order in ascending order.
+     *
+     * @return a list of {@link Recipe} objects sorted by reverse alphabetical order
+     */
+    List<Recipe> getRecipesSortedByTitleAsc();
+
+    /**
+     * Retrieves a list of all recipes, sorted by their alphabetical order in descending order.
+     *
+     * @return a list of {@link Recipe} objects sorted by alphabetical order
+     */
+    List<Recipe> getRecipesSortedByTitleDesc();
+
 }
 

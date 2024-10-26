@@ -80,13 +80,23 @@
 
 <div>
     <form>
-    <!-- Sort Order Dropdown -->
     <label for="sortOrder">Sort by:</label>
     <select id="sortOrder" name="sort">
         <option value="asc" th:selected="${sort == 'asc'}">Elst efst</option>
         <option value="desc" th:selected="${sort == 'desc'}">Nýjast efst</option>
     </select>
     <input type="submit" value="Raða">
+    </form>
+</div>
+
+<div>
+    <form>
+        <label for="sortOrder">Sort by:</label>
+        <select id="sortOrderAlph" name="sort">
+            <option value="titillasc" th:selected="${sort == 'asc'}">Stafrófsröð</option>
+            <option value="titilldesc" th:selected="${sort == 'desc'}">Öfug stafrófsröð</option>
+        </select>
+        <input type="submit" value="Raða">
     </form>
 </div>
 

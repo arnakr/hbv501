@@ -7,7 +7,6 @@ import jakarta.persistence.criteria.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import java.time.LocalDateTime;
 import java.util.List;
 /**
@@ -48,12 +47,12 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
      * @return a {@link List} of {@link Recipe} entities that match the specified title
      */
     List<Recipe> findByTitle(String title);
+
     Recipe findByRecipeId(Long id);
 
     List<Recipe> findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String title, String description );
 
     List<Recipe> findByMealCategories(MealCategory mealCategory);
-
 
 
    /* @Query("SELECT * FROM Recipe WHERE title LIKE %?1%")
@@ -70,5 +69,9 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     List<Recipe> findAllByOrderByUploadTimeAsc();
 
     List<Recipe> findAllByOrderByUploadTimeDesc();
+
+    List<Recipe> findAllByOrderByTitleAsc();
+
+    List<Recipe> findAllByOrderByTitleDesc();
 
 }

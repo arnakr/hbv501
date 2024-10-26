@@ -117,48 +117,38 @@ public class RecipeController {
         // Retrieve the logged-in user from the session
         User loggedInUser = (User) session.getAttribute("LoggedInUser");
         if (loggedInUser == null) {
-            return "redirect:/login"; // If not logged in, redirect to login page
+            return "redirect:/login";
         }
-
-        // Find the recipe by ID
         Recipe recipe = recipeService.findRecipeById(recipeId);
         if (recipe == null) {
-            return "error"; // Show error page if the recipe is not found
+            return "error";
         }
-
-        // Remove the recipe from the user's favorites
         userService.removeFavoriteRecipe(loggedInUser.getUserID(), recipe);
-
-        // Redirect to the user's favorites page
         return "redirect:/user/" + loggedInUser.getUserID() + "/favorites";
     }
 
-   /* @GetMapping("/sorted/asc")
-    public String getRecipesSortedAsc(Model model) {
-        List<Recipe> sortedRecipes = recipeService.getRecipesSortedByUploadTimeAsc();
-        model.addAttribute("recipes", sortedRecipes);
-        return "home";
-    }
-
-    @GetMapping("/sorted/desc")
-    public String getRecipesSortedDesc(Model model) {
-        List<Recipe> sortedRecipes = recipeService.getRecipesSortedByUploadTimeDesc();
-        model.addAttribute("recipes", sortedRecipes);
-        return "home";
-    } */
-
+    /**
+     * Sorts recipes by specific order
+     * Sorst by opload time both in ascending and descending order
+     * Sorts by title name both in ascending and descending order
+     * @return the recipes in the specific order that was asked for
+     */
     @GetMapping("/")
     public String getHomePage(@RequestParam(name = "sort", required = false, defaultValue = "desc") String sortOrder, Model model) {
-        List<Recipe> recipes;
-        if ("asc".equalsIgnoreCase(sortOrder)) {
-            recipes = recipeService.getRecipesSortedByUploadTimeAsc();
-        } else {
-            recipes = recipeService.getRecipesSortedByUploadTimeDesc();
-        }
-
-        model.addAttribute("recipes", recipes);
-        model.addAttribute("sort", sortOrder);
-        return "home"; // Render home.html
-    }
-
+       List<Recipe> recipes;
+       if ("asc".equalsIgnoreCase(sortOrder)) {
+           recipes = recipeService.getRecipesSortedByUploadTimeAsc();
+       } else if ("desc".equalsIgnoreCase(sortOrder)) {
+           recipes = recipeService.getRecipesSortedByUploadTimeDesc();
+       } else if ("titillasc".equalsIgnoreCase(sortOrder)) {
+           recipes = recipeService.getRecipesSortedByTitleAsc();
+       } else if ("titilldesc".equalsIgnoreCase(sortOrder)) {
+           recipes = recipeService.getRecipesSortedByTitleDesc();
+       } else {
+           recipes = recipeService.getRecipesSortedByUploadTimeDesc();
+       }
+       model.addAttribute("recipes", recipes);
+       model.addAttribute("sort", sortOrder);
+       return "home";
+   }
 }

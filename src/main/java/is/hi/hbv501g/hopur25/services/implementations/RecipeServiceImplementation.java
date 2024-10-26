@@ -128,14 +128,45 @@ public class RecipeServiceImplementation implements RecipeService {
 
         return new ArrayList<>(currentRecipes);
     }
-//setja javadocs
+
+    /**
+     * Retrieves a list of recipes sorted in ascending order by their upload time.
+     *
+     * @return a List of {@link Recipe} objects sorted from the oldest to the newest based on the upload time.
+     */
    @Override
     public List<Recipe> getRecipesSortedByUploadTimeAsc() {
         return recipeRepository.findAllByOrderByUploadTimeAsc();
-}
+    }
+
+    /**
+     * Retrieves a list of recipes sorted in descending order by their upload time.
+     *
+     * @return a List of {@link Recipe} objects sorted from the newest to the oldest based on the upload time.
+     */
     @Override
     public List<Recipe> getRecipesSortedByUploadTimeDesc() {
         return recipeRepository.findAllByOrderByUploadTimeDesc();
+    }
+
+    /**
+     * Retrieves a list of recipes sorted in ascending alphabetical order
+     *
+     * @return a List of {@link Recipe} objects sorted in ascending alphabetical order
+     */
+    @Override
+    public List<Recipe> getRecipesSortedByTitleAsc() {
+        return recipeRepository.findAllByOrderByTitleAsc();
+    }
+
+    /**
+     * Retrieves a list of recipes sorted in descending alphabetical order
+     *
+     * @return a List of {@link Recipe} objects sorted in descending alphabetical order
+     */
+    @Override
+    public List<Recipe> getRecipesSortedByTitleDesc() {
+        return recipeRepository.findAllByOrderByTitleDesc();
     }
 }
 
