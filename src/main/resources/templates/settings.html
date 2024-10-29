@@ -23,6 +23,12 @@
     <a href="/createRecipe">Nýtt uppskrift</a>
     <a href="/logout" class="split">Skrá þig út</a>
 </div>
+<div style="text-align: center; margin-bottom: 20px;">
+    <h2>Prófílmynd</h2>
+    <!-- Display user profile picture -->
+    <img th:src="${LoggedInUser.userPicture}" alt="Profile Picture"
+         style="width: 150px; height: 150px; border-radius: 50%;">
+</div>
 
 <form action="/updateSettings" th:action="@{/settings}" th:object="${LoggedInUser}" method="post">
     <div>
