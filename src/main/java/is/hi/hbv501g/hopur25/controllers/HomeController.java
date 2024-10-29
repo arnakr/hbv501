@@ -45,7 +45,7 @@ public class HomeController {
      */
 
     /**
-     * Displays the the homePage with filters if chosen
+     * Displays the homePage with filters if chosen
      *
      * @param model                       the model to hold attributes for the view
      * @param session                     the HTTP session to retrieve the logged-in user

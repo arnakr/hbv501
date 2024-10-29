@@ -133,22 +133,28 @@ public class RecipeController {
      * Sorts by title name both in ascending and descending order
      * @return the recipes in the specific order that was asked for
      */
-    @GetMapping("/")
-    public String getHomePage(@RequestParam(name = "sort", required = false, defaultValue = "desc") String sortOrder, Model model) {
-       List<Recipe> recipes;
-       if ("asc".equalsIgnoreCase(sortOrder)) {
-           recipes = recipeService.getRecipesSortedByUploadTimeAsc();
-       } else if ("desc".equalsIgnoreCase(sortOrder)) {
-           recipes = recipeService.getRecipesSortedByUploadTimeDesc();
-       } else if ("titillasc".equalsIgnoreCase(sortOrder)) {
-           recipes = recipeService.getRecipesSortedByTitleAsc();
-       } else if ("titilldesc".equalsIgnoreCase(sortOrder)) {
-           recipes = recipeService.getRecipesSortedByTitleDesc();
-       } else {
-           recipes = recipeService.getRecipesSortedByUploadTimeDesc();
-       }
-       model.addAttribute("recipes", recipes);
-       model.addAttribute("sort", sortOrder);
-       return "home";
-   }
+  @GetMapping("/")
+  public String getHomePage(
+          @RequestParam(name = "sort", required = false, defaultValue = "desc") String sortOrder, Model model, HttpSession session) {
+      List<Recipe> recipes;
+      if ("asc".equalsIgnoreCase(sortOrder)) {
+          recipes = recipeService.getRecipesSortedByUploadTimeAsc();
+      } else if ("desc".equalsIgnoreCase(sortOrder)) {
+          recipes = recipeService.getRecipesSortedByUploadTimeDesc();
+      } else if ("titillasc".equalsIgnoreCase(sortOrder)) {
+          recipes = recipeService.getRecipesSortedByTitleAsc();
+      } else if ("titilldesc".equalsIgnoreCase(sortOrder)) {
+          recipes = recipeService.getRecipesSortedByTitleDesc();
+      } else {
+          recipes = recipeService.getRecipesSortedByUploadTimeDesc();
+      }
+      model.addAttribute("recipes", recipes);
+      model.addAttribute("sort", sortOrder);
+
+      User loggedInUser = (User) session.getAttribute("LoggedInUser");
+      if (loggedInUser != null) {
+          model.addAttribute("LoggedInUser", loggedInUser);
+      }
+      return "home";
+  }
 }
