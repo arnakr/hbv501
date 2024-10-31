@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class UserController {
@@ -223,15 +224,30 @@ public class UserController {
     }
 
     /**
-     * Deletes the currently authenticated user's account and redirects to the home page.
+     * Deletes the currently logged-in user's account and redirects to the home page.
      *
-     * @param principal the authenticated user principal
-     * @return a redirect to the home page
-    */
+     * @param session the HTTP session to retrieve the logged-in user
+     * @return a redirect to the home page, or the login page if the user is not authenticated
+     */
     @PostMapping("/deleteUser")
-    public String deleteUser(Principal principal) {
-        Long userId = Long.parseLong(principal.getName());
-        userService.deleteUser(userId);
+    public String deleteUser(HttpSession session) {
+        // Retrieve the logged-in user from the session
+        User currentUser = (User) session.getAttribute("LoggedInUser");
+
+        // Check if the user is logged in
+        if (currentUser == null) {
+            return "redirect:/login"; // Redirect to login if not authenticated
+        }
+
+        // Delete the user using the user's ID
+        userService.deleteUser(currentUser.getUserID());
+
+        // Invalidate the session after deletion
+        session.invalidate();
+
+        // Redirect to the home page after deletion
         return "redirect:/";
     }
+
+
 }
