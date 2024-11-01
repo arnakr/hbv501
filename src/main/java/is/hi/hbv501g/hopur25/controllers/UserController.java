@@ -1,25 +1,27 @@
 package is.hi.hbv501g.hopur25.controllers;
 
 import is.hi.hbv501g.hopur25.persistence.entities.User;
+import is.hi.hbv501g.hopur25.services.S3Service;
 import is.hi.hbv501g.hopur25.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 public class UserController {
-
     private final UserService userService;
+    private final S3Service s3Service;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, S3Service s3service) {
         this.userService = userService;
+        this.s3Service = s3service;
     }
 
     /**
@@ -248,6 +250,50 @@ public class UserController {
         // Redirect to the home page after deletion
         return "redirect:/";
     }
+
+    /**
+     * Uploads profile picture for the user.
+     *
+     * This method checks if the user is logged in, if not redirect to login page
+     * deletes the existing profile picture from S3 (if it exists),
+     * generates a unique filename for the new uploaded image,
+     * uploads it to Amazon S3, and updates the user's profile picture URL in the database.
+     *
+     * @param profilePicture the MultipartFile containing the new profile picture
+     * @param session the current HTTP session
+     * @return a redirect string to the settings page or login page if the user is not logged in
+     * @throws IOException if an error occurs during file operations or uploading to S3
+     */
+    @PostMapping("/uploadProfilePicture")
+    public String uploadProfilePicture(@RequestParam("profilePicture") MultipartFile profilePicture, HttpSession session) throws IOException {
+        User currentUser = (User) session.getAttribute("LoggedInUser");
+
+        // Check if the user is logged in, if not redirect to login page
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
+
+        // Delete the old profile picture if it exists
+        String oldPictureUrl = currentUser.getUserPicture();
+        if (oldPictureUrl != null) {
+            // Extract the key from the old picture URL
+            String oldKey = oldPictureUrl.substring(oldPictureUrl.lastIndexOf("/") + 1); // Get the key from the URL
+            s3Service.deleteFile(oldKey); // Delete the old file from S3
+        }
+
+        // Upload the new image to S3 using the instance of S3Service
+        String s3Url = s3Service.uploadFile(profilePicture);
+
+        // Update the user profile picture in the database
+        userService.updateUserProfilePicture(currentUser.getUserID(), s3Url);
+
+        // Update the session with the new picture URL
+        currentUser.setUserPicture(s3Url);
+        session.setAttribute("LoggedInUser", currentUser);
+
+        return "redirect:/settings"; // Redirect to settings
+    }
+
 
 
 }

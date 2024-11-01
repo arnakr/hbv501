@@ -27,54 +27,53 @@
     </div>
 
     <h1><span>Velkominn, <span th:text="${LoggedInUser.username}"></span>!</span></h1>
-
 </div>
 
 <div>
     <form method="get" th:action="@{/}">
         <!-- Keyword search -->
-        <label for="keyword">Search by keyword:</label>
-        <input type="text" id="keyword" name="keyword" placeholder="Search recipes...">
+        <label for="keyword">Leita með leitarorði:</label>
+        <input type="text" id="keyword" name="keyword" placeholder="Leita að uppskriftum...">
 
         <!-- Dietary Restrictions -->
-        <label>Dietary Restrictions:</label>
+        <label>Fæðisfyrirmæli:</label>
         <div id="dietaryRestrictionsContainer">
             <label>
                 <input type="checkbox" name="dietaryRestrictions" value="VEGAN"> Vegan
             </label>
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="VEGETARIAN"> Vegetarian
+                <input type="checkbox" name="dietaryRestrictions" value="VEGETARIAN"> Grænmetisæta
             </label>
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="GLUTEN_FREE"> Gluten-Free
+                <input type="checkbox" name="dietaryRestrictions" value="GLUTEN_FREE"> Glútenlaus
             </label>
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="DAIRY_FREE"> Dairy-Free
+                <input type="checkbox" name="dietaryRestrictions" value="DAIRY_FREE"> Mjólkurlaust
             </label>
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="NUT_FREE"> Nut-Free
+                <input type="checkbox" name="dietaryRestrictions" value="NUT_FREE"> Hnetulaust
             </label>
         </div>
 
         <!-- Meal Categories -->
-        <label>Meal Categories:</label>
+        <label>Máltíðaflokkar:</label>
         <div id="mealCategories">
             <label>
-                <input type="checkbox" name="mealCategories" value="BREAKFAST"> Breakfast
+                <input type="checkbox" name="mealCategories" value="BREAKFAST"> Morgunmatur
             </label>
             <label>
-                <input type="checkbox" name="mealCategories" value="LUNCH"> Lunch
+                <input type="checkbox" name="mealCategories" value="LUNCH"> Hádegismatur
             </label>
             <label>
-                <input type="checkbox" name="mealCategories" value="DINNER"> Dinner
+                <input type="checkbox" name="mealCategories" value="DINNER"> Kvöldmatur
             </label>
             <label>
-                <input type="checkbox" name="mealCategories" value="SNACK"> Snack
+                <input type="checkbox" name="mealCategories" value="SNACK"> Millimál
             </label>
         </div>
 
         <!-- Filter Button -->
-        <input type="submit" value="Filter Recipes">
+        <input type="submit" value="Filtrera uppskriftir">
     </form>
 </div>
 
