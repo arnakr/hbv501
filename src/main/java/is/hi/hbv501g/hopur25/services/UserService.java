@@ -26,6 +26,9 @@ public interface UserService {
 
     List<Recipe> getUserFavorites(Long userId); //Skoða
 
+    User updateUserProfilePicture(Long userId, String profilePictureUrl);
+
+
 
 //    void updatePicture(User user);
 //    ArrayList<Recipe> getUserFavourites();

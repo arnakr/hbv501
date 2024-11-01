@@ -101,6 +101,15 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    public User updateUserProfilePicture(Long userId, String profilePictureUrl) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            user.setUserPicture(profilePictureUrl);
+            userRepository.save(user);
+        }
+        return user;
+    }
+    @Override
     public User findById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
