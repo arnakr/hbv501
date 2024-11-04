@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stillingar</title>
     <link rel="stylesheet" th:href="@{/css/home.css}">
+
+    <script>
+        function confirmDeletion() {
+            if (confirm("Ertu viss um að þú viljir eyða notanda aðganginum þínum? Þessi aðgerð er óafturkallanleg.")) {
+                document.getElementById("deleteForm").submit();
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="topnav">
@@ -12,32 +20,49 @@
     <a href="#userrecipes">Uppskriftirnar Mínar</a>
     <a href="/favorites">Uppáhalds Uppskriftir</a>
     <a href="/settings">Stillingar/Mínar Síður</a>
+    <a href="/createRecipe">Nýtt uppskrift</a>
     <a href="/logout" class="split">Skrá þig út</a>
 </div>
+<!-- Profile Picture Display and Upload Form -->
+<div style="text-align: center;">
+    <h2>Prófilmynd</h2>
+    <img th:src="${LoggedInUser.userPicture}" alt="Profilmynd" style="width: 150px; height: 150px; border-radius: 50%;">
+
+    <form th:action="@{/uploadProfilePicture}" method="post" enctype="multipart/form-data">
+        <label for="profilePicture">Veldu nýja mynd</label>
+        <input type="file" id="profilePicture" name="profilePicture" accept="image/*" required/>
+        <button type="submit">Hlaða upp nýtt prófilmynd</button>
+    </form>
+</div>
+
 
 <form action="/updateSettings" th:action="@{/settings}" th:object="${LoggedInUser}" method="post">
     <div>
-        <label for="username">New Username:</label>
-        <input type="text" id="username" th:field="*{username}" placeholder="Enter new username"/>
+        <label for="username">Nýtt notendanafn</label>
+        <input type="text" id="username" th:field="*{username}" placeholder="Sláðu inn nýtt notendanafn"/>
     </div>
 
     <div>
-        <label for="email">New Email:</label>
-        <input type="email" id="email" th:field="*{email}" placeholder="Enter new email"/>
+        <label for="email">Nýtt netfang</label>
+        <input type="email" id="email" th:field="*{email}" placeholder="Sláðu inn nýtt netfang"/>
     </div>
 
     <div>
-        <label for="password">New Password:</label>
-        <input type="password" id="password" th:field="*{password}" placeholder="Enter new password"/>
+        <label for="password">Nýtt lykilorð:</label>
+        <input type="password" id="password" th:field="*{password}" placeholder="Sláðu inn nýtt lykilorð"/>
     </div>
 
     <div>
-        <button type="submit">Update Settings</button>
+        <button type="submit">Uppfæra stillingar</button>
     </div>
 
     <p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></p>
 </form>
 
-
+<form id="deleteForm" th:action="@{/deleteUser}" method="post" style="margin-top: 20px;">
+    <button type="button" onclick="confirmDeletion()" style="background-color: red; color: white; padding: 5px 10px; width: min-content; border: none; cursor: pointer;">
+        Eyða aðganginum mínum
+    </button>
+</form>
 </body>
 </html>

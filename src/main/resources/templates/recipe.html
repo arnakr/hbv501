@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Details</title>
+    <title>Uppskriftina</title>
     <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
@@ -16,28 +16,28 @@
     <a href="/logout" class="split">Skrá þig út</a>
 </div>
 
-<h1>Recipe: <span th:text="${recipe.title}"></span></h1>
+<h1 th:text="${recipe.title}"></h1>
 
-<p><strong>Ingredients:</strong></p>
+<p><strong>Hráefni:</strong></p>
 <ul>
     <li th:each="ingredient : ${recipe.ingredients}" th:text="${ingredient}"></li>
 </ul>
 
-<p><strong>Cook Time:</strong> <span th:text="${recipe.cookTime}"></span> minutes</p>
+<p><strong>Matreiðslutími:</strong> <span th:text="${recipe.cookTime}"></span> minutes</p>
 
-<p><strong>Description:</strong></p>
+<p><strong>Lýsing: </strong></p>
 <p th:text="${recipe.description}"></p>
 
 <!-- Add to Favorites button (visible only when the user is logged in) -->
 <div th:if="${session.LoggedInUser != null}">
     <form th:action="@{'/recipe/' + ${recipe.recipeId} + '/addToFavorites'}" method="post">
-        <button type="submit">Add to Favorites</button>
+        <button type="submit">Bæta við uppáhaldi</button>
     </form>
 </div>
 
 <!-- Show a message if the user is not logged in -->
 <div th:if="${LoggedInUser == null}">
-    <p>You need to <a href="/login">log in</a> to add this recipe to your favorites.</p>
+    <p>Þú þarft að <a href="/login">skrá þig inn</a> til að bæta þessari uppskrift við uppáhaldið þitt.</p>
 </div>
 
 </body>
