@@ -74,4 +74,8 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     List<Recipe> findAllByOrderByTitleDesc();
 
+    List<Recipe> findAllByOrderByCookTimeAsc();
+
+    List<Recipe> findAllByOrderByCookTimeDesc();
+
 }

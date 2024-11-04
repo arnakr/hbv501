@@ -80,5 +80,9 @@ public interface RecipeService {
      */
     List<Recipe> getRecipesSortedByTitleDesc();
 
+    List<Recipe> getRecipeSortedByCooktimeAsc();
+
+    List<Recipe> getRecipeSortedByCooktimeDesc();
+
 }
 

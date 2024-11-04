@@ -170,6 +170,10 @@ public class RecipeController {
           recipes = recipeService.getRecipesSortedByTitleAsc();
       } else if ("titilldesc".equalsIgnoreCase(sortOrder)) {
           recipes = recipeService.getRecipesSortedByTitleDesc();
+      } else if ("cooktimeasc".equalsIgnoreCase(sortOrder)) {
+          recipes = recipeService.getRecipeSortedByCooktimeAsc();
+      } else if ("cooktimedesc".equalsIgnoreCase(sortOrder)) {
+          recipes = recipeService.getRecipeSortedByCooktimeDesc();
       } else {
           recipes = recipeService.getRecipesSortedByUploadTimeDesc();
       }

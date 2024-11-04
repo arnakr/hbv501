@@ -181,4 +181,11 @@ public class RecipeServiceImplementation implements RecipeService {
         return recipeRepository.findAllByOrderByTitleDesc();
     }
 
+    @Override
+    public List<Recipe> getRecipeSortedByCooktimeAsc() {return recipeRepository.findAllByOrderByCookTimeAsc(); }
+
+    @Override
+    public List<Recipe> getRecipeSortedByCooktimeDesc() { return recipeRepository.findAllByOrderByCookTimeDesc(); }
+
+
 }
