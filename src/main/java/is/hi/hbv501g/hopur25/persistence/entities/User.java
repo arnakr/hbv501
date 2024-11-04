@@ -27,19 +27,17 @@ public class User {
     private String userPicture;// Declare the userPicture field
 
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Recipe> userRecipes = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<Recipe> userRecipes = new ArrayList<>();
 
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "user_favourites", // New table to hold favorite relationships
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "recipe_id")
     )
     private List<Recipe> userFavourites = new ArrayList<>();
-    //@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    //List<Recipe> userFavourites = new ArrayList<>();
 
     public User() {
     }

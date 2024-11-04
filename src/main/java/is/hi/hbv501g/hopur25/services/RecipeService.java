@@ -1,6 +1,7 @@
 package is.hi.hbv501g.hopur25.services;
 
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
+import is.hi.hbv501g.hopur25.persistence.entities.User;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestriction;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
 
@@ -35,9 +36,9 @@ public interface RecipeService {
     /**
      * Deletes the specified recipe from the system.
      *
-     * @param recipe the {@link Recipe} object to delete
+     * @param recipeId the {@link Recipe} object to delete
      */
-    void delete(Recipe recipe);
+    void delete(Long recipeId, User currentUser);
 
     /**
      * Finds a recipe by its title.

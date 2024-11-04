@@ -8,6 +8,7 @@ import is.hi.hbv501g.hopur25.persistence.repositories.RecipeRepository;
 import is.hi.hbv501g.hopur25.persistence.repositories.UserRepository;
 import is.hi.hbv501g.hopur25.services.RecipeService;
 import is.hi.hbv501g.hopur25.services.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.util.*;
 @Service
 public class RecipeServiceImplementation implements RecipeService {
     private final RecipeRepository recipeRepository;
+    private final UserRepository userRepository;
     private final UserService userService;
 
     /**
@@ -30,8 +32,9 @@ public class RecipeServiceImplementation implements RecipeService {
      * @param recipeRepository the {@link RecipeRepository} to be used for data access
      */
     @Autowired
-    public RecipeServiceImplementation(RecipeRepository recipeRepository, @Qualifier("userService") UserService userService) {
+    public RecipeServiceImplementation(RecipeRepository recipeRepository, UserRepository userRepository, @Qualifier("userService") UserService userService) {
         this.recipeRepository = recipeRepository;
+        this.userRepository = userRepository;
         this.userService = userService;
     }
 
@@ -71,10 +74,13 @@ public class RecipeServiceImplementation implements RecipeService {
     /**
      * Deletes the specified recipe from the repository.
      *
-     * @param recipe the {@link Recipe} object to delete
+     * @param recipeId the {@link Recipe} object to delete
      */
+    @Transactional
     @Override
-    public void delete(Recipe recipe) {
+    public void delete(Long recipeId, User currentUser) {
+        Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
+        currentUser.getUserRecipes().remove(recipe);
         recipeRepository.delete(recipe);
     }
 
@@ -174,5 +180,5 @@ public class RecipeServiceImplementation implements RecipeService {
     public List<Recipe> getRecipesSortedByTitleDesc() {
         return recipeRepository.findAllByOrderByTitleDesc();
     }
-}
 
+}

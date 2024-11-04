@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uppskritirnar Mínar</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+<div class="topnav">
+    <a class="active" href="/">Heim</a>
+    <a href="/user/recipes">Uppskriftirnar Mínar</a>
+    <a href="/favorites">Uppáhalds Uppskriftir</a>
+    <a href="/settings">Stillingar/Mínar Síður</a>
+    <a href="/createRecipe">Nýtt uppskrift</a>
+    <a href="/logout" class="split">Skrá þig út</a>
+</div>
+
+<div th:if="${LoggedInUser != null}">
+    <h1><span th:text="${LoggedInUser.username}"></span>'s Uppskriftir</h1>
+</div>
+
+<div th:switch="${userRecipes}">
+    <!-- Case when the list is empty -->
+    <h3 th:if="${userRecipes.isEmpty()}">Engin uppskrift!</h3>
+
+    <!-- Case when there are user recipes -->
+    <div th:unless="${userRecipes.isEmpty()}">
+        <h2>Uppskriftirnar þínar</h2>
+        <ul>
+            <li th:each="recipe : ${userRecipes}">
+                <a th:href="@{'/recipe/' + ${recipe.recipeId}}">
+                    <h3 th:text="${recipe.title}"></h3>
+                </a>
+                <p th:text="'Eldunartími: ' + ${recipe.cookTime} + ' mínútur'"></p>
+                <p th:text="${recipe.description}"></p>
+
+                <!-- Add a "Delete recipe" form -->
+                <form th:action="@{'/recipe/' + ${recipe.recipeId} + '/deleteRecipe'}" method="post">
+                    <button type="submit">Eyða Uppskrift</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

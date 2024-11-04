@@ -7,15 +7,22 @@ import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
 import is.hi.hbv501g.hopur25.services.RecipeService;
 import is.hi.hbv501g.hopur25.services.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
+ *
+ *
  *
  */
 @Controller
@@ -94,23 +101,65 @@ public class HomeController {
      * @param session the HTTP session to retrieve the logged-in user
      * @return a redirect to the home page or the recipe creation form if there are errors
      */
+    @Transactional
     @RequestMapping(value = "/createRecipe", method = RequestMethod.POST)
     public String createRecipeSubmit(@ModelAttribute Recipe recipe, BindingResult result, HttpSession session) {
         if (result.hasErrors()) {
-            return "createRecipe";  // Return to the form if there are errors
+            return "createRecipe";
         }
 
-        // Retrieve the logged-in user from the session
         User currentUser = (User) session.getAttribute("LoggedInUser");
 
         if (currentUser != null) {
-            recipe.setUser(currentUser);  // Set the user for the recipe
-        } else {
-            // Optionally, handle the case where there is no logged-in user
-            return "redirect:/login";  // Redirect to log in if no user is logged in
+            if (currentUser.getUserRecipes() == null) {
+                currentUser.setUserRecipes(new ArrayList<>());
+            }
+            currentUser.getUserRecipes().add(recipe);
+            recipe.setUser(currentUser);
         }
 
-        recipeService.save(recipe);  // Save the recipe
-        return "redirect:/";  // Redirect to home after saving
+        recipeService.save(recipe);
+        return "redirect:/user/recipes";
     }
+
+    /**
+     * Handles the deletion of a recipe by its ID.
+     * If no user is logged in, the method redirects to the login page.
+     * If the recipe is found, it proceeds with deletion.
+     *
+     * @param recipeId The unique identifier of the recipe to be deleted.
+     * @param session The current HTTP session, used to retrieve the logged-in user.
+     * @return A redirect string that navigates the user back to their recipes page after deletion,
+     *         or redirects to the login page if no user is logged in.
+     */
+    @RequestMapping(value = "/recipe/{recipeId}/deleteRecipe", method = RequestMethod.POST)
+    public String deleteRecipe(@PathVariable Long recipeId, HttpSession session) {
+        User currentUser = (User) session.getAttribute("LoggedInUser");
+
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
+
+        Recipe recipe = recipeService.findRecipeById(recipeId);
+
+        if (recipe == null) {
+            return "redirect:/user/recipes";
+        }
+
+//        System.out.println("Current user ID: " + currentUser.getUserID());
+//        System.out.println("Recipe owner ID: " + (recipe.getUser() != null ? recipe.getUser().getUserID() : "null"));
+
+//        if (recipe.getUser() != null && recipe.getUser().equals(currentUser)) {
+//            recipeService.delete(recipeId);  // Delete the recipe
+//            System.out.println("Recipe deleted successfully.");
+//        } else {
+//            System.out.println("User does not own this recipe or recipe owner is null.");
+//        }
+
+        recipeService.delete(recipeId, currentUser);
+
+
+        return "redirect:/user/recipes";
+    }
+
 }

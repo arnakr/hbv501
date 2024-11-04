@@ -8,11 +8,9 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -125,6 +123,33 @@ public class RecipeController {
         }
         userService.removeFavoriteRecipe(loggedInUser.getUserID(), recipe);
         return "redirect:/user/" + loggedInUser.getUserID() + "/favorites";
+    }
+
+    /**
+     * Retrieves and displays the recipes created by the currently logged-in user.
+     * If the user has no recipes, an empty list is provided to the model to ensure proper rendering.
+     *
+     * @param model The model object used to add the list of user recipes and the logged-in user.
+     * @param session The current HTTP session, used to retrieve the logged-in user.
+     * @return The name of the template ("userRecipes") that displays the user's recipes.
+     *         Redirects to the login page if no user is logged in.
+     */
+    @RequestMapping(value = "/user/recipes", method = RequestMethod.GET)
+    public String userRecipes(Model model, HttpSession session) {
+        User currentUser = (User) session.getAttribute("LoggedInUser");
+
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
+
+        List<Recipe> userRecipes = userService.getUserRecipes(currentUser.getUserID());
+        if (userRecipes == null) {
+            userRecipes = new ArrayList<>();
+        }
+
+        model.addAttribute("userRecipes", userRecipes);
+        model.addAttribute("LoggedInUser", currentUser);
+        return "userRecipes";
     }
 
     /**
