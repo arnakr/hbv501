@@ -110,6 +110,11 @@ public class HomeController {
             return "redirect:/login";  // Redirect to log in if no user is logged in
         }
 
+        // Set the default recipe picture if none is provided
+        if (recipe.getRecipePictureUrl() == null || recipe.getRecipePictureUrl().isEmpty()) {
+            recipe.setRecipePictureUrl("/images/food.png");
+        }
+
         recipeService.save(recipe);  // Save the recipe
         return "redirect:/";  // Redirect to home after saving
     }
