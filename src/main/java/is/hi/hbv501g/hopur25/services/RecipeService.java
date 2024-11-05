@@ -79,6 +79,6 @@ public interface RecipeService {
      */
     List<Recipe> getRecipesSortedByTitleDesc();
 
-    void updateRecipe(Recipe currentRecipe, Recipe updatedRecipe);
+    void updateRecipe(Recipe updatedRecipe);
 }
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Búa til nýja uppskrift</title>
+    <title>Breyta uppskrift</title>
     <link rel="stylesheet" th:href="@{/css/createRecipe.css}">
 
     <script>
@@ -28,58 +28,45 @@
             button.parentElement.remove();
             ingredientCount--; // Decrement count when an ingredient is removed
         }
-
     </script>
 </head>
 <body>
 <div class="container">
-    <h2>Búa til uppskrift</h2>
+    <h2>Breyta uppskrift</h2>
 
-    <form action="#" th:action="@{/createRecipe}" method="post">
+    <form action="#" th:action="@{/edit-recipe}" method="post">
+        <!-- Hidden Recipe ID -->
+        <input type="hidden" th:field="${recipe.recipeId}">
+
         <!-- Recipe Name -->
         <label for="recipeName">Nafn uppskriftar:</label>
-        <input type="text" id="recipeName" name="title" required/>
+        <input type="text" id="recipeName" name="title" th:value="${recipe.title}" required/>
         <br>
 
         <!-- Description -->
         <label for="description">Skýring:</label>
-        <textarea id="description" name="description" required></textarea>
-        <br>
-
-        <!-- Ingredients -->
-        <label>Innihaldsefni:</label>
-        <div id="ingredientsContainer">
-            <div class="ingredient">
-                <input type="text" name="ingredients" placeholder="Innihaldsefni" required/>
-                <!-- No remove button for the first two ingredients -->
-            </div>
-            <div class="ingredient">
-                <input type="text" name="ingredients" placeholder="Innihaldsefni" required/>
-                <!-- No remove button for the first two ingredients -->
-            </div>
-        </div>
-        <button type="button" onclick="addIngredient()">Bæta við öðru innihaldsefni</button>
+        <textarea id="description" name="description" th:text="${recipe.description}" required></textarea>
         <br>
 
         <!-- Cook Time -->
         <label for="cookTime">Tilbúningstími (mínútur):</label>
-        <input type="number" id="cookTime" name="cookTime" required min="1"/>
+        <input type="number" id="cookTime" name="cookTime" required min="1" th:value="${recipe.cookTime}"/>
         <br>
 
         <!-- Filters: Meal Categories -->
         <label>Máltíðaflokkur:</label>
         <div id="mealCategories">
             <label>
-                <input type="checkbox" name="mealCategories" value="BREAKFAST"> Morgunmatur
+                <input type="checkbox" name="mealCategories" value="BREAKFAST" th:checked="${recipe.mealCategories.contains('BREAKFAST')} ? 'checked' : ''"> Morgunmatur
             </label>
             <label>
-                <input type="checkbox" name="mealCategories" value="LUNCH"> Hádegismatur
+                <input type="checkbox" name="mealCategories" value="LUNCH" th:checked="${recipe.mealCategories.contains('LUNCH')} ? 'checked' : ''"> Hádegismatur
             </label>
             <label>
-                <input type="checkbox" name="mealCategories" value="DINNER"> Kvöldmatur
+                <input type="checkbox" name="mealCategories" value="DINNER" th:checked="${recipe.mealCategories.contains('DINNER')} ? 'checked' : ''"> Kvöldmatur
             </label>
             <label>
-                <input type="checkbox" name="mealCategories" value="SNACK"> Millimál
+                <input type="checkbox" name="mealCategories" value="SNACK" th:checked="${recipe.mealCategories.contains('SNACK')} ? 'checked' : ''"> Millimál
             </label>
         </div>
         <br>
@@ -88,19 +75,19 @@
         <label>Fæðutakmarkanir:</label>
         <div id="dietaryRestrictionsContainer">
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="VEGAN"> Vegan
+                <input type="checkbox" name="dietaryRestrictions" value="VEGAN" th:checked="${recipe.mealCategories.contains('VEGAN')} ? 'checked' : ''"> Vegan
             </label>
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="VEGETARIAN"> Grænmetisfæða
+                <input type="checkbox" name="dietaryRestrictions" value="VEGETARIAN" th:checked="${recipe.mealCategories.contains('VEGETARIAN')} ? 'checked' : ''"> Grænmetisfæða
             </label>
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="GLUTEN_FREE"> Glútenlaust
+                <input type="checkbox" name="dietaryRestrictions" value="GLUTEN_FREE" th:checked="${recipe.mealCategories.contains('GLUTEN_FREE')} ? 'checked' : ''"> Glútenlaust
             </label>
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="DAIRY_FREE"> Mjólkurlaust
+                <input type="checkbox" name="dietaryRestrictions" value="DAIRY_FREE" th:checked="${recipe.mealCategories.contains('DAIRY_FREE')} ? 'checked' : ''"> Mjólkurlaust
             </label>
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="NUT_FREE"> Hnetulaust
+                <input type="checkbox" name="dietaryRestrictions" value="NUT_FREE" th:checked="${recipe.mealCategories.contains('NUT_FREE')} ? 'checked' : ''"> Hnetulaust
             </label>
         </div>
         <br>

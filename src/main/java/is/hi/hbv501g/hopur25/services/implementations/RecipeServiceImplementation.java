@@ -175,8 +175,8 @@ public class RecipeServiceImplementation implements RecipeService {
     }
 
     @Override
-    public void updateRecipe (Recipe currentRecipe, Recipe updatedRecipe) {
-        currentRecipe.setAll(updatedRecipe);
+    public void updateRecipe (Recipe updatedRecipe) {
+        recipeRepository.save(updatedRecipe);
     }
 }
 

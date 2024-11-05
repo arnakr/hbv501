@@ -157,7 +157,7 @@ public class RecipeController {
   }
 
     @RequestMapping("/recipe/{recipeId}/edit-recipe")
-    public String editRecipe(HttpSession session, Model model, @PathVariable Long recipeId) {
+    public String editRecipe(@PathVariable Long recipeId, Model model) {
         Recipe recipe = recipeService.findRecipeById(recipeId);
 
         // Check if recipe exists
@@ -165,6 +165,7 @@ public class RecipeController {
             return "error"; // Handle recipe not found error
         }
 
+        System.out.println("OLD RECIPE:" + recipe.toString());
         model.addAttribute("recipe", recipe);
         return "/edit-recipe"; // Update template path (assuming it's different)
     }
@@ -175,13 +176,20 @@ public class RecipeController {
         Long recipeId = updatedRecipe.getRecipeId();
         Recipe currentRecipe = recipeService.findRecipeById(recipeId);
 
-        // Check if recipe exists
-        if (currentRecipe == null) {
-            return "error"; // Handle recipe not found error
-        }
+        System.out.println("NEW INFORMATION:" + updatedRecipe.toString());
+        System.out.println("RECIPE ID: " + recipeId);
 
-        recipeService.updateRecipe(currentRecipe, updatedRecipe);
+        // Update specific fields of the original recipe
+        currentRecipe.setTitle(updatedRecipe.getTitle());
+        currentRecipe.setDescription(updatedRecipe.getDescription());
+        currentRecipe.setCookTime(updatedRecipe.getCookTime());
+        currentRecipe.setMealCategories(updatedRecipe.getMealCategories()); // Assuming you want to overwrite meal categories entirely
+        currentRecipe.setDietaryRestrictions(updatedRecipe.getDietaryRestrictions()); // Assuming you want to overwrite dietary restrictions entirely
 
-        return "redirect:/recipe/" + recipeId; // Redirect user to updated recipe page
+        System.out.println("NEW RECIPE: " + currentRecipe.toString());
+        // Update the DB
+        recipeService.updateRecipe(currentRecipe);
+
+        return "redirect:/user-recipes"; // Redirect user to updated recipe page
     }
 }

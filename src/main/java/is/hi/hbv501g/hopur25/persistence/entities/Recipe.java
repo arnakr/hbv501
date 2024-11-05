@@ -142,7 +142,7 @@ public class Recipe {
 
     @Override
     public String toString() {
-        return "Title: " + title + ", Ingredients: " + ingredients + ", Cook Time: " + cookTime + ", Description: " + description;
+        return "Id: " + recipeId + ", Title: " + title + ", Ingredients: " + ingredients + ", Cook Time: " + cookTime + ", Description: " + description;
     }
     public LocalDateTime getUploadTime() {
         return uploadTime;
