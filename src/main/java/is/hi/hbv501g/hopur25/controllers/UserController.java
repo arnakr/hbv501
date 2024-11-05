@@ -1,7 +1,7 @@
 package is.hi.hbv501g.hopur25.controllers;
 
 import is.hi.hbv501g.hopur25.persistence.entities.User;
-import is.hi.hbv501g.hopur25.services.S3Service;
+// import is.hi.hbv501g.hopur25.services.S3Service;
 import is.hi.hbv501g.hopur25.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +16,19 @@ import java.io.IOException;
 @Controller
 public class UserController {
     private final UserService userService;
-    private final S3Service s3Service;
+    // private final S3Service s3Service;
 
+    /*
     @Autowired
     public UserController(UserService userService, S3Service s3service) {
         this.userService = userService;
         this.s3Service = s3service;
+    }
+     */
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     /**
@@ -242,7 +249,7 @@ public class UserController {
         }
 
         // Get the user's posted recipes
-        model.addAttribute("userRecipes", userService.getUserFavorites(currentUser.getUserID()));
+        model.addAttribute("userRecipes", userService.getUserRecipes(currentUser.getUserID()));
         model.addAttribute("LoggedInUser", currentUser);
         return "user-recipes";
     }
@@ -286,6 +293,7 @@ public class UserController {
      * @return a redirect string to the settings page or login page if the user is not logged in
      * @throws IOException if an error occurs during file operations or uploading to S3
      */
+    /*
     @PostMapping("/uploadProfilePicture")
     public String uploadProfilePicture(@RequestParam("profilePicture") MultipartFile profilePicture, HttpSession session) throws IOException {
         User currentUser = (User) session.getAttribute("LoggedInUser");
@@ -315,6 +323,8 @@ public class UserController {
 
         return "redirect:/settings"; // Redirect to settings
     }
+
+     */
 
 
 

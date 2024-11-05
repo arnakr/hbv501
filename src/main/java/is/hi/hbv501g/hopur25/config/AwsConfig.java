@@ -1,3 +1,4 @@
+/*
 package is.hi.hbv501g.hopur25.config;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -25,3 +26,4 @@ public class AwsConfig {
                 .build();
     }
 }
+ */

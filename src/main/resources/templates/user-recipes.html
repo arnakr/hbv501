@@ -16,31 +16,30 @@
 </div>
 
 <div th:if="${LoggedInUser != null}">
-    <h1 th:text="Þínar uppskriftir"></h1>
+    <h1>Þínar uppskriftir</h1>
 </div>
 
 <div th:switch="${userRecipes}">
     <!-- If list is empty -->
     <div th:if="${userRecipes.empty}">
-        <h3 >Þú hefur ekki enn birt neinar uppskirftir</h3>
+        <h3 >Þú hefur ekki enn birt neinar uppskriftir</h3>
     </div>
 
     <!-- Case when there are favorite recipes -->
     <div th:unless="${userRecipes.empty}">
-        <h2>Þínar uppáhalds uppskriftir</h2>
         <ul>
             <li th:each="recipe : ${userRecipes}">
                 <a th:href="@{'/recipe/' + ${recipe.recipeId}}"><span th:text="${recipe.title}"></span></a>
                 <p th:text="'Cook Time: ' + ${recipe.cookTime} + ' minutes'"></p>
                 <p th:text="${recipe.description}"></p>
 
-                <!-- Add delete and edit forms -->
-                <form th:action="@{'/recipe/' + ${recipe.recipeId} + '/removeFromFavorites'}" method="post">
-                    <button type="submit">Eyða</button>
-                    <button type="submit">Eyða</button>
+                <form th:action="@{'/recipe/' + ${recipe.recipeId} + '/edit-recipe'}" method="post">
+                    <button type="submit">Breyta uppskrift</button>
                 </form>
             </li>
         </ul>
+
+
     </div>
 </div>
 </body>

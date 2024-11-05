@@ -133,4 +133,10 @@ public class UserServiceImplementation implements UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
+
+    @Override
+    public List<Recipe> getUserRecipes(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        return (user != null) ? user.getUserRecipes() : new ArrayList<>();
+    }
 }

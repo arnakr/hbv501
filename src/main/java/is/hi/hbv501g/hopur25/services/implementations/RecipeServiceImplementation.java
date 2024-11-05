@@ -53,8 +53,7 @@ public class RecipeServiceImplementation implements RecipeService {
      */
     @Override
     public Recipe findRecipeById(Long id) {
-        Optional<Recipe> optionalRecipe = recipeRepository.findById(id);
-        return optionalRecipe.orElse(null); // Return null if recipe not found, or throw an exception if preferred
+        return recipeRepository.findByRecipeId(id); // Return null if recipe not found, or throw an exception if preferred
     }
 
     /**
@@ -173,6 +172,11 @@ public class RecipeServiceImplementation implements RecipeService {
     @Override
     public List<Recipe> getRecipesSortedByTitleDesc() {
         return recipeRepository.findAllByOrderByTitleDesc();
+    }
+
+    @Override
+    public void updateRecipe (Recipe currentRecipe, Recipe updatedRecipe) {
+        currentRecipe.setAll(updatedRecipe);
     }
 }
 

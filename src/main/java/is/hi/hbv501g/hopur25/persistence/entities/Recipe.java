@@ -151,4 +151,13 @@ public class Recipe {
     public void setUploadTime(LocalDateTime uploadTime) {
         this.uploadTime = uploadTime;
     }
+
+    public void setAll(Recipe updatedRecipe) {
+        this.title = updatedRecipe.getTitle();
+        this.ingredients = updatedRecipe.getIngredients();
+        this.description = updatedRecipe.getDescription();
+        this.cookTime = updatedRecipe.getCookTime();
+        this.dietaryRestrictions = updatedRecipe.getDietaryRestrictions();
+        this.mealCategories = updatedRecipe.getMealCategories();
+    }
 }

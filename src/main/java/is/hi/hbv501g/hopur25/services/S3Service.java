@@ -1,3 +1,4 @@
+/*
 package is.hi.hbv501g.hopur25.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class S3Service {
      * @return The URL of the uploaded file.
      * @throws IOException If an I/O error occurs.
      */
+/*
     public String uploadFile(MultipartFile file) throws IOException {
         String key = UUID.randomUUID().toString() + "_" + file.getOriginalFilename(); // Unique filename
 
@@ -55,6 +57,7 @@ public class S3Service {
      * @param key The key of the file in S3.
      * @return The pre-signed URL for the file.
      */
+/*
     public String getFileUrl(String key) {
         Instant expiration = Instant.now().plusSeconds(3600); // URL valid for 1 hour
 
@@ -68,7 +71,9 @@ public class S3Service {
      *
      * @param key The key of the file to delete.
      */
+/*
     public void deleteFile(String key) {
         s3Client.deleteObject(deleteObjectRequest -> deleteObjectRequest.bucket(bucketName).key(key));
     }
 }
+ */
