@@ -44,6 +44,7 @@ public class Recipe {
     private Set<MealCategory> mealCategories = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_userid")
     private User user;
 
     @ManyToMany(mappedBy = "userFavourites")

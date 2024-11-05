@@ -19,15 +19,18 @@ public interface UserService {
     User findByEmail(String email);
     User login(User user);
     String updateUserSettings(User currentUser, User updatedUser);
-    User addFavoriteRecipe(Long user, Recipe recipe); //skoða
-    User removeFavoriteRecipe(User user, Recipe recipe); //skoða
+    User addFavoriteRecipe(Long user, Recipe recipe);
+
+    List<Recipe> getUserRecipes(Long userId);
+
     User findById(Long id);
     User removeFavoriteRecipe(Long userId, Recipe recipe);
 
     List<Recipe> getUserFavorites(Long userId); //Skoða
 
+    User updateUserProfilePicture(Long userId, String profilePictureUrl);
+
+
 
 //    void updatePicture(User user);
-//    ArrayList<Recipe> getUserFavourites();
-//    ArrayList<Recipe> getUserRecipes();
 }

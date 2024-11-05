@@ -82,11 +82,6 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public User removeFavoriteRecipe(User user, Recipe recipe) {
-        return null;
-    }
-
-    @Override
     public User removeFavoriteRecipe(Long userId, Recipe recipe) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         user.getUserFavourites().remove(recipe);
@@ -100,6 +95,23 @@ public class UserServiceImplementation implements UserService {
         return (user != null) ? user.getUserFavourites() : new ArrayList<>();
     }
 
+    @Override
+    public List<Recipe> getUserRecipes(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        List<Recipe> userRecipes = user.getUserRecipes();
+        userRecipes.size();
+        return userRecipes;
+    }
+
+    @Override
+    public User updateUserProfilePicture(Long userId, String profilePictureUrl) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            user.setUserPicture(profilePictureUrl);
+            userRepository.save(user);
+        }
+        return user;
+    }
     @Override
     public User findById(Long id) {
         return userRepository.findById(id).orElse(null);
