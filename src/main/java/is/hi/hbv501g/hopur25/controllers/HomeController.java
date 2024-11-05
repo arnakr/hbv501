@@ -59,7 +59,8 @@ public class HomeController {
                            @RequestParam(value = "keyword", required = false) String keyword,
                            @RequestParam(value = "dietaryRestrictions", required = false) List<DietaryRestriction> selectedDietaryRestrictions,
                            @RequestParam(value = "mealCategories", required = false) List<MealCategory> selectedMealCategories) {
-        // Filter recipes based on selected dietary restrictions, meal categories and keyword
+
+
         List<Recipe> filteredRecipes = recipeService.searchByKeywordAndCriteria(keyword, selectedDietaryRestrictions, selectedMealCategories);
         model.addAttribute("recipes", filteredRecipes);
 
