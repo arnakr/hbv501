@@ -36,10 +36,11 @@
                 <form th:action="@{'/recipe/' + ${recipe.recipeId} + '/edit-recipe'}" method="post">
                     <button type="submit">Breyta uppskrift</button>
                 </form>
+                <form th:action="@{'/recipe/' + ${recipe.recipeId} + '/deleteRecipe'}" method="post">
+                    <button type="submit">Eyða Uppskrift</button>
+                </form>
             </li>
         </ul>
-
-
     </div>
 </div>
 </body>
