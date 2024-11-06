@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log In</title>
+    <title>Skrá inn</title>
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
 <div class="container">
-    <h2>Log In</h2>
+    <h2>Skrá inn</h2>
 
     <!-- Display error messages -->
     <div th:if="${errorMessage}" class="error-message" style="color: red;">
@@ -16,11 +16,11 @@
     </div>
 
     <form action="#" th:action="@{/login}" method="post">
-        <label for="username">Username:</label>
+        <label for="username">Notendanafn:</label>
         <input type="text" id="username" name="username" required/>
         <br>
 
-        <label for="password">Password:</label>
+        <label for="password">Lykilorð:</label>
         <input type="password" id="password" name="password" required/>
         <br>
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service ("userService")
 public class UserServiceImplementation implements UserService {
     private UserRepository userRepository;
 
@@ -94,7 +94,6 @@ public class UserServiceImplementation implements UserService {
         return user;
     }
 
-
     @Override
     public List<Recipe> getUserFavorites(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
@@ -102,10 +101,18 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    public User updateUserProfilePicture(Long userId, String profilePictureUrl) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            user.setUserPicture(profilePictureUrl);
+            userRepository.save(user);
+        }
+        return user;
+    }
+    @Override
     public User findById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
-
 
     @Override
     public void saveUser(User user) {
@@ -118,8 +125,8 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public void delete(User user) {
-        userRepository.delete(user);
+    public void deleteUser(Long userID) {
+        userRepository.deleteById(userID);
     }
 
     @Override

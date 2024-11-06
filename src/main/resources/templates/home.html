@@ -3,22 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Website</title>
+    <title>Uppskriftir</title>
     <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
-<!-- Show Sign Up and Log In links only if user is not logged in -->
+<!-- Show Nýskráning and Skrá inn links only if user is not logged in -->
 <div th:if="${LoggedInUser == null}">
 
     <div class="topnav">
         <a class="active" href="/">Heim</a>
-        <a href="/signup">Sign Up</a>
-        <a href="/login">Log In</a>
+        <a href="/signup">Nýskráning</a>
+        <a href="/login">Skrá inn</a>
     </div>
 </div>
-
+<!-- Show everything here if user is logged in -->
 <div th:if="${LoggedInUser != null}">
-
     <div class="topnav">
         <a class="active" href="/">Heim</a>
         <a href="#userrecipes">Uppskriftirnar Mínar</a>
@@ -27,95 +26,97 @@
         <a href="/logout" class="split">Skrá þig út</a>
     </div>
 
-    <span>Welcome, <span th:text="${LoggedInUser.username}"></span>!</span>
-
+    <h1><span>Velkominn, <span th:text="${LoggedInUser.username}"></span>!</span></h1>
 </div>
 
 <div>
     <form method="get" th:action="@{/}">
         <!-- Keyword search -->
-        <label for="keyword">Search by keyword:</label>
-        <input type="text" id="keyword" name="keyword" placeholder="Search recipes...">
+        <label for="keyword">Leita með leitarorði:</label>
+        <input type="text" id="keyword" name="keyword" placeholder="Leita að uppskriftum...">
 
         <!-- Dietary Restrictions -->
-        <label>Dietary Restrictions:</label>
+        <label>Fæðisfyrirmæli:</label>
         <div id="dietaryRestrictionsContainer">
             <label>
                 <input type="checkbox" name="dietaryRestrictions" value="VEGAN"> Vegan
             </label>
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="VEGETARIAN"> Vegetarian
+                <input type="checkbox" name="dietaryRestrictions" value="VEGETARIAN"> Grænmetisæta
             </label>
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="GLUTEN_FREE"> Gluten-Free
+                <input type="checkbox" name="dietaryRestrictions" value="GLUTEN_FREE"> Glútenlaus
             </label>
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="DAIRY_FREE"> Dairy-Free
+                <input type="checkbox" name="dietaryRestrictions" value="DAIRY_FREE"> Mjólkurlaust
             </label>
             <label>
-                <input type="checkbox" name="dietaryRestrictions" value="NUT_FREE"> Nut-Free
+                <input type="checkbox" name="dietaryRestrictions" value="NUT_FREE"> Hnetulaust
             </label>
         </div>
 
         <!-- Meal Categories -->
-        <label >Meal Categories:</label>
+        <label>Máltíðaflokkar:</label>
         <div id="mealCategories">
             <label>
-                <input type="checkbox" name="mealCategories" value="BREAKFAST"> Breakfast
+                <input type="checkbox" name="mealCategories" value="BREAKFAST"> Morgunmatur
             </label>
             <label>
-                <input type="checkbox" name="mealCategories" value="LUNCH"> Lunch
+                <input type="checkbox" name="mealCategories" value="LUNCH"> Hádegismatur
             </label>
             <label>
-                <input type="checkbox" name="mealCategories" value="DINNER"> Dinner
+                <input type="checkbox" name="mealCategories" value="DINNER"> Kvöldmatur
             </label>
             <label>
-                <input type="checkbox" name="mealCategories" value="SNACK"> Snack
+                <input type="checkbox" name="mealCategories" value="SNACK"> Millimál
             </label>
         </div>
 
         <!-- Filter Button -->
-        <input type="submit" value="Filter Recipes">
+        <input type="submit" value="Filtrera uppskriftir">
+    </form>
+</div>
+
+<div>
+    <form>
+    <label for="sortOrder">Sort by:</label>
+    <select id="sortOrder" name="sort">
+        <option value="asc" th:selected="${sort == 'asc'}">Elst efst</option>
+        <option value="desc" th:selected="${sort == 'desc'}">Nýjast efst</option>
+    </select>
+    <input type="submit" value="Raða">
+    </form>
+</div>
+
+<div>
+    <form>
+        <label for="sortOrder">Sort by:</label>
+        <select id="sortOrderAlph" name="sort">
+            <option value="titillasc" th:selected="${sort == 'asc'}">Stafrófsröð</option>
+            <option value="titilldesc" th:selected="${sort == 'desc'}">Öfug stafrófsröð</option>
+        </select>
+        <input type="submit" value="Raða">
     </form>
 </div>
 
 <div th:switch="${recipes}">
-    <h2 th:case="null">No Recipes :(</h2>
+    <h2 th:case="null">Engar Uppskriftir :(</h2>
     <div th:case="*">
-        <h2>Recipes</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Title</th>
-                <th>Ingredients</th>
-                <th>Cook Time</th>
-                <th>Description</th>
-                <th>Meal Category</th>
-                <th>Dietary Restrictions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="recipe: ${recipes}">
-
-                <td><a th:href="@{'/recipe/' + ${recipe.recipeId}}" th:text="${recipe.title}"></a></td>
-                <td th:text="${recipe.ingredients}"></td>
-                <td th:text="${recipe.cookTime}"></td>
-                <td th:text="${recipe.description}"></td>
-                <td>
-                    <span th:each="category : ${recipe.mealCategories}" th:text="${category}"></span>
-                </td>
-                <td>
-                    <span th:each="restriction : ${recipe.dietaryRestrictions}" th:text="${restriction}"></span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div th:if="${LoggedInUser != null}">
-        <p><a href="/createRecipe">Create Recipe</a></p>
+        <h2>Uppskriftir</h2>
+        <div class="recipe-grid">
+            <div th:each="recipe : ${recipes}" class="recipe-card">
+                <a th:href="@{'/recipe/' + ${recipe.recipeId}}">
+                    <img th:src="${recipe.recipePictureUrl}" alt="Recipe Picture" class="recipe-image">
+                </a>
+                <h3 th:text="${recipe.title}"></h3>
+                <p><strong>Eldunartími:</strong> <span th:text="${recipe.cookTime}"></span> mín</p>
+                <p><strong>Lýsing:</strong> <span th:text="${recipe.description}"></span></p>
+                <p><strong>Máltíð:</strong> <span th:each="category : ${recipe.mealCategories}" th:text="${category}"></span></p>
+                <p><strong>Mataræði:</strong> <span th:each="restriction : ${recipe.dietaryRestrictions}" th:text="${restriction}"></span></p>
+            </div>
+        </div>
     </div>
 </div>
+
 </body>
 </html>
-

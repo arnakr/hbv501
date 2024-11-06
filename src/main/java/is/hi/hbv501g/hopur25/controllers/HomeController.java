@@ -8,21 +8,14 @@ import is.hi.hbv501g.hopur25.services.RecipeService;
 import is.hi.hbv501g.hopur25.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- *
- *
- *
  *
  */
 @Controller
@@ -51,6 +44,16 @@ public class HomeController {
     }
      */
 
+    /**
+     * Displays the homePage with filters if chosen
+     *
+     * @param model                       the model to hold attributes for the view
+     * @param session                     the HTTP session to retrieve the logged-in user
+     * @param keyword                     an optional search keyword for filtering recipes
+     * @param selectedDietaryRestrictions an optional list of dietary restrictions for filtering
+     * @param selectedMealCategories      an optional list of meal categories for filtering
+     * @return home page
+     */
     @RequestMapping("/")
     public String homePage(Model model, HttpSession session,
                            @RequestParam(value = "keyword", required = false) String keyword,
@@ -71,12 +74,26 @@ public class HomeController {
         return "home"; // Return the home view
     }
 
+    /**
+     * Displays the recipe create form
+     *
+     * @param model the model to hold attributes for the view
+     * @return /createRecipe
+     */
     @RequestMapping(value = "/createRecipe", method = RequestMethod.GET)
     public String createRecipeForm(Model model) {
         model.addAttribute("recipe", new Recipe());
         return "createRecipe";  // points to createRecipe.html
     }
 
+    /**
+     * Handles the submission of the recipe creation form.
+     *
+     * @param recipe  the Recipe object populated with the form data
+     * @param result  the binding result for validating the recipe data
+     * @param session the HTTP session to retrieve the logged-in user
+     * @return a redirect to the home page or the recipe creation form if there are errors
+     */
     @RequestMapping(value = "/createRecipe", method = RequestMethod.POST)
     public String createRecipeSubmit(@ModelAttribute Recipe recipe, BindingResult result, HttpSession session) {
         if (result.hasErrors()) {
@@ -91,6 +108,11 @@ public class HomeController {
         } else {
             // Optionally, handle the case where there is no logged-in user
             return "redirect:/login";  // Redirect to log in if no user is logged in
+        }
+
+        // Set the default recipe picture if none is provided
+        if (recipe.getRecipePictureUrl() == null || recipe.getRecipePictureUrl().isEmpty()) {
+            recipe.setRecipePictureUrl("/images/food.png");
         }
 
         recipeService.save(recipe);  // Save the recipe

@@ -4,6 +4,7 @@ import is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestrictio
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -26,6 +27,7 @@ public class Recipe {
     @Column(name = "ingredient")
     private List<String> ingredients = new ArrayList<>();
 
+    private String recipePictureUrl;
     private String description;
 
     private int cookTime;
@@ -48,11 +50,13 @@ public class Recipe {
     @ManyToMany(mappedBy = "userFavourites")
     private List<User> usersWhoFavorited = new ArrayList<>();
 
+    private LocalDateTime uploadTime = LocalDateTime.now();
+
     /* Constructors */
     public Recipe() {
     }
 
-    public Recipe(String title, List<String> ingredients, String description, int cookTime, Set<DietaryRestriction> dietaryRestrictions, Set<MealCategory> mealCategories, User user, List<User> usersWhoFavorited) {
+    public Recipe(String title, List<String> ingredients, String description, int cookTime, Set<DietaryRestriction> dietaryRestrictions, Set<MealCategory> mealCategories, User user, List<User> usersWhoFavorited, String recipePictureUrl) {
         this.title = title;
         this.ingredients = ingredients;
         this.description = description;
@@ -61,6 +65,8 @@ public class Recipe {
         this.mealCategories = mealCategories;
         this.user = user;
         this.usersWhoFavorited = usersWhoFavorited;
+        this.uploadTime = LocalDateTime.now();
+        this.recipePictureUrl = recipePictureUrl;
     }
 
     /* Getters and setters */
@@ -140,7 +146,19 @@ public class Recipe {
     public String toString() {
         return "Title: " + title + ", Ingredients: " + ingredients + ", Cook Time: " + cookTime + ", Description: " + description;
     }
+    public LocalDateTime getUploadTime() {
+        return uploadTime;
+    }
 
+    public void setUploadTime(LocalDateTime uploadTime) {
+        this.uploadTime = uploadTime;
+    }
 
+    public String getRecipePictureUrl() {
+        return recipePictureUrl;
+    }
+
+    public void setRecipePictureUrl(String recipePictureUrl) {
+        this.recipePictureUrl = recipePictureUrl;
+    }
 }
-
