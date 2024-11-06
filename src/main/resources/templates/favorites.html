@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Uppáhalds Uppskriftir</title>
-    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}"> <!-- Use home.css styling -->
 </head>
 <body>
 <div class="topnav">
@@ -27,18 +27,26 @@
     <!-- Case when there are favorite recipes -->
     <div th:unless="${favoriteRecipes.empty}">
         <h2>Þínar uppáhalds uppskriftir</h2>
-        <ul>
-            <li th:each="recipe : ${favoriteRecipes}">
-                <a th:href="@{'/recipe/' + ${recipe.recipeId}}"><span th:text="${recipe.title}"></span></a>
-                <p th:text="'Cook Time: ' + ${recipe.cookTime} + ' minutes'"></p>
+
+        <!-- Recipe List in Grid -->
+        <div class="recipe-grid">
+            <!-- Loop through each favorite recipe -->
+            <div class="recipe-card" th:each="recipe : ${favoriteRecipes}">
+                <img class="recipe-image" th:src="${recipe.recipePictureUrl}" alt="Recipe Image">
+
+                <h3>
+                    <a th:href="@{'/recipe/' + ${recipe.recipeId}}" th:text="${recipe.title}"></a>
+                </h3>
+
+                <p th:text="'Eldunartími: ' + ${recipe.cookTime} + ' mínútur'"></p>
                 <p th:text="${recipe.description}"></p>
 
-                <!-- Add a "Delete from Favorites" form -->
+                <!-- Remove from Favourites Button -->
                 <form th:action="@{'/recipe/' + ${recipe.recipeId} + '/removeFromFavorites'}" method="post">
-                    <button type="submit">Eyða</button>
+                    <button type="submit" class="remove-button">Fjarlægja úr uppáhaldi</button>
                 </form>
-            </li>
-        </ul>
+            </div>
+        </div>
     </div>
 </div>
 </body>

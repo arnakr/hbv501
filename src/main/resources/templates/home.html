@@ -105,37 +105,23 @@
 </div> -->
 
 <div th:switch="${recipes}">
-    <h2 th:case="null">No Recipes :(</h2>
+    <h2 th:case="null">Engar Uppskriftir :(</h2>
     <div th:case="*">
-        <h2>Recipes</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Title</th>
-                <th>Ingredients</th>
-                <th>Cook Time</th>
-                <th>Description</th>
-                <th>Meal Category</th>
-                <th>Dietary Restrictions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="recipe: ${recipes}">
-
-                <td><a th:href="@{'/recipe/' + ${recipe.recipeId}}" th:text="${recipe.title}"></a></td>
-                <td th:text="${recipe.ingredients}"></td>
-                <td th:text="${recipe.cookTime}"></td>
-                <td th:text="${recipe.description}"></td>
-                <td>
-                    <span th:each="category : ${recipe.mealCategories}" th:text="${category}"></span>
-                </td>
-                <td>
-                    <span th:each="restriction : ${recipe.dietaryRestrictions}" th:text="${restriction}"></span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <h2>Uppskriftir</h2>
+        <div class="recipe-grid">
+            <div th:each="recipe : ${recipes}" class="recipe-card">
+                <a th:href="@{'/recipe/' + ${recipe.recipeId}}">
+                    <img th:src="${recipe.recipePictureUrl}" alt="Recipe Picture" class="recipe-image">
+                </a>
+                <h3 th:text="${recipe.title}"></h3>
+                <p><strong>Eldunartími:</strong> <span th:text="${recipe.cookTime}"></span> mín</p>
+                <p><strong>Lýsing:</strong> <span th:text="${recipe.description}"></span></p>
+                <p><strong>Máltíð:</strong> <span th:each="category : ${recipe.mealCategories}" th:text="${category}"></span></p>
+                <p><strong>Mataræði:</strong> <span th:each="restriction : ${recipe.dietaryRestrictions}" th:text="${restriction}"></span></p>
+            </div>
+        </div>
     </div>
 </div>
+
 </body>
 </html>

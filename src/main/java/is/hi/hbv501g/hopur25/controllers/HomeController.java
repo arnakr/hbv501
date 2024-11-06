@@ -21,9 +21,6 @@ import java.util.List;
 
 /**
  *
- *
- *
- *
  */
 @Controller
 public class HomeController {
@@ -101,13 +98,13 @@ public class HomeController {
      * @param session the HTTP session to retrieve the logged-in user
      * @return a redirect to the home page or the recipe creation form if there are errors
      */
-    @Transactional
     @RequestMapping(value = "/createRecipe", method = RequestMethod.POST)
     public String createRecipeSubmit(@ModelAttribute Recipe recipe, BindingResult result, HttpSession session) {
         if (result.hasErrors()) {
-            return "createRecipe";
+            return "createRecipe";  // Return to the form if there are errors
         }
 
+        // Retrieve the logged-in user from the session
         User currentUser = (User) session.getAttribute("LoggedInUser");
 
         if (currentUser != null) {
@@ -117,6 +114,12 @@ public class HomeController {
             currentUser.getUserRecipes().add(recipe);
             recipe.setUser(currentUser);
         }
+
+        // Set the default recipe picture if none is provided
+        if (recipe.getRecipePictureUrl() == null || recipe.getRecipePictureUrl().isEmpty()) {
+            recipe.setRecipePictureUrl("/images/food.png");
+        }
+
 
         recipeService.save(recipe);
         return "redirect:/user/recipes";
@@ -161,5 +164,4 @@ public class HomeController {
 
         return "redirect:/user/recipes";
     }
-
 }
