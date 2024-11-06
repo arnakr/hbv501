@@ -57,16 +57,16 @@
         <label>Máltíðaflokkur:</label>
         <div id="mealCategories">
             <label>
-                <input type="checkbox" name="mealCategories" value="BREAKFAST" th:checked="${recipe.mealCategories.contains('BREAKFAST')} ? 'checked' : ''"> Morgunmatur
+                <input type="checkbox" name="mealCategories" value="BREAKFAST" th:checked="${recipe.getMealCategories.contains('BREAKFAST')}"> Morgunmatur
             </label>
             <label>
-                <input type="checkbox" name="mealCategories" value="LUNCH" th:checked="${recipe.mealCategories.contains('LUNCH')} ? 'checked' : ''"> Hádegismatur
+                <input type="checkbox" name="mealCategories" value="LUNCH" th:checked="${recipe.getMealCategories.contains('LUNCH')}"> Hádegismatur
             </label>
             <label>
-                <input type="checkbox" name="mealCategories" value="DINNER" th:checked="${recipe.mealCategories.contains('DINNER')} ? 'checked' : ''"> Kvöldmatur
+                <input type="checkbox" name="mealCategories" value="DINNER" th:checked="${recipe.getMealCategories.contains('DINNER')}"> Kvöldmatur
             </label>
             <label>
-                <input type="checkbox" name="mealCategories" value="SNACK" th:checked="${recipe.mealCategories.contains('SNACK')} ? 'checked' : ''"> Millimál
+                <input type="checkbox" name="mealCategories" value="SNACK" th:checked="${recipe.getMealCategories.contains('SNACK')}"> Millimál
             </label>
         </div>
         <br>
