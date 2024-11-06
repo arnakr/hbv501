@@ -84,5 +84,6 @@ public interface RecipeService {
 
     List<Recipe> getRecipeSortedByCooktimeDesc();
 
+    void updateRecipe(Recipe updatedRecipe);
 }
 

@@ -226,6 +226,28 @@ public class UserController {
     }
 
     /**
+     * Displays the user's recipes page for a logged-in user.
+     * Redirects to the login page if the user is not authenticated.
+     *
+     * @param session The HTTP session to retrieve the logged-in user.
+     * @param model   The model for passing attributes to the view.
+     * @return String of name of the user-recipes view or redirect to login page.
+     */
+    @RequestMapping(value = "/user-recipes", method = RequestMethod.GET)
+    public String showUserRecipes(HttpSession session, Model model) {
+        // Check if user is logged in
+        User currentUser = (User) session.getAttribute("LoggedInUser");
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
+
+        // Get the user's posted recipes
+        model.addAttribute("userRecipes", userService.getUserRecipes(currentUser.getUserID()));
+        model.addAttribute("LoggedInUser", currentUser);
+        return "user-recipes";
+    }
+
+    /**
      * Deletes the currently logged-in user's account and redirects to the home page.
      *
      * @param session the HTTP session to retrieve the logged-in user
@@ -238,7 +260,7 @@ public class UserController {
 
         // Check if the user is logged in
         if (currentUser == null) {
-            return "redirect:/login"; // Redirect to login if not authenticated
+            return "redirect:/login"; // Redirect to log in if not authenticated
         }
 
         // Delete the user using the user's ID
@@ -264,6 +286,7 @@ public class UserController {
      * @return a redirect string to the settings page or login page if the user is not logged in
      * @throws IOException if an error occurs during file operations or uploading to S3
      */
+
     @PostMapping("/uploadProfilePicture")
     public String uploadProfilePicture(@RequestParam("profilePicture") MultipartFile profilePicture, HttpSession session) throws IOException {
         User currentUser = (User) session.getAttribute("LoggedInUser");
@@ -293,7 +316,4 @@ public class UserController {
 
         return "redirect:/settings"; // Redirect to settings
     }
-
-
-
 }
