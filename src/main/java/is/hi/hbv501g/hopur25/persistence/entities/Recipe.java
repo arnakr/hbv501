@@ -27,6 +27,7 @@ public class Recipe {
     @Column(name = "ingredient")
     private List<String> ingredients = new ArrayList<>();
 
+    private String recipePictureUrl;
     private String description;
 
     private int cookTime;
@@ -55,7 +56,7 @@ public class Recipe {
     public Recipe() {
     }
 
-    public Recipe(String title, List<String> ingredients, String description, int cookTime, Set<DietaryRestriction> dietaryRestrictions, Set<MealCategory> mealCategories, User user, List<User> usersWhoFavorited) {
+    public Recipe(String title, List<String> ingredients, String description, int cookTime, Set<DietaryRestriction> dietaryRestrictions, Set<MealCategory> mealCategories, User user, List<User> usersWhoFavorited, String recipePictureUrl) {
         this.title = title;
         this.ingredients = ingredients;
         this.description = description;
@@ -65,6 +66,7 @@ public class Recipe {
         this.user = user;
         this.usersWhoFavorited = usersWhoFavorited;
         this.uploadTime = LocalDateTime.now();
+        this.recipePictureUrl = recipePictureUrl;
     }
 
     /* Getters and setters */
@@ -159,5 +161,13 @@ public class Recipe {
         this.cookTime = updatedRecipe.getCookTime();
         this.dietaryRestrictions = updatedRecipe.getDietaryRestrictions();
         this.mealCategories = updatedRecipe.getMealCategories();
+    }
+
+    public String getRecipePictureUrl() {
+        return recipePictureUrl;
+    }
+
+    public void setRecipePictureUrl(String recipePictureUrl) {
+        this.recipePictureUrl = recipePictureUrl;
     }
 }
