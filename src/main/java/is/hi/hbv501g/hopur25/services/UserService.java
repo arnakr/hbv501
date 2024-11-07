@@ -30,7 +30,5 @@ public interface UserService {
 
     User updateUserProfilePicture(Long userId, String profilePictureUrl);
 
-
-
 //    void updatePicture(User user);
 }

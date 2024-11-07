@@ -8,11 +8,10 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -129,7 +128,7 @@ public class RecipeController {
 
     /**
      * Sorts recipes by specific order
-     * Sorst by opload time both in ascending and descending order
+     * Sort by upload time both in ascending and descending order
      * Sorts by title name both in ascending and descending order
      * @return the recipes in the specific order that was asked for
      */
@@ -145,6 +144,10 @@ public class RecipeController {
           recipes = recipeService.getRecipesSortedByTitleAsc();
       } else if ("titilldesc".equalsIgnoreCase(sortOrder)) {
           recipes = recipeService.getRecipesSortedByTitleDesc();
+      } else if ("cooktimeasc".equalsIgnoreCase(sortOrder)) {
+          recipes = recipeService.getRecipeSortedByCooktimeAsc();
+      } else if ("cooktimedesc".equalsIgnoreCase(sortOrder)) {
+          recipes = recipeService.getRecipeSortedByCooktimeDesc();
       } else {
           recipes = recipeService.getRecipesSortedByUploadTimeDesc();
       }
@@ -157,4 +160,41 @@ public class RecipeController {
       }
       return "home";
   }
+
+    @RequestMapping("/recipe/{recipeId}/edit-recipe")
+    public String editRecipe(@PathVariable Long recipeId, Model model) {
+        Recipe recipe = recipeService.findRecipeById(recipeId);
+
+        // Check if recipe exists
+        if (recipe == null) {
+            return "error"; // Handle recipe not found error
+        }
+
+        System.out.println("OLD RECIPE:" + recipe.toString());
+        model.addAttribute("recipe", recipe);
+        return "/edit-recipe"; // Update template path (assuming it's different)
+    }
+
+    @RequestMapping(value = "/edit-recipe", method = RequestMethod.POST)
+    public String updateRecipe(@ModelAttribute("recipe") Recipe updatedRecipe,
+                               BindingResult result, Model model, HttpSession session) {
+        Long recipeId = updatedRecipe.getRecipeId();
+        Recipe currentRecipe = recipeService.findRecipeById(recipeId);
+
+        System.out.println("NEW INFORMATION:" + updatedRecipe.toString());
+        System.out.println("RECIPE ID: " + recipeId);
+
+        // Update specific fields of the original recipe
+        currentRecipe.setTitle(updatedRecipe.getTitle());
+        currentRecipe.setDescription(updatedRecipe.getDescription());
+        currentRecipe.setCookTime(updatedRecipe.getCookTime());
+        currentRecipe.setMealCategories(updatedRecipe.getMealCategories()); // Assuming you want to overwrite meal categories entirely
+        currentRecipe.setDietaryRestrictions(updatedRecipe.getDietaryRestrictions()); // Assuming you want to overwrite dietary restrictions entirely
+
+        System.out.println("NEW RECIPE: " + currentRecipe.toString());
+        // Update the DB
+        recipeService.updateRecipe(currentRecipe);
+
+        return "redirect:/user-recipes"; // Redirect user to updated recipe page
+    }
 }

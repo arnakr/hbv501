@@ -123,7 +123,7 @@ public class HomeController {
 
 
         recipeService.save(recipe);
-        return "redirect:/user/recipes";
+        return "redirect:/user-recipes";
     }
 
     /**
@@ -147,7 +147,7 @@ public class HomeController {
         Recipe recipe = recipeService.findRecipeById(recipeId);
 
         if (recipe == null) {
-            return "redirect:/user/recipes";
+            return "redirect:/user-recipes";
         }
 
 //        System.out.println("Current user ID: " + currentUser.getUserID());
@@ -163,6 +163,6 @@ public class HomeController {
         recipeService.delete(recipeId, currentUser);
 
 
-        return "redirect:/user/recipes";
+        return "redirect:/user-recipes";
     }
 }

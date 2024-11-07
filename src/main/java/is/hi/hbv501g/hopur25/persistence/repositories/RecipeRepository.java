@@ -3,12 +3,13 @@ package is.hi.hbv501g.hopur25.persistence.repositories;
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestriction;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
-import jakarta.persistence.criteria.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import java.time.LocalDateTime;
+
 import java.util.List;
+import java.util.Optional;
+
 /**
  * Repository interface for managing {@link Recipe} entities.
  * This interface extends the {@link JpaRepository} interface,

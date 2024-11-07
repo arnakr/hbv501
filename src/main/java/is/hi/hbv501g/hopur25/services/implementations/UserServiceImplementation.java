@@ -98,9 +98,7 @@ public class UserServiceImplementation implements UserService {
     @Override
     public List<Recipe> getUserRecipes(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
-        List<Recipe> userRecipes = user.getUserRecipes();
-        userRecipes.size();
-        return userRecipes;
+        return (user != null) ? user.getUserRecipes() : new ArrayList<>();
     }
 
     @Override
@@ -136,4 +134,5 @@ public class UserServiceImplementation implements UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
+
 }
