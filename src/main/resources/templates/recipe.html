@@ -8,36 +8,59 @@
 </head>
 <body>
 
-<div class="topnav">
-    <a class="active" href="/">Heim</a>
-    <a href="/user-recipes">Uppskriftirnar Mínar</a>
-    <a href="/favorites">Uppáhalds Uppskriftir</a>
-    <a href="/settings">Stillingar/Mínar Síður</a>
-    <a href="/createRecipe">Ný uppskrift</a>
-    <a href="/logout" class="split">Skrá þig út</a>
+<!-- Show Nýskráning and Skrá inn links only if user is not logged in -->
+<div th:if="${LoggedInUser == null}">
+
+    <div class="topnav">
+        <a class="active" href="/">Heim</a>
+        <a href="/signup">Nýskráning</a>
+        <a href="/login">Skrá inn</a>
+    </div>
+</div>
+<!-- Show everything here if user is logged in -->
+<div th:if="${LoggedInUser != null}">
+    <div class="topnav">
+        <a class="active" href="/">Heim</a>
+        <a href="/user-recipes">Uppskriftirnar Mínar</a>
+        <a href="/favorites">Uppáhalds Uppskriftir</a>
+        <a href="/settings">Stillingar/Mínar Síður</a>
+        <a href="/createRecipe">Ný uppskrift</a>
+        <a href="/logout" class="split">Skrá þig út</a>
+    </div>
+
+    <h1><span>Velkominn, <span th:text="${LoggedInUser.username}"></span>!</span></h1>
 </div>
 
-<h1 th:text="${recipe.title}"></h1>
+<!-- Recipe Header and Image -->
+<div class="recipe-header">
+    <h1 th:text="${recipe.title}"></h1>
+    <div class="recipe-image">
+        <img th:src="@{${recipe.recipePictureUrl}}" alt="Recipe Image" />
+    </div>
+</div>
 
-<p><strong>Hráefni:</strong></p>
-<ul>
-    <li th:each="ingredient : ${recipe.ingredients}" th:text="${ingredient}"></li>
-</ul>
+<!-- Recipe Details -->
+<div class="recipe-details">
+    <p><strong>Hráefni:</strong></p>
+    <ul>
+        <li th:each="ingredient : ${recipe.ingredients}" th:text="${ingredient}"></li>
+    </ul>
 
-<p><strong>Matreiðslutími:</strong> <span th:text="${recipe.cookTime}"></span> minutes</p>
+    <p><strong>Matreiðslutími:</strong> <span th:text="${recipe.cookTime}"></span> mínútur</p>
 
-<p><strong>Lýsing: </strong></p>
-<p th:text="${recipe.description}"></p>
+    <p><strong>Lýsing: </strong></p>
+    <p th:text="${recipe.description}"></p>
+</div>
 
-<!-- Add to Favorites button (visible only when the user is logged in) -->
-<div th:if="${session.LoggedInUser != null}">
+<!-- Add to Favorites Button (Visible only when the user is logged in) -->
+<div th:if="${session.LoggedInUser != null}" class="add-to-favorites">
     <form th:action="@{'/recipe/' + ${recipe.recipeId} + '/addToFavorites'}" method="post">
         <button type="submit">Bæta við uppáhaldi</button>
     </form>
 </div>
 
-<!-- Show a message if the user is not logged in -->
-<div th:if="${LoggedInUser == null}">
+<!-- Message if the user is not logged in -->
+<div th:if="${LoggedInUser == null}" class="not-logged-in">
     <p>Þú þarft að <a href="/login">skrá þig inn</a> til að bæta þessari uppskrift við uppáhaldið þitt.</p>
 </div>
 

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of the {@link RecipeService} interface.
@@ -38,15 +39,6 @@ public class RecipeServiceImplementation implements RecipeService {
         this.userService = userService;
     }
 
-    /**
-     * Retrieves all recipes from the repository.
-     *
-     * @return a {@link List} of all {@link Recipe} objects
-     */
-    @Override
-    public List<Recipe> findAll() {
-        return recipeRepository.findAll();
-    }
 
     /**
      * Retrieves a recipe by its unique identifier.
@@ -60,17 +52,6 @@ public class RecipeServiceImplementation implements RecipeService {
     }
 
     /**
-     * Adds a new recipe to the repository.
-     *
-     * @param recipe the {@link Recipe} object to add
-     * @return the added {@link Recipe} object
-     */
-    @Override
-    public Recipe addRecipe(Recipe recipe) {
-        return recipeRepository.save(recipe);
-    }
-
-    /**
      * Deletes the specified recipe from the repository.
      *
      * @param recipeId the {@link Recipe} object to delete
@@ -81,18 +62,6 @@ public class RecipeServiceImplementation implements RecipeService {
         Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
         currentUser.getUserRecipes().remove(recipe);
         recipeRepository.delete(recipe);
-    }
-
-    //Skoða hvort við ætlum að hafa þetta, findByTitle
-    /**
-     * Finds a recipe by its title.
-     *
-     * @param title the title of the recipe to search for
-     * @return the {@link Recipe} object with the specified title, or {@code null} if not found
-     * @throws IndexOutOfBoundsException if no recipe is found with the specified title
-     */
-    public Recipe findByTitle(String title) {
-        return recipeRepository.findByTitle(title).get(0);
     }
 
     /**
@@ -141,51 +110,42 @@ public class RecipeServiceImplementation implements RecipeService {
     }
 
     /**
-     * Retrieves a list of recipes sorted in ascending order by their upload time.
+     * Sorts a list of recipes based on the specified sort order.
+     * The method supports sorting by upload time, title, and cook time in both ascending and descending order.
      *
-     * @return a List of {@link Recipe} objects sorted from the oldest to the newest based on the upload time.
+     * @param recipes   the list of recipes to be sorted
+     * @param sortOrder the sort order, which can be one of the following:
+     *                  "asc" for ascending upload time,
+     *                  "desc" for descending upload time,
+     *                  "titillasc" for ascending title,
+     *                  "titilldesc" for descending title,
+     *                  "cooktimeasc" for ascending cook time,
+     *                  "cooktimedesc" for descending cook time
+     * @return a sorted list of recipes based on the specified sort order
      */
-   @Override
-    public List<Recipe> getRecipesSortedByUploadTimeAsc() {
-        return recipeRepository.findAllByOrderByUploadTimeAsc();
+    private List<Recipe> sortRecipes(List<Recipe> recipes, String sortOrder) {
+        return switch (sortOrder.toLowerCase()) {
+            case "asc" -> recipes.stream()
+                    .sorted(Comparator.comparing(Recipe::getUploadTime))
+                    .collect(Collectors.toList());
+            case "desc" -> recipes.stream()
+                    .sorted(Comparator.comparing(Recipe::getUploadTime).reversed())
+                    .collect(Collectors.toList());
+            case "titillasc" -> recipes.stream()
+                    .sorted(Comparator.comparing(Recipe::getTitle))
+                    .collect(Collectors.toList());
+            case "titilldesc" -> recipes.stream()
+                    .sorted(Comparator.comparing(Recipe::getTitle).reversed())
+                    .collect(Collectors.toList());
+            case "cooktimeasc" -> recipes.stream()
+                    .sorted(Comparator.comparing(Recipe::getCookTime))
+                    .collect(Collectors.toList());
+            case "cooktimedesc" -> recipes.stream()
+                    .sorted(Comparator.comparing(Recipe::getCookTime).reversed())
+                    .collect(Collectors.toList());
+            default -> recipes; // No sorting if sortOrder is invalid
+        };
     }
-
-    /**
-     * Retrieves a list of recipes sorted in descending order by their upload time.
-     *
-     * @return a List of {@link Recipe} objects sorted from the newest to the oldest based on the upload time.
-     */
-    @Override
-    public List<Recipe> getRecipesSortedByUploadTimeDesc() {
-        return recipeRepository.findAllByOrderByUploadTimeDesc();
-    }
-
-    /**
-     * Retrieves a list of recipes sorted in ascending alphabetical order
-     *
-     * @return a List of {@link Recipe} objects sorted in ascending alphabetical order
-     */
-    @Override
-    public List<Recipe> getRecipesSortedByTitleAsc() {
-        return recipeRepository.findAllByOrderByTitleAsc();
-    }
-
-    /**
-     * Retrieves a list of recipes sorted in descending alphabetical order
-     *
-     * @return a List of {@link Recipe} objects sorted in descending alphabetical order
-     */
-    @Override
-    public List<Recipe> getRecipesSortedByTitleDesc() {
-        return recipeRepository.findAllByOrderByTitleDesc();
-    }
-
-    @Override
-    public List<Recipe> getRecipeSortedByCooktimeAsc() {return recipeRepository.findAllByOrderByCookTimeAsc(); }
-
-    @Override
-    public List<Recipe> getRecipeSortedByCooktimeDesc() { return recipeRepository.findAllByOrderByCookTimeDesc(); }
-
 
     @Override
     public void updateRecipe (Recipe updatedRecipe) {

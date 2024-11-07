@@ -1,3 +1,4 @@
+/* General Body Styling */
 body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
@@ -6,6 +7,7 @@ body {
     padding: 0;
 }
 
+/* Header */
 h2 {
     color: #333;
     margin: 20px 0;
@@ -93,6 +95,103 @@ a:hover {
     text-decoration: underline;
 }
 
+/* Filter and Sort Form Styles */
+form {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 900px;
+}
+
+/* Search Bar */
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #04AA6D;
+}
+
+/* Checkbox Styles */
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+label {
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 14px;
+}
+
+/* Dietary Restrictions and Meal Categories */
+#dietaryRestrictionsContainer, #mealCategories {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+#dietaryRestrictionsContainer label,
+#mealCategories label {
+    width: 30%;
+    margin: 5px 0;
+}
+
+/* Sort by Dropdown */
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+select:focus {
+    outline: none;
+    border-color: #04AA6D;
+}
+
+/* Clear Filters Button */
+button.clear-filters {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+button.clear-filters:hover {
+    background-color: #c0392b;
+}
+
+/* Submit Button */
+input[type="submit"] {
+    background-color: #04AA6D;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
 /* Utility Styles */
 button {
     background-color: #04AA6D;
@@ -113,14 +212,115 @@ span {
     margin-left: 10px;
 }
 
-form {
-    margin-top: 10px;
+/* Recipe Page Styles */
+
+/* Recipe Header */
+.recipe-header {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-form button {
+.recipe-header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.recipe-image {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.recipe-image img {
     width: 100%;
+    max-width: 600px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Recipe Details */
+.recipe-details {
+    margin: 0 20px;
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.recipe-details p {
+    line-height: 1.6;
+    margin-bottom: 20px; /* Add space below paragraphs */
+}
+
+.recipe-details ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.recipe-details li {
+    margin-bottom: 8px;
+}
+
+/* Button Styles */
+.add-to-favorites form {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.add-to-favorites button {
+    background-color: #04AA6D;
+    color: white;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-favorites button:hover {
+    background-color: #45a049;
+}
+
+/* Non-logged-in Message */
+.not-logged-in {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: 20px;
+    color: #555;
+}
+
+.not-logged-in a {
+    color: #04AA6D;
+    text-decoration: underline;
+}
+
+.not-logged-in a:hover {
+    color: #45a049;
+}
+
+/* Responsive Design for Small Screens */
+@media (max-width: 768px) {
+    .recipe-header h1 {
+        font-size: 2rem; /* Slightly smaller title on small screens */
+    }
+
+    .recipe-image img {
+        max-width: 100%;
+        height: auto; /* Ensure the image is responsive */
+    }
+
+    .recipe-details {
+        font-size: 1rem;
+    }
+
+    .recipe-details p {
+        font-size: 1.1rem;
+    }
+}
+
+
+/*remove button frá uppáhalds uppskriftir*/
 .remove-button {
     background-color: #e74c3c; /* Red color for remove button */
     color: white;
