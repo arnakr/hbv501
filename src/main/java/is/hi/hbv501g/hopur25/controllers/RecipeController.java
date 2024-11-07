@@ -127,33 +127,6 @@ public class RecipeController {
     }
 
     /**
-     * Retrieves and displays the recipes created by the currently logged-in user.
-     * If the user has no recipes, an empty list is provided to the model to ensure proper rendering.
-     *
-     * @param model The model object used to add the list of user recipes and the logged-in user.
-     * @param session The current HTTP session, used to retrieve the logged-in user.
-     * @return The name of the template ("userRecipes") that displays the user's recipes.
-     *         Redirects to the login page if no user is logged in.
-     */
-    @RequestMapping(value = "/user-recipes", method = RequestMethod.GET)
-    public String userRecipes(Model model, HttpSession session) {
-        User currentUser = (User) session.getAttribute("LoggedInUser");
-
-        if (currentUser == null) {
-            return "redirect:/login";
-        }
-
-        List<Recipe> userRecipes = userService.getUserRecipes(currentUser.getUserID());
-        if (userRecipes == null) {
-            userRecipes = new ArrayList<>();
-        }
-
-        model.addAttribute("userRecipes", userRecipes);
-        model.addAttribute("LoggedInUser", currentUser);
-        return "userRecipes";
-    }
-
-    /**
      * Sorts recipes by specific order
      * Sort by upload time both in ascending and descending order
      * Sorts by title name both in ascending and descending order
