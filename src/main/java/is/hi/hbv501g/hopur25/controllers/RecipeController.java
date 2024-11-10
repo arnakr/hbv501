@@ -45,9 +45,8 @@ public class RecipeController {
         if (loggedInUser != null) {
             model.addAttribute("LoggedInUser", loggedInUser);
         }
-
         model.addAttribute("recipe", recipe);
-        return "recipe";  // This renders the recipe detail page
+        return "recipe";
     }
 
     /**
@@ -65,7 +64,6 @@ public class RecipeController {
         if (loggedInUser == null) {
             return "redirect:/login";
         }
-
         model.addAttribute("LoggedInUser", loggedInUser);
         model.addAttribute("favoriteRecipes", userService.getUserFavorites(userId));
         return "favorites";
@@ -86,12 +84,10 @@ public class RecipeController {
         if (loggedInUser == null) {
             return "redirect:/login";
         }
-
         Recipe recipe = recipeService.findRecipeById(recipeId);
         if (recipe == null) {
             return "error";
         }
-
         userService.addFavoriteRecipe(loggedInUser.getUserID(), recipe);
         return "redirect:/favorites";
     }
@@ -122,15 +118,12 @@ public class RecipeController {
     @RequestMapping("/recipe/{recipeId}/edit-recipe")
     public String editRecipe(@PathVariable Long recipeId, Model model) {
         Recipe recipe = recipeService.findRecipeById(recipeId);
-
-        // Check if recipe exists
         if (recipe == null) {
-            return "error"; // Handle recipe not found error
+            return "error";
         }
-
         System.out.println("OLD RECIPE:" + recipe.toString());
         model.addAttribute("recipe", recipe);
-        return "/edit-recipe"; // Update template path (assuming it's different)
+        return "/edit-recipe";
     }
 
     @RequestMapping(value = "/edit-recipe", method = RequestMethod.POST)
@@ -142,12 +135,11 @@ public class RecipeController {
         System.out.println("NEW INFORMATION:" + updatedRecipe.toString());
         System.out.println("RECIPE ID: " + recipeId);
 
-        // Update specific fields of the original recipe
         currentRecipe.setTitle(updatedRecipe.getTitle());
         currentRecipe.setDescription(updatedRecipe.getDescription());
         currentRecipe.setCookTime(updatedRecipe.getCookTime());
-        currentRecipe.setMealCategories(updatedRecipe.getMealCategories()); // Assuming you want to overwrite meal categories entirely
-        currentRecipe.setDietaryRestrictions(updatedRecipe.getDietaryRestrictions()); // Assuming you want to overwrite dietary restrictions entirely
+        currentRecipe.setMealCategories(updatedRecipe.getMealCategories());
+        currentRecipe.setDietaryRestrictions(updatedRecipe.getDietaryRestrictions());
 
         System.out.println("NEW RECIPE: " + currentRecipe.toString());
         recipeService.updateRecipe(currentRecipe);
@@ -218,9 +210,7 @@ public class RecipeController {
         if (currentUser == null) {
             return "redirect:/login";
         }
-
         Recipe recipe = recipeService.findRecipeById(recipeId);
-
         if (recipe == null) {
             return "redirect:/user-recipes";
         }
