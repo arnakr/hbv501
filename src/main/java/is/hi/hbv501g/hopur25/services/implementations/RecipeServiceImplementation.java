@@ -48,7 +48,7 @@ public class RecipeServiceImplementation implements RecipeService {
      */
     @Override
     public Recipe findRecipeById(Long id) {
-        return recipeRepository.findByRecipeId(id); // Return null if recipe not found, or throw an exception if preferred
+        return recipeRepository.findByRecipeId(id);
     }
 
     /**

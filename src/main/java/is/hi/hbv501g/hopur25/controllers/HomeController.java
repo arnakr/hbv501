@@ -32,13 +32,12 @@ public class HomeController {
             @RequestParam(name = "mealCategories", required = false) List<MealCategory> mealCategories,
             Model model, HttpSession session) {
 
-        // If parameters are null, retrieve them from the session
         if (sortOrder == null) {
             sortOrder = (String) session.getAttribute("sortOrder");
         } else {
             session.setAttribute("sortOrder", sortOrder);
-        }
 
+        }
         if (keyword == null) {
             keyword = (String) session.getAttribute("keyword");
         } else {
@@ -57,10 +56,8 @@ public class HomeController {
             session.setAttribute("mealCategories", mealCategories);
         }
 
-        // Step 1: Filter recipes based on the provided criteria
         List<Recipe> recipes = recipeService.searchByKeywordAndCriteria(keyword, dietaryRestrictions, mealCategories);
 
-        // Step 2: Apply sorting to the filtered recipes
         switch (sortOrder != null ? sortOrder.toLowerCase() : "") {
             case "asc":
                 recipes.sort(Comparator.comparing(Recipe::getUploadTime));
@@ -84,17 +81,16 @@ public class HomeController {
                 recipes.sort(Comparator.comparing(Recipe::getUploadTime).reversed());
         }
 
-        // Add attributes to the model to preserve search and filter states in the form
         model.addAttribute("recipes", recipes);
         model.addAttribute("keyword", keyword);
         model.addAttribute("selectedDietaryRestrictions", dietaryRestrictions);
         model.addAttribute("selectedMealCategories", mealCategories);
         model.addAttribute("sortOrder", sortOrder);
-        // Retrieve the logged-in user from the session
+
         User loggedInUser = (User) session.getAttribute("LoggedInUser");
         model.addAttribute("LoggedInUser", loggedInUser); // Add user to the model
 
-        return "home"; // Return the view name, assuming it's called "home"
+        return "home";
     }
 
     @RequestMapping("/clearFilters")
@@ -103,7 +99,7 @@ public class HomeController {
         session.removeAttribute("keyword");
         session.removeAttribute("dietaryRestrictions");
         session.removeAttribute("mealCategories");
-        return "redirect:/"; // Redirect to the home page
+        return "redirect:/";
     }
 
 

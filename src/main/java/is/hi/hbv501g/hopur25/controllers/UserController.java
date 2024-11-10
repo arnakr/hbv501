@@ -50,35 +50,28 @@ public class UserController {
      */
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String signupPOST(User user, BindingResult result, Model model) {
-        // Check for binding errors first
         if (result.hasErrors()) {
             model.addAttribute("errorMessage", "Ógild inntak. Vinsamlegast athugaðu upplýsingarnar þínar");
-            return "signup"; // Redirect back to signup form
+            return "signup";
         }
 
-        // Check if username already exists
         User existsByUsername = userService.findByUsername(user.getUsername());
         if (existsByUsername != null) {
             model.addAttribute("errorMessage", "Notendanafn er þegar til. Vinsamlegast veldu annað");
-            return "signup"; // Redirect back to signup form
+            return "signup";
         }
 
-        // Check if email already exists
         User existsByEmail = userService.findByEmail(user.getEmail());
         if (existsByEmail != null) {
             model.addAttribute("errorMessage", "Netfang er þegar skráð. Vinsamlegast notaðu annað netfang");
-            return "signup"; // Redirect back to signup form
+            return "signup";
         }
 
-        // Set a default value for userPicture if it's not provided
         if (user.getUserPicture() == null || user.getUserPicture().isEmpty()) {
-            user.setUserPicture("/images/default.jpg"); // Use a local placeholder
+            user.setUserPicture("/images/default.jpg");
         }
 
-        // Save the user
         userService.save(user);
-
-        // Redirect to the home page after successful signup
         return "redirect:/";
     }
 
@@ -182,7 +175,6 @@ public class UserController {
 
         session.setAttribute("LoggedInUser", updatedUser);
         model.addAttribute("LoggedInUser", updatedUser);
-
         return "home";
     }
 
@@ -213,16 +205,14 @@ public class UserController {
      */
     @RequestMapping(value = "/favorites", method = RequestMethod.GET)
     public String showFavorites(HttpSession session, Model model) {
-        // Get the logged-in user from session
         User currentUser = (User) session.getAttribute("LoggedInUser");
         if (currentUser == null) {
-            return "redirect:/login";  // Redirect to login if not logged in
+            return "redirect:/login";
         }
 
-        // Get the user's favorite recipes
         model.addAttribute("favoriteRecipes", userService.getUserFavorites(currentUser.getUserID()));
-        model.addAttribute("LoggedInUser", currentUser);  // Add user info for the header
-        return "favorites";  // Display the favorites.html template
+        model.addAttribute("LoggedInUser", currentUser);
+        return "favorites";
     }
 
     /**
@@ -235,13 +225,11 @@ public class UserController {
      */
     @RequestMapping(value = "/user-recipes", method = RequestMethod.GET)
     public String showUserRecipes(HttpSession session, Model model) {
-        // Check if user is logged in
         User currentUser = (User) session.getAttribute("LoggedInUser");
         if (currentUser == null) {
             return "redirect:/login";
         }
 
-        // Get the user's posted recipes
         model.addAttribute("userRecipes", userService.getUserRecipes(currentUser.getUserID()));
         model.addAttribute("LoggedInUser", currentUser);
         return "user-recipes";
@@ -255,21 +243,14 @@ public class UserController {
      */
     @PostMapping("/deleteUser")
     public String deleteUser(HttpSession session) {
-        // Retrieve the logged-in user from the session
         User currentUser = (User) session.getAttribute("LoggedInUser");
 
-        // Check if the user is logged in
         if (currentUser == null) {
-            return "redirect:/login"; // Redirect to log in if not authenticated
+            return "redirect:/login";
         }
 
-        // Delete the user using the user's ID
         userService.deleteUser(currentUser.getUserID());
-
-        // Invalidate the session after deletion
         session.invalidate();
-
-        // Redirect to the home page after deletion
         return "redirect:/";
     }
 
@@ -290,30 +271,22 @@ public class UserController {
     @PostMapping("/uploadProfilePicture")
     public String uploadProfilePicture(@RequestParam("profilePicture") MultipartFile profilePicture, HttpSession session) throws IOException {
         User currentUser = (User) session.getAttribute("LoggedInUser");
-
-        // Check if the user is logged in, if not redirect to login page
         if (currentUser == null) {
             return "redirect:/login";
         }
 
-        // Delete the old profile picture if it exists
         String oldPictureUrl = currentUser.getUserPicture();
         if (oldPictureUrl != null) {
-            // Extract the key from the old picture URL
-            String oldKey = oldPictureUrl.substring(oldPictureUrl.lastIndexOf("/") + 1); // Get the key from the URL
-            s3Service.deleteFile(oldKey); // Delete the old file from S3
+            String oldKey = oldPictureUrl.substring(oldPictureUrl.lastIndexOf("/") + 1);
+            s3Service.deleteFile(oldKey);
         }
-
-        // Upload the new image to S3 using the instance of S3Service
         String s3Url = s3Service.uploadFile(profilePicture);
 
-        // Update the user profile picture in the database
         userService.updateUserProfilePicture(currentUser.getUserID(), s3Url);
 
-        // Update the session with the new picture URL
         currentUser.setUserPicture(s3Url);
         session.setAttribute("LoggedInUser", currentUser);
 
-        return "redirect:/settings"; // Redirect to settings
+        return "redirect:/settings";
     }
 }

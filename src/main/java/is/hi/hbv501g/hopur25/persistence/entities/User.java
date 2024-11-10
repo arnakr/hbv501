@@ -24,7 +24,7 @@ public class User {
     @Column(nullable = false)
     private int size;
 
-    private String userPicture;// Declare the userPicture field
+    private String userPicture;
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
@@ -33,7 +33,7 @@ public class User {
 
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
-            name = "user_favourites", // New table to hold favorite relationships
+            name = "user_favourites",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "recipe_id")
     )
@@ -97,10 +97,10 @@ public class User {
     }
 
     public String getUserPicture() {
-        return userPicture;  // Return the userPicture field
+        return userPicture;
     }
 
     public void setUserPicture(String userPicture) {
-        this.userPicture = userPicture;  // Assign the input value to the field
+        this.userPicture = userPicture;
     }
 }

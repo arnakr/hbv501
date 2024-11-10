@@ -17,9 +17,8 @@ import java.util.ArrayList;
 public class RecipeController {
 
     private final RecipeService recipeService;
-    private final UserService userService; // Change this to final and inject via constructor
+    private final UserService userService;
 
-    // Constructor injection for both RecipeService and UserService
     @Autowired
     public RecipeController(RecipeService recipeService, UserService userService) {
         this.recipeService = recipeService;
@@ -39,10 +38,9 @@ public class RecipeController {
     public String getRecipeById(@PathVariable("id") Long id, Model model, HttpSession session) {
         Recipe recipe = recipeService.findRecipeById(id);
         if (recipe == null) {
-            return "error";  // Show error page if the recipe is not found
+            return "error";
         }
 
-        // Retrieve the logged-in user from the session
         User loggedInUser = (User) session.getAttribute("LoggedInUser");
         if (loggedInUser != null) {
             model.addAttribute("LoggedInUser", loggedInUser);
@@ -65,7 +63,7 @@ public class RecipeController {
     public String getFavoriteRecipes(@PathVariable Long userId, Model model, HttpSession session) {
         User loggedInUser = (User) session.getAttribute("LoggedInUser");
         if (loggedInUser == null) {
-            return "redirect:/login"; // If not logged in, redirect to login
+            return "redirect:/login";
         }
 
         model.addAttribute("LoggedInUser", loggedInUser);
@@ -83,22 +81,18 @@ public class RecipeController {
      */
     @PostMapping("/recipe/{recipeId}/addToFavorites")
     public String addFavoriteRecipe(@PathVariable Long recipeId, HttpSession session) {
-        // Retrieve the logged-in user from the session
+
         User loggedInUser = (User) session.getAttribute("LoggedInUser");
         if (loggedInUser == null) {
-            return "redirect:/login";  // If not logged in, redirect to login page
+            return "redirect:/login";
         }
 
-        // Find the recipe by its ID
         Recipe recipe = recipeService.findRecipeById(recipeId);
         if (recipe == null) {
-            return "error";  // Show error page if the recipe is not found
+            return "error";
         }
 
-        // Add the recipe to the user's favorites
         userService.addFavoriteRecipe(loggedInUser.getUserID(), recipe);
-
-        // Redirect to the user's favorites page
         return "redirect:/favorites";
     }
 
@@ -112,7 +106,7 @@ public class RecipeController {
      */
     @PostMapping("/recipe/{recipeId}/removeFromFavorites")
     public String removeFavoriteRecipe(@PathVariable Long recipeId, HttpSession session) {
-        // Retrieve the logged-in user from the session
+
         User loggedInUser = (User) session.getAttribute("LoggedInUser");
         if (loggedInUser == null) {
             return "redirect:/login";
@@ -156,10 +150,8 @@ public class RecipeController {
         currentRecipe.setDietaryRestrictions(updatedRecipe.getDietaryRestrictions()); // Assuming you want to overwrite dietary restrictions entirely
 
         System.out.println("NEW RECIPE: " + currentRecipe.toString());
-        // Update the DB
         recipeService.updateRecipe(currentRecipe);
-
-        return "redirect:/user-recipes"; // Redirect user to updated recipe page
+        return "redirect:/user-recipes";
     }
 
     /**
@@ -184,35 +176,27 @@ public class RecipeController {
      */
     @RequestMapping(value = "/createRecipe", method = RequestMethod.POST)
     public String createRecipeSubmit(@ModelAttribute Recipe recipe, BindingResult result, HttpSession session) {
-        // Check if the user is logged in
         User currentUser = (User) session.getAttribute("LoggedInUser");
 
-        // If the user is not logged in, redirect to the login page
         if (currentUser == null) {
-            return "redirect:/login";  // Redirect to the login page if the user is not logged in
+            return "redirect:/login";
         }
 
-        // If the form has errors, return to the form
         if (result.hasErrors()) {
-            return "createRecipe";  // Return to the form if there are errors
+            return "createRecipe";
         }
 
-        // Proceed with saving the recipe for the logged-in user
         if (currentUser.getUserRecipes() == null) {
             currentUser.setUserRecipes(new ArrayList<>());
         }
         currentUser.getUserRecipes().add(recipe);
         recipe.setUser(currentUser);
 
-        // Set the default recipe picture
         if (recipe.getRecipePictureUrl() == null || recipe.getRecipePictureUrl().isEmpty()) {
             recipe.setRecipePictureUrl("/images/food.png");
         }
 
-        // Save the recipe
         recipeService.save(recipe);
-
-        // Redirect to the user recipes page after successful creation
         return "redirect:/user-recipes";
     }
 
@@ -252,8 +236,6 @@ public class RecipeController {
 //        }
 
         recipeService.delete(recipeId, currentUser);
-
-
         return "redirect:/user-recipes";
     }
 }
