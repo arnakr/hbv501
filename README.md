@@ -1,4 +1,4 @@
-# HBV501G Hugbúnaðarverkefni 1 - Það sem er í notkun núna!
+# HBV501G Hugbúnaðarverkefni 1 
 
 ## Hópur 25
 
