@@ -1,8 +1,10 @@
 package is.hi.hbv501g.hopur25.controllers;
 
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
+import is.hi.hbv501g.hopur25.persistence.entities.Review;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
 import is.hi.hbv501g.hopur25.services.RecipeService;
+import is.hi.hbv501g.hopur25.services.ReviewService;
 import is.hi.hbv501g.hopur25.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +20,13 @@ public class RecipeController {
 
     private final RecipeService recipeService;
     private final UserService userService;
+    private final ReviewService reviewService;
 
     @Autowired
-    public RecipeController(RecipeService recipeService, UserService userService) {
+    public RecipeController(RecipeService recipeService, UserService userService, ReviewService reviewService) {
         this.recipeService = recipeService;
         this.userService = userService;
+        this.reviewService = reviewService;
     }
 
     /**
@@ -214,18 +218,27 @@ public class RecipeController {
         if (recipe == null) {
             return "redirect:/user-recipes";
         }
-
-//        System.out.println("Current user ID: " + currentUser.getUserID());
-//        System.out.println("Recipe owner ID: " + (recipe.getUser() != null ? recipe.getUser().getUserID() : "null"));
-
-//        if (recipe.getUser() != null && recipe.getUser().equals(currentUser)) {
-//            recipeService.delete(recipeId);  // Delete the recipe
-//            System.out.println("Recipe deleted successfully.");
-//        } else {
-//            System.out.println("User does not own this recipe or recipe owner is null.");
-//        }
-
         recipeService.delete(recipeId, currentUser);
         return "redirect:/user-recipes";
     }
+
+    @PostMapping("/recipe/{recipeId}/addReview")
+    public String addReview(@PathVariable Long recipeId, @RequestParam String comment, HttpSession session) {
+        User loggedInUser = (User) session.getAttribute("LoggedInUser");
+        if (loggedInUser == null) {
+            return "redirect:/login";
+        }
+
+        Review review = new Review();
+        review.setComment(comment);
+        review.setRecipe(recipeService.findRecipeById(recipeId));
+        review.setUser(loggedInUser);
+
+        reviewService.saveReview(review);
+
+        return "redirect:/recipe/" + recipeId;
+    }
+
+
+
 }

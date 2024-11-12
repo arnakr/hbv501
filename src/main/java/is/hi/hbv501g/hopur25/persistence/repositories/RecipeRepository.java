@@ -55,14 +55,10 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     List<Recipe> findByMealCategories(MealCategory mealCategory);
 
-
-   /* @Query("SELECT * FROM Recipe WHERE title LIKE %?1%")
-    public List<Recipe> search(String keyword);
-    */
-
     @Query(
             value = "SELECT * FROM Recipes r WHERE r.title LIKE %?1%",
             nativeQuery = true)
+
     List<Recipe> search(String keyword);
 
     List<Recipe> findByDietaryRestrictions(DietaryRestriction dietaryRestriction);
