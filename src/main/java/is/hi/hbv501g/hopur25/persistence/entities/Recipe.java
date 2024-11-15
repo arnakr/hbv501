@@ -53,11 +53,17 @@ public class Recipe {
 
     private LocalDateTime uploadTime = LocalDateTime.now();
 
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
+
     /* Constructors */
     public Recipe() {
+       //reviews = new ArrayList<>();
     }
 
-    public Recipe(String title, List<String> ingredients, String description, int cookTime, Set<DietaryRestriction> dietaryRestrictions, Set<MealCategory> mealCategories, User user, List<User> usersWhoFavorited, String recipePictureUrl) {
+    public Recipe(String title, List<String> ingredients, String description, int cookTime,
+                  Set<DietaryRestriction> dietaryRestrictions, Set<MealCategory> mealCategories,
+                  User user, List<User> usersWhoFavorited, String recipePictureUrl, List<Review> reviews) {
         this.title = title;
         this.ingredients = ingredients;
         this.description = description;
@@ -68,6 +74,7 @@ public class Recipe {
         this.usersWhoFavorited = usersWhoFavorited;
         this.uploadTime = LocalDateTime.now();
         this.recipePictureUrl = recipePictureUrl;
+        this.reviews = reviews;
     }
 
     /* Getters and setters */
@@ -170,5 +177,13 @@ public class Recipe {
 
     public void setRecipePictureUrl(String recipePictureUrl) {
         this.recipePictureUrl = recipePictureUrl;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }

@@ -64,5 +64,30 @@
     <p>Þú þarft að <a href="/login">skrá þig inn</a> til að bæta þessari uppskrift við uppáhaldið þitt.</p>
 </div>
 
+<!-- Html fyrir umsagnir-->
+<div class="reviews-section">
+    <h2>Umsagnir</h2>
+
+    <!-- Sýna umsagnir -->
+    <div th:if="${recipe.reviews != null && !recipe.reviews.isEmpty()}">
+        <ul>
+            <li th:each="review : ${recipe.reviews}">
+                <p><strong>Umsögn:</strong> <span th:text="${review.comment}"></span></p>
+            </li>
+        </ul>
+    </div>
+    <div th:if="${recipe.reviews == null || recipe.reviews.isEmpty()}">
+        <p>Engar umsagnir</p>
+    </div>
+
+  
+
+</div>
+<div th:if="${session.LoggedInUser != null}" class="add-review-form">
+    <form th:action="@{'/recipe/' + ${recipe.recipeId} + '/addReview'}" method="post">
+        <textarea name="comment" placeholder="Skrifa umsögn" required></textarea>
+        <button type="submit">Senda umsögn</button>
+    </form>
+</div>
 </body>
 </html>
