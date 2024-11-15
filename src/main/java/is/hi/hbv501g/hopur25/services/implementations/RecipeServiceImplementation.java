@@ -1,10 +1,12 @@
 package is.hi.hbv501g.hopur25.services.implementations;
 
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
+import is.hi.hbv501g.hopur25.persistence.entities.Review;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestriction;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
 import is.hi.hbv501g.hopur25.persistence.repositories.RecipeRepository;
+import is.hi.hbv501g.hopur25.persistence.repositories.ReviewRepository;
 import is.hi.hbv501g.hopur25.persistence.repositories.UserRepository;
 import is.hi.hbv501g.hopur25.services.RecipeService;
 import is.hi.hbv501g.hopur25.services.UserService;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 public class RecipeServiceImplementation implements RecipeService {
     private final RecipeRepository recipeRepository;
+    private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
     private final UserService userService;
 
@@ -33,8 +36,9 @@ public class RecipeServiceImplementation implements RecipeService {
      * @param recipeRepository the {@link RecipeRepository} to be used for data access
      */
     @Autowired
-    public RecipeServiceImplementation(RecipeRepository recipeRepository, UserRepository userRepository, @Qualifier("userService") UserService userService) {
+    public RecipeServiceImplementation(RecipeRepository recipeRepository, ReviewRepository reviewRepository, UserRepository userRepository, @Qualifier("userService") UserService userService) {
         this.recipeRepository = recipeRepository;
+        this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
         this.userService = userService;
     }
@@ -120,7 +124,9 @@ public class RecipeServiceImplementation implements RecipeService {
      *                  "titillasc" for ascending title,
      *                  "titilldesc" for descending title,
      *                  "cooktimeasc" for ascending cook time,
-     *                  "cooktimedesc" for descending cook time
+     *                  "cooktimedesc" for descending cook time,
+     *                  "ratingasc" for ascending average rating,
+     *                  "ratingdesc" for descending average rating
      * @return a sorted list of recipes based on the specified sort order
      */
     private List<Recipe> sortRecipes(List<Recipe> recipes, String sortOrder) {
@@ -143,6 +149,12 @@ public class RecipeServiceImplementation implements RecipeService {
             case "cooktimedesc" -> recipes.stream()
                     .sorted(Comparator.comparing(Recipe::getCookTime).reversed())
                     .collect(Collectors.toList());
+            case "ratingasc" -> recipes.stream()
+                    .sorted(Comparator.comparing(Recipe::getAvgRating, Comparator.nullsLast(Comparator.naturalOrder())))
+                    .collect(Collectors.toList());
+            case "ratingdesc" -> recipes.stream()
+                    .sorted(Comparator.comparing(Recipe::getAvgRating, Comparator.nullsLast(Comparator.reverseOrder())))
+                    .collect(Collectors.toList());
             default -> recipes; // No sorting if sortOrder is invalid
         };
     }
@@ -150,6 +162,26 @@ public class RecipeServiceImplementation implements RecipeService {
     @Override
     public void updateRecipe (Recipe updatedRecipe) {
         recipeRepository.save(updatedRecipe);
+    }
+
+    @Override
+    public void saveReview(Review review) {
+        reviewRepository.save(review);
+    }
+
+    @Override
+    public List<Review> getReviews() {
+        return reviewRepository.findAll();
+    }
+
+    @Override
+    public Review getReview(int id) {
+        return reviewRepository.findById((long) id).orElse(null);
+    }
+
+    @Override
+    public void deleteReview(int id) {
+        reviewRepository.deleteById((long) id);
     }
 }
 

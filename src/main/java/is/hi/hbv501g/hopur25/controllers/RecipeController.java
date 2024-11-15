@@ -196,7 +196,6 @@ public class RecipeController {
         return "redirect:/user-recipes";
     }
 
-
     /**
      * Handles the deletion of a recipe by its ID.
      * If no user is logged in, the method redirects to the login page.
@@ -222,7 +221,7 @@ public class RecipeController {
         return "redirect:/user-recipes";
     }
 
-    @PostMapping("/recipe/{recipeId}/addReview")
+  /*  @PostMapping("/recipe/{recipeId}/addReview")
     public String addReview(@PathVariable Long recipeId, @RequestParam String comment, HttpSession session) {
         User loggedInUser = (User) session.getAttribute("LoggedInUser");
         if (loggedInUser == null) {
@@ -237,8 +236,5 @@ public class RecipeController {
         reviewService.saveReview(review);
 
         return "redirect:/recipe/" + recipeId;
-    }
-
-
-
+    } */
 }

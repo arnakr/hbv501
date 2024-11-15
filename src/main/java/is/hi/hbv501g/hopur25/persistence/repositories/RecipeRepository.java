@@ -1,10 +1,12 @@
 package is.hi.hbv501g.hopur25.persistence.repositories;
 
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
+import is.hi.hbv501g.hopur25.persistence.entities.Review;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestriction;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -75,4 +77,9 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     List<Recipe> findAllByOrderByCookTimeDesc();
 
+    @Query("SELECT r.reviews FROM Recipe r WHERE r.id = :recipeId")
+    List<Review> findReviewsByRecipeId(@Param("recipeId") Long recipeId);
+
+    @Query("SELECT r FROM Recipe r JOIN r.reviews rev WHERE rev.user.id = :userId")
+    List<Recipe> findRecipesReviewedByUserId(@Param("userId") Long userId);
 }
