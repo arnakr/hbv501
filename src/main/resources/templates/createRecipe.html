@@ -6,6 +6,7 @@
     <title>Búa til nýja uppskrift</title>
     <link rel="stylesheet" th:href="@{/css/createRecipe.css}">
 
+
     <script>
         let ingredientCount = 2; // Track the number of ingredient fields
 
@@ -108,6 +109,17 @@
         <!-- Submit Button -->
         <input type="submit" value="Búa til uppskrift"/>
     </form>
+</div>
+<!-- Show everything here if user is logged in -->
+<div th:if="${LoggedInUser != null}">
+    <div class="topnav">
+        <a class="active" href="/">Heim</a>
+        <a href="/user-recipes">Uppskriftirnar Mínar</a>
+        <a href="/favorites">Uppáhalds Uppskriftir</a>
+        <a href="/settings">Stillingar/Mínar Síður</a>
+        <a href="/createRecipe">Ný uppskrift</a>
+        <a href="/logout" class="split">Skrá þig út</a>
+    </div>
 </div>
 </body>
 </html>

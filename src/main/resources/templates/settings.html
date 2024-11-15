@@ -9,7 +9,7 @@
 
     <script>
         function confirmDeletion() {
-            if (confirm("Ertu viss um að þú viljir eyða notanda aðganginum þínum? Þessi aðgerð er óafturkallanleg.")) {
+            if (confirm("Ertu viss um að þú viljir eyða notandaaðganginum þínum? Þessi aðgerð er óafturkallanleg.")) {
                 document.getElementById("deleteForm").submit();
             }
         }
@@ -18,9 +18,9 @@
 <body>
 <div class="topnav">
     <a class="active" href="/">Heim</a>
-    <a href="/user-recipes">Uppskriftirnar Mínar</a>
-    <a href="/favorites">Uppáhalds Uppskriftir</a>
-    <a href="/settings">Stillingar/Mínar Síður</a>
+    <a href="/user-recipes">Uppskriftirnar mínar</a>
+    <a href="/favorites">Uppáhalds uppskriftir</a>
+    <a href="/settings">Stillingar/Mínar síður</a>
     <a href="/createRecipe">Ný uppskrift</a>
     <a href="/logout" class="split">Skrá þig út</a>
 </div>
@@ -34,7 +34,7 @@
         <form th:action="@{/uploadProfilePicture}" method="post" enctype="multipart/form-data" class="profile-upload-form">
             <label for="profilePicture">Veldu nýja mynd</label>
             <input type="file" id="profilePicture" name="profilePicture" accept="image/*" required/>
-            <button type="submit" class="upload-button">Hlaða upp nýtt prófilmynd</button>
+            <button type="submit" class="upload-button">Hlaða upp nýrri prófilmynd</button>
         </form>
     </div>
 
