@@ -3,6 +3,7 @@ package is.hi.hbv501g.hopur25.controllers;
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
 import is.hi.hbv501g.hopur25.services.RecipeService;
+import is.hi.hbv501g.hopur25.services.S3Service;
 import is.hi.hbv501g.hopur25.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 @Controller
@@ -18,11 +21,13 @@ public class RecipeController {
 
     private final RecipeService recipeService;
     private final UserService userService;
+    private final S3Service s3Service;
 
     @Autowired
-    public RecipeController(RecipeService recipeService, UserService userService) {
+    public RecipeController(RecipeService recipeService, UserService userService, S3Service s3Service) {
         this.recipeService = recipeService;
         this.userService = userService;
+        this.s3Service = s3Service;
     }
 
     /**
@@ -233,4 +238,44 @@ public class RecipeController {
 
         return "redirect:/recipe/" + recipeId;
     } */
+
+    /**
+     * Handles the file upload for a recipe's picture. This method allows the user to upload a new image
+     * for their recipe, deletes the old image from the S3 bucket (if it exists), and updates the recipe
+     * with the new image URL.
+     *
+     * @param recipeId The ID of the recipe whose picture is being updated.
+     * @param recipePicture The new image file uploaded by the user.
+     * @param session The HTTP session used to retrieve the logged-in user's details.
+     * @return A redirect to the "/user-recipes" page after successfully updating the recipe picture.
+     * @throws IOException If an error occurs during the file upload process to S3.
+     */
+    @PostMapping("/recipe/{recipeId}/uploadRecipePicture")
+    public String uploadRecipePicture(@PathVariable Long recipeId,
+                                      @RequestParam("recipePicture") MultipartFile recipePicture,
+                                      HttpSession session) throws IOException {
+        System.out.println("Method triggered for recipe ID: " + recipeId);  // Add this log
+
+        User currentUser = (User) session.getAttribute("LoggedInUser");
+        if (currentUser == null) {
+            return "redirect:/login";  // Ensure user is logged in
+        }
+
+        Recipe recipe = recipeService.findRecipeById(recipeId);
+
+        System.out.println("Uploaded file: " + recipePicture.getOriginalFilename());
+        System.out.println("File size: " + recipePicture.getSize() + " bytes");
+
+        String oldPictureUrl = recipe.getRecipePictureUrl();
+        if (oldPictureUrl != null) {
+            String oldKey = oldPictureUrl.substring(oldPictureUrl.lastIndexOf("/") + 1);
+            s3Service.deleteFile(oldKey);
+        }
+
+        String s3Url = s3Service.uploadFile(recipePicture);
+
+        recipeService.updateRecipePicture(recipeId, s3Url);
+
+        return "redirect:/user-recipes";
+    }
 }

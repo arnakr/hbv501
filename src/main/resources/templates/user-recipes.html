@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,29 +20,39 @@
     <h1>Þínar uppskriftir</h1>
 </div>
 
-<div th:switch="${userRecipes}">
-    <!-- If list is empty -->
+<div class="recipe-grid">
+    <!-- If the user has no recipes -->
     <div th:if="${userRecipes.empty}">
-        <h3 >Þú hefur ekki enn birt neinar uppskriftir</h3>
+        <h3>Þú hefur ekki enn birt neinar uppskriftir.</h3>
     </div>
 
-    <!-- Case when there are favorite recipes -->
+    <!-- Display user's recipes -->
     <div th:unless="${userRecipes.empty}">
-        <ul>
-            <li th:each="recipe : ${userRecipes}">
-                <a th:href="@{'/recipe/' + ${recipe.recipeId}}"><span th:text="${recipe.title}"></span></a>
-                <p th:text="'Cook Time: ' + ${recipe.cookTime} + ' minutes'"></p>
-                <p th:text="${recipe.description}"></p>
+        <div class="recipe-card" th:each="recipe : ${userRecipes}">
+            <img class="recipe-image" th:src="${recipe.recipePictureUrl}" alt="Recipe Image">
+            <h3 th:text="${recipe.title}"></h3>
+            <p><strong>Matreiðslutími:</strong> <span th:text="${recipe.cookTime} + ' mínútur'"></span></p>
+            <p th:text="${recipe.description}"></p>
 
+            <div class="card-actions">
                 <form th:action="@{'/recipe/' + ${recipe.recipeId} + '/edit-recipe'}" method="post">
-                    <button type="submit">Breyta uppskrift</button>
+                    <button type="submit" class="edit-button">Breyta uppskrift</button>
                 </form>
                 <form th:action="@{'/recipe/' + ${recipe.recipeId} + '/deleteRecipe'}" method="post">
-                    <button type="submit">Eyða Uppskrift</button>
+                    <button type="submit" class="remove-button">Eyða uppskrift</button>
                 </form>
-            </li>
-        </ul>
+            </div>
+            <form th:action="@{'/recipe/' + ${recipe.recipeId} + '/uploadRecipePicture'}" method="post" enctype="multipart/form-data">
+                <label for="recipePicture">Uppskriftamynd:</label>
+                <input type="file" id="recipePicture" name="recipePicture" accept="image/*">
+                <button type="submit">Uppfæra mynd</button>
+            </form>
+
+
+
+        </div>
     </div>
 </div>
+
 </body>
 </html>

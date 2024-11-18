@@ -16,10 +16,6 @@
     <a href="/logout" class="split">Skrá þig út</a>
 </div>
 
-<div th:if="${LoggedInUser != null}">
-    <h1 th:text="'Uppáhalds uppskriftir fyrir ' + ${LoggedInUser.username}"></h1>
-</div>
-
 <div th:switch="${favoriteRecipes}">
     <!-- Case when the list is empty -->
     <h3 th:if="${favoriteRecipes.empty}">Engar uppáhalds uppskriftir :(</h3>
