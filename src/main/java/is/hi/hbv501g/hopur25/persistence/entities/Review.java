@@ -12,9 +12,10 @@ public class Review {
     @Column(nullable = false)
     private String comment;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @Column(name = "rating")
+    private Integer rating;
 
-    //private int rating;
+    //private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -41,13 +42,13 @@ public class Review {
         this.comment = comment;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+   // public LocalDateTime getCreatedAt() {
+        //return createdAt;
+   // }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+   // public void setCreatedAt(LocalDateTime createdAt) {
+       // this.createdAt = createdAt;
+    //}
 
     public User getUser() {
         return user;
@@ -65,11 +66,12 @@ public class Review {
         this.recipe = recipe;
     }
 
-    /*public int getRating() {
+
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
-    }*/
+    }
 }

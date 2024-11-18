@@ -1,10 +1,8 @@
 package is.hi.hbv501g.hopur25.controllers;
 
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
-import is.hi.hbv501g.hopur25.persistence.entities.Review;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
 import is.hi.hbv501g.hopur25.services.RecipeService;
-import is.hi.hbv501g.hopur25.services.ReviewService;
 import is.hi.hbv501g.hopur25.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +18,11 @@ public class RecipeController {
 
     private final RecipeService recipeService;
     private final UserService userService;
-    private final ReviewService reviewService;
 
     @Autowired
-    public RecipeController(RecipeService recipeService, UserService userService, ReviewService reviewService) {
+    public RecipeController(RecipeService recipeService, UserService userService) {
         this.recipeService = recipeService;
         this.userService = userService;
-        this.reviewService = reviewService;
     }
 
     /**
@@ -196,7 +192,6 @@ public class RecipeController {
         return "redirect:/user-recipes";
     }
 
-
     /**
      * Handles the deletion of a recipe by its ID.
      * If no user is logged in, the method redirects to the login page.
@@ -222,7 +217,7 @@ public class RecipeController {
         return "redirect:/user-recipes";
     }
 
-    @PostMapping("/recipe/{recipeId}/addReview")
+  /*  @PostMapping("/recipe/{recipeId}/addReview")
     public String addReview(@PathVariable Long recipeId, @RequestParam String comment, HttpSession session) {
         User loggedInUser = (User) session.getAttribute("LoggedInUser");
         if (loggedInUser == null) {
@@ -237,8 +232,5 @@ public class RecipeController {
         reviewService.saveReview(review);
 
         return "redirect:/recipe/" + recipeId;
-    }
-
-
-
+    } */
 }

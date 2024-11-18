@@ -81,6 +81,8 @@
             <option value="titilldesc" th:selected="${sortOrder == 'titilldesc'}">Öfug stafrófsröð</option>
             <option value="cooktimeasc" th:selected="${sortOrder == 'cooktimeasc'}">Stysti eldunartími</option>
             <option value="cooktimedesc" th:selected="${sortOrder == 'cooktimedesc'}">Lengsti eldunartími</option>
+            <option value="ratingasc" th:selected="${sortOrder == 'ratingasc'}">Hæstu einkunn</option>
+            <option value="ratingdesc" th:selected="${sortOrder == 'ratingdesc'}">Lægsta einkunn</option>
         </select>
 
         <!-- Submit Button -->
@@ -104,6 +106,11 @@
                 <p><strong>Lýsing:</strong> <span th:text="${recipe.description}"></span></p>
                 <p><strong>Máltíð:</strong> <span th:each="category : ${recipe.mealCategories}" th:text="${category}"></span></p>
                 <p><strong>Mataræði:</strong> <span th:each="restriction : ${recipe.dietaryRestrictions}" th:text="${restriction}"></span></p>
+
+                <div>
+                    <strong>Meðal Einkunn:</strong>
+                    <span th:text="${recipe.avgRating}"></span>/5
+                </div>
             </div>
         </div>
     </div>

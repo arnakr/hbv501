@@ -7,13 +7,13 @@
     <link rel="stylesheet" th:href="@{/css/signup.css}">
 </head>
 <body>
-<div class="container">
-    <h2>Nýskráning</h2>
+    <div class="container">
+        <h2>Nýskráning</h2>
 
     <!-- Display error messages -->
-    <div th:if="${errorMessage}" class="error-message" style="color: red;">
-        <p th:text="${errorMessage}"></p>
-    </div>
+        <div th:if="${errorMessage}" class="error-message" style="color: red;">
+            <p th:text="${errorMessage}"></p>
+        </div>
 
     <form action="#" th:action="@{/signup}" method="post">
         <label for="username">Notendanafn:</label>
@@ -30,6 +30,6 @@
 
         <input type="submit" value="Nýskrá"/>
     </form>
-</div>
+    </div>
 </body>
 </html>
