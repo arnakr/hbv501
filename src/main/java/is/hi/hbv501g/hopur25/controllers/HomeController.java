@@ -93,10 +93,10 @@ public class HomeController {
                 recipes.sort(Comparator.comparing(Recipe::getCookTime).reversed());
                 break;
             case "ratingasc":
-                recipes.sort(Comparator.comparing(Recipe::getAvgRating, Comparator.nullsLast(Comparator.naturalOrder())));
+                recipes.sort(Comparator.comparing(Recipe::getAvgRating, Comparator.nullsLast(Comparator.reverseOrder())));
                 break;
             case "ratingdesc":
-                recipes.sort(Comparator.comparing(Recipe::getAvgRating, Comparator.nullsLast(Comparator.reverseOrder())));
+                recipes.sort(Comparator.comparing(Recipe::getAvgRating, Comparator.nullsLast(Comparator.naturalOrder())));
                 break;
             default:
                 recipes.sort(Comparator.comparing(Recipe::getUploadTime).reversed());

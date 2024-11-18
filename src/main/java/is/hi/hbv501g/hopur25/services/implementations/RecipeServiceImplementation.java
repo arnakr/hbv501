@@ -150,10 +150,10 @@ public class RecipeServiceImplementation implements RecipeService {
                     .sorted(Comparator.comparing(Recipe::getCookTime).reversed())
                     .collect(Collectors.toList());
             case "ratingasc" -> recipes.stream()
-                    .sorted(Comparator.comparing(Recipe::getAvgRating, Comparator.nullsLast(Comparator.naturalOrder())))
+                    .sorted(Comparator.comparing(Recipe::getAvgRating, Comparator.nullsLast(Comparator.reverseOrder())))
                     .collect(Collectors.toList());
             case "ratingdesc" -> recipes.stream()
-                    .sorted(Comparator.comparing(Recipe::getAvgRating, Comparator.nullsLast(Comparator.reverseOrder())))
+                    .sorted(Comparator.comparing(Recipe::getAvgRating, Comparator.nullsLast(Comparator.naturalOrder())))
                     .collect(Collectors.toList());
             default -> recipes; // No sorting if sortOrder is invalid
         };

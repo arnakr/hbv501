@@ -3,7 +3,6 @@ package is.hi.hbv501g.hopur25.controllers;
 import is.hi.hbv501g.hopur25.persistence.entities.Review;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
 import is.hi.hbv501g.hopur25.services.RecipeService;
-import is.hi.hbv501g.hopur25.services.ReviewService;
 import is.hi.hbv501g.hopur25.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ReviewController {
     private final RecipeService recipeService;
     private final UserService userService;
-    //private final ReviewService reviewService;
 
     @Autowired
-    public ReviewController(RecipeService recipeService, UserService userService, ReviewService reviewService) {
+    public ReviewController(RecipeService recipeService, UserService userService) {
         this.recipeService = recipeService;
         this.userService = userService;
-        //this.reviewService = reviewService;
     }
 
     @PostMapping("/recipe/{recipeId}/addReview")
