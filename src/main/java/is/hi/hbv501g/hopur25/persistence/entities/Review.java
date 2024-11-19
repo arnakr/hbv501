@@ -13,7 +13,7 @@ public class Review {
     private String comment;
 
     @Column(name = "rating")
-    private int rating;
+    private Integer rating;
 
     //private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -67,11 +67,11 @@ public class Review {
     }
 
 
-    public int getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 }

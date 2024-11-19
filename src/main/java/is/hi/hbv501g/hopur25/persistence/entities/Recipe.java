@@ -56,6 +56,9 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
+    @Column(nullable = true)
+    private Double avgRating = 0.0;
+
     /* Constructors */
     public Recipe() {
        //reviews = new ArrayList<>();
@@ -185,5 +188,13 @@ public class Recipe {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(Double avgRating) {
+        this.avgRating = avgRating;
     }
 }

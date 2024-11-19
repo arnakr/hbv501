@@ -2,6 +2,7 @@ package is.hi.hbv501g.hopur25.controllers;
 
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
+import is.hi.hbv501g.hopur25.persistence.entities.Review;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestriction;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
 import is.hi.hbv501g.hopur25.services.RecipeService;
@@ -58,6 +59,20 @@ public class HomeController {
 
         List<Recipe> recipes = recipeService.searchByKeywordAndCriteria(keyword, dietaryRestrictions, mealCategories);
 
+        for (Recipe recipe : recipes) {
+            Double avgRating = recipe.getReviews().stream()
+                    .filter(review->review.getRating() != null)
+                    .mapToInt(review-> review.getRating())
+                    .average()
+                    .orElse(0.0);
+
+            if (Double.isNaN(avgRating)) {
+                avgRating = null;
+            }
+
+            recipe.setAvgRating(avgRating);
+        }
+
         switch (sortOrder != null ? sortOrder.toLowerCase() : "") {
             case "asc":
                 recipes.sort(Comparator.comparing(Recipe::getUploadTime));
@@ -76,6 +91,12 @@ public class HomeController {
                 break;
             case "cooktimedesc":
                 recipes.sort(Comparator.comparing(Recipe::getCookTime).reversed());
+                break;
+            case "ratingasc":
+                recipes.sort(Comparator.comparing(Recipe::getAvgRating, Comparator.nullsLast(Comparator.reverseOrder())));
+                break;
+            case "ratingdesc":
+                recipes.sort(Comparator.comparing(Recipe::getAvgRating, Comparator.nullsLast(Comparator.naturalOrder())));
                 break;
             default:
                 recipes.sort(Comparator.comparing(Recipe::getUploadTime).reversed());

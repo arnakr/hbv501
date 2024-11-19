@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Uppskrift</title>
-    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/recipe.css}">
 </head>
 <body>
 
@@ -71,26 +71,25 @@
         <ul>
             <li th:each="review : ${recipe.reviews}">
                 <p><strong>Umsögn:</strong> <span th:text="${review.comment}"></span></p>
+                <p><strong>Rating:</strong> <span th:text="${review.rating}"></span>/5</p>
             </li>
         </ul>
     </div>
     <div th:if="${recipe.reviews == null || recipe.reviews.isEmpty()}">
         <p>Engar umsagnir</p>
     </div>
-        <div>
-        <label for="rating">Rating:</label>
-        <select id="rating" name="rating" required>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-        </div>
     <div th:if="${session.LoggedInUser != null}" class="add-review-form">
         <form th:action="@{'/recipe/' + ${recipe.recipeId} + '/addReview'}" method="post">
             <textarea name="comment" placeholder="Skrifa umsögn" required></textarea>
-                <button type="submit">Senda umsögn</button>
+            <label for="rating">Rating (1-5):</label>
+            <select id="rating" name="rating" type="number" min="1" max="5" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button type="submit">Senda umsögn</button>
         </form>
     </div>
     </body>
