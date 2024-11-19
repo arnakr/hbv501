@@ -19,14 +19,12 @@ public interface RecipeService {
      */
     Recipe findRecipeById(Long id);
 
-
     /**
      * Deletes the specified recipe from the system.
      *
      * @param recipeId the {@link Recipe} object to delete
      */
     void delete(Long recipeId, User currentUser);
-
 
     /**
      * Saves the recipe to the database.

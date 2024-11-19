@@ -43,7 +43,6 @@ public class RecipeServiceImplementation implements RecipeService {
         this.userService = userService;
     }
 
-
     /**
      * Retrieves a recipe by its unique identifier.
      *

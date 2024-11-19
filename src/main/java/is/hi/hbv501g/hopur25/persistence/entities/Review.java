@@ -1,21 +1,18 @@
 package is.hi.hbv501g.hopur25.persistence.entities;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
     private String comment;
 
     @Column(name = "rating")
     private Integer rating;
-
-    //private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -24,6 +21,10 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "recipe_id", nullable = false)
     private Recipe recipe;
+
+    @ManyToOne
+    @JoinColumn(name = "review_id", nullable = true)
+    private Review review;
 
     // Getters and setters
     public Long getId() {
@@ -42,14 +43,6 @@ public class Review {
         this.comment = comment;
     }
 
-   // public LocalDateTime getCreatedAt() {
-        //return createdAt;
-   // }
-
-   // public void setCreatedAt(LocalDateTime createdAt) {
-       // this.createdAt = createdAt;
-    //}
-
     public User getUser() {
         return user;
     }
@@ -66,12 +59,19 @@ public class Review {
         this.recipe = recipe;
     }
 
-
     public Integer getRating() {
         return rating;
     }
 
     public void setRating(Integer rating) {
         this.rating = rating;
+    }
+
+   public Review getReview() {
+        return review;
+    }
+
+    public void setReview(Review review) {
+        this.review = review;
     }
 }
