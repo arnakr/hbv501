@@ -2,6 +2,9 @@ package is.hi.hbv501g.hopur25.persistence.entities;
 
 import jakarta.persistence.*;
 
+/**
+ * A model object for review. Contains all relevant information, getters and setters.
+ */
 @Entity
 public class Review {
     @Id

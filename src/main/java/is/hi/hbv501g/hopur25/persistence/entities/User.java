@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A model object for recipes. Contains all relevant information, getters and setters.
+ */
 @Entity
 @Table(name = "users")
 public class User {
