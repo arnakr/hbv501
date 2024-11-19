@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uppskriftina</title>
+  <link rel="stylesheet" th:href="@{/css/home.css}">
+  <title>Review</title>
+</head>
+<body>
+<form th:action="@{/recipe/{recipeId}/addReview(recipeId=${recipe.id})}" method="post">
+  <textarea name="comment" placeholder="Write your review here..." required></textarea>
+  <input type="submit" value="Submit Review">
+</form>
+</body>
+</html>
