@@ -1,5 +1,6 @@
 package is.hi.hbv501g.hopur25.persistence.repositories;
 
+import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,6 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repository interface for managing {@link User} entities.
+ * This interface extends the {@link JpaRepository} interface,
+ * providing methods for operations relating to user
+ */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
