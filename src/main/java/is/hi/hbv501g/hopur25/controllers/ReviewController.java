@@ -25,6 +25,18 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
+    /**
+     * Adds a review to a recipe.
+     * This method allows a logged-in user to add a review to a specific recipe, including a comment and a rating.
+     * The method validates that the user is logged in and that the rating is provided.
+     *
+     * @param recipeId the ID of the recipe to which the review is being added
+     * @param comment the content of the review's comment
+     * @param rating the rating given by the user
+     * @param session the HTTP session that contains the logged-in user
+     * @return a redirect URL to the recipe page or a login page if the user is not logged in
+     * @throws IllegalArgumentException if the rating is not provided
+     */
     @PostMapping("/recipe/{recipeId}/addReview")
     public String addReview(@PathVariable Long recipeId, @RequestParam String comment, @RequestParam(required = false) Integer rating, HttpSession session) {
         User loggedInUser = (User) session.getAttribute("LoggedInUser");
@@ -50,6 +62,18 @@ public class ReviewController {
         return "redirect:/recipe/" + recipeId;
     }
 
+    /**
+     * Updates an existing review for a recipe.
+     * This method allows a logged-in user to update their own review for a specific recipe,
+     * changing the comment and/or rating of the review.
+     * The method ensures the user is logged in and owns the review they are trying to update.
+     *
+     * @param reviewId the ID of the review to be updated
+     * @param comment the new content of the review's comment
+     * @param rating the new rating for the review (optional)
+     * @param session the HTTP session that contains the logged-in user
+     * @return a redirect URL to the recipe page if the review is updated, or an unauthorized page if the review does not belong to the logged-in user
+     */
     @PostMapping("/review/{reviewId}/update") //á þetta að vera recipe/... í staðinn fyrir review? Erum ekki með neitt review
     public String updateReview(
             @PathVariable long reviewId,
@@ -75,6 +99,15 @@ public class ReviewController {
         return "redirect:/recipe/" + review.getReview().getId();
     }
 
+    /**
+     * Deletes a review for a recipe.
+     * This method allows a logged-in user to delete their own review for a specific recipe.
+     * The method ensures the user is logged in and owns the review they are trying to delete.
+     *
+     * @param reviewId the ID of the review to be deleted
+     * @param session the HTTP session that contains the logged-in user
+     * @return a redirect URL to the recipe page if the review is deleted, or an unauthorized page if the review does not belong to the logged-in user
+     */
     @PostMapping("/review/{reviewId}/delete") // sama hér, erum við að nota review eða recipe...
     public String deleteReview(@PathVariable Long reviewId, HttpSession session) {
         User loggedInUser = (User) session.getAttribute("LoggedInUser");

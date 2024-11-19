@@ -222,23 +222,6 @@ public class RecipeController {
         return "redirect:/user-recipes";
     }
 
-  /*  @PostMapping("/recipe/{recipeId}/addReview")
-    public String addReview(@PathVariable Long recipeId, @RequestParam String comment, HttpSession session) {
-        User loggedInUser = (User) session.getAttribute("LoggedInUser");
-        if (loggedInUser == null) {
-            return "redirect:/login";
-        }
-
-        Review review = new Review();
-        review.setComment(comment);
-        review.setRecipe(recipeService.findRecipeById(recipeId));
-        review.setUser(loggedInUser);
-
-        reviewService.saveReview(review);
-
-        return "redirect:/recipe/" + recipeId;
-    } */
-
     /**
      * Handles the file upload for a recipe's picture. This method allows the user to upload a new image
      * for their recipe, deletes the old image from the S3 bucket (if it exists), and updates the recipe

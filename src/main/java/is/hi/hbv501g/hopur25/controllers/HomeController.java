@@ -25,6 +25,19 @@ public class HomeController {
         this.recipeService = recipeService;
     }
 
+    /**
+     * Displays the home page with a list of recipes.
+     * This method retrieves the current filters from the request parameters or session and applies them to the
+     * recipe search. The results are sorted based on the selected sort order and displayed on the home page.
+     *
+     * @param sortOrder the sort order for the recipes (optional), can be "asc", "desc", "titillasc", "titilldesc", etc.
+     * @param keyword the keyword for searching recipes (optional)
+     * @param dietaryRestrictions the selected dietary restrictions for filtering recipes (optional)
+     * @param mealCategories the selected meal categories for filtering recipes (optional)
+     * @param model the Spring model object used to add attributes to the view
+     * @param session the HTTP session used to persist filter selections across requests
+     * @return the name of the view to be rendered (home page) with the filtered recipe list
+     */
     @RequestMapping("/")
     public String getHomePage(
             @RequestParam(name = "sort", required = false) String sortOrder,
@@ -37,20 +50,17 @@ public class HomeController {
             sortOrder = (String) session.getAttribute("sortOrder");
         } else {
             session.setAttribute("sortOrder", sortOrder);
-
         }
         if (keyword == null) {
             keyword = (String) session.getAttribute("keyword");
         } else {
             session.setAttribute("keyword", keyword);
         }
-
         if (dietaryRestrictions == null) {
             dietaryRestrictions = (List<DietaryRestriction>) session.getAttribute("dietaryRestrictions");
         } else {
             session.setAttribute("dietaryRestrictions", dietaryRestrictions);
         }
-
         if (mealCategories == null) {
             mealCategories = (List<MealCategory>) session.getAttribute("mealCategories");
         } else {
@@ -69,7 +79,6 @@ public class HomeController {
             if (Double.isNaN(avgRating)) {
                 avgRating = null;
             }
-
             recipe.setAvgRating(avgRating);
         }
 
@@ -114,6 +123,14 @@ public class HomeController {
         return "home";
     }
 
+    /**
+     * Clears the applied filters and redirects to the home page.
+     * This method removes all filter-related session attributes (sort order, keyword, dietary restrictions,
+     * and meal categories) and redirects the user to the home page without any filters applied.
+     *
+     * @param session the HTTP session from which the filter session attributes will be removed
+     * @return a redirect URL to the home page with no filters applied
+     */
     @RequestMapping("/clearFilters")
     public String clearFilters(HttpSession session) {
         session.removeAttribute("sortOrder");
@@ -122,6 +139,4 @@ public class HomeController {
         session.removeAttribute("mealCategories");
         return "redirect:/";
     }
-
-
 }

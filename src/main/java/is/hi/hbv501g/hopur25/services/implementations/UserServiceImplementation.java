@@ -110,6 +110,7 @@ public class UserServiceImplementation implements UserService {
         }
         return user;
     }
+
     @Override
     public User findById(Long id) {
         return userRepository.findById(id).orElse(null);
@@ -134,5 +135,4 @@ public class UserServiceImplementation implements UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
-
 }

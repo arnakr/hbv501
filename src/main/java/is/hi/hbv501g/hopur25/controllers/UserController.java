@@ -128,7 +128,6 @@ public class UserController {
         }
     }
 
-
     /**
      * Displays the settings page for the logged-in user.
      * <p>
@@ -170,12 +169,6 @@ public class UserController {
         if (currentUser == null) {
             return "redirect:/login";
         }
-
-//        String confirmPassword = (String) session.getAttribute("confirmPassword");
-//        if (!updatedUser.getPassword().equals(confirmPassword)) {
-//            model.addAttribute("errorMessage", "Passwords do not match. Please try again.");
-//            return "settings";
-//        }
 
         String error = userService.updateUserSettings(currentUser, updatedUser);
         if (error != null) {
