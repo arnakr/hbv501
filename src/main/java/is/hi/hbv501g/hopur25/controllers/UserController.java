@@ -49,9 +49,9 @@ public class UserController {
      * returns to the signup view on error.
      */
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String signupPOST(User user, BindingResult result, Model model) {
+    public String signupPOST(User user, BindingResult result, Model model, HttpSession session) {
         if (result.hasErrors()) {
-            model.addAttribute("errorMessage", "Ógild inntak. Vinsamlegast athugaðu upplýsingarnar þínar");
+            model.addAttribute("errorMessage", "Ógilt inntak. Vinsamlegast athugaðu upplýsingarnar þínar");
             return "signup";
         }
 
@@ -67,13 +67,23 @@ public class UserController {
             return "signup";
         }
 
+        if (user.getPassword().length() < 8) {
+            model.addAttribute("errorMessage", "Lykilorð verður að vera að minnsta kosti 8 stafir");
+            return "signup";
+        }
+
         if (user.getUserPicture() == null || user.getUserPicture().isEmpty()) {
             user.setUserPicture("/images/default.jpg");
         }
 
         userService.save(user);
+
+        session.setAttribute("LoggedInUser", user);
+        model.addAttribute("LoggedInUser", user);
+
         return "redirect:/";
     }
+
 
     /**
      * Handles the GET request for the login page.
