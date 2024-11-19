@@ -61,7 +61,6 @@ public class Recipe {
 
     /* Constructors */
     public Recipe() {
-       //reviews = new ArrayList<>();
     }
 
     public Recipe(String title, List<String> ingredients, String description, int cookTime,

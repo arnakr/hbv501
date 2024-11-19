@@ -22,8 +22,13 @@ public class ReviewServiceImplementation implements ReviewService {
     }
 
     @Override
-    public void deleteReview(Review review) {
-        reviewRepository.delete(review);
+    public void deleteReviewById(long id) {
+        reviewRepository.deleteById(id);
+    }
+
+    @Override
+    public Review findReviewById(long reviewId) {
+        return reviewRepository.findById(reviewId).orElse(null);
     }
 }
 
