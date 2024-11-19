@@ -46,5 +46,7 @@ public interface RecipeService {
     Review getReview(int id);
 
     void deleteReview(int id);
+
+    void updateRecipePicture(Long recipeId, String s3Url);
 }
 

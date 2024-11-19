@@ -183,5 +183,23 @@ public class RecipeServiceImplementation implements RecipeService {
     public void deleteReview(int id) {
         reviewRepository.deleteById((long) id);
     }
+
+    /**
+     * Updates the recipe's picture URL in the database with the given S3 URL.
+     * This method retrieves the recipe by its ID and sets the new recipe picture URL.
+     *
+     * <p>After updating the recipe's picture URL, the recipe is saved back to the database.</p>
+     *
+     * @param recipeId The ID of the recipe whose picture URL is to be updated.
+     * @param s3Url The new URL of the recipe picture stored in S3.
+     * @throws RuntimeException If the recipe with the provided ID is not found.
+     */
+    public void updateRecipePicture(Long recipeId, String s3Url) {
+        Recipe recipe = recipeRepository.findById(recipeId)
+                .orElseThrow(() -> new RuntimeException("Recipe not found"));
+
+        recipe.setRecipePictureUrl(s3Url);  // Update the picture URL
+        recipeRepository.save(recipe);  // Save the recipe with the updated picture
+    }
 }
 
