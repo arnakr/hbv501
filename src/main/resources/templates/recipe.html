@@ -70,8 +70,14 @@
     <div th:if="${recipe.reviews != null && !recipe.reviews.isEmpty()}">
         <ul>
             <li th:each="review : ${recipe.reviews}">
+                <p><em><span th:text="${review.user.username}">Notendanafn</span>:</em></p>
                 <p><strong>Umsögn:</strong> <span th:text="${review.comment}"></span></p>
                 <p><strong>Rating:</strong> <span th:text="${review.rating}"></span>/5</p>
+                <div th:if="${session.LoggedInUser.userID == review.user.userID}" class="card-actions">
+                    <form th:action="@{'/review/' + ${review.id} + '/edit-review'}" method="post">
+                        <button type="submit" class="edit-button">Breyta Umsögn</button>
+                    </form>
+                </div>
             </li>
         </ul>
     </div>

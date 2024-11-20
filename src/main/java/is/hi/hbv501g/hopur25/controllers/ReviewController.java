@@ -1,5 +1,6 @@
 package is.hi.hbv501g.hopur25.controllers;
 
+import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
 import is.hi.hbv501g.hopur25.persistence.entities.Review;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
 import is.hi.hbv501g.hopur25.services.RecipeService;
@@ -8,9 +9,9 @@ import is.hi.hbv501g.hopur25.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ReviewController {
@@ -74,6 +75,7 @@ public class ReviewController {
      * @param session the HTTP session that contains the logged-in user
      * @return a redirect URL to the recipe page if the review is updated, or an unauthorized page if the review does not belong to the logged-in user
      */
+    /*
     @PostMapping("/review/{reviewId}/update") //á þetta að vera recipe/... í staðinn fyrir review? Erum ekki með neitt review
     public String updateReview(
             @PathVariable long reviewId,
@@ -97,6 +99,31 @@ public class ReviewController {
         reviewService.saveReview(review);
 
         return "redirect:/recipe/" + review.getReview().getId();
+    }
+
+     */
+
+    @RequestMapping("/review/{reviewId}/edit-review")
+    public String editReview(@PathVariable Long reviewId, Model model) {
+        Review review = reviewService.findReviewById(reviewId);
+        if (review == null) {
+            return "error";
+        }
+        model.addAttribute("review", review);
+        return "/edit-review";
+    }
+
+    @RequestMapping(value = "/edit-review", method = RequestMethod.POST)
+    public String updateReview(@ModelAttribute("review") Review updatedReview,
+                               BindingResult result, Model model, HttpSession session) {
+        Long reviewId = updatedReview.getId();
+        Review currentReview = reviewService.findReviewById(reviewId);
+
+        currentReview.setComment(updatedReview.getComment());
+        currentReview.setRating(updatedReview.getRating());
+
+        reviewService.updateReview(currentReview);
+        return "redirect:/recipe/" + currentReview.getRecipe().getRecipeId();
     }
 
     /**

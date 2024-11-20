@@ -1,5 +1,6 @@
 package is.hi.hbv501g.hopur25.services.implementations;
 
+import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
 import is.hi.hbv501g.hopur25.persistence.entities.Review;
 import is.hi.hbv501g.hopur25.persistence.repositories.ReviewRepository;
 import is.hi.hbv501g.hopur25.services.ReviewService;
@@ -48,6 +49,16 @@ public class ReviewServiceImplementation implements ReviewService {
     @Override
     public Review findReviewById(long reviewId) {
         return reviewRepository.findById(reviewId).orElse(null);
+    }
+
+    /**
+     * Updates an existing review in the repository.
+     *
+     * @param updatedReview the updated review to be saved
+     */
+    @Override
+    public void updateReview(Review updatedReview) {
+        reviewRepository.save(updatedReview);
     }
 }
 
