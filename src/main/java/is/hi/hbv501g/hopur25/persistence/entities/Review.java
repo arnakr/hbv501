@@ -29,7 +29,19 @@ public class Review {
     @JoinColumn(name = "review_id", nullable = true)
     private Review review;
 
-    // Getters and setters
+    /* Constructors */
+    public Review() {
+    }
+
+    public Review(String comment, Integer rating, User user, Recipe recipe, Review review) {
+        this.comment = comment;
+        this.rating = rating;
+        this.user = user;
+        this.recipe = recipe;
+        this.review = review;
+    }
+
+    /* Getters and setters */
     public Long getId() {
         return id;
     }

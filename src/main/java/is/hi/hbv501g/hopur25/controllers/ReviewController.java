@@ -4,22 +4,23 @@ import is.hi.hbv501g.hopur25.persistence.entities.Review;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
 import is.hi.hbv501g.hopur25.services.RecipeService;
 import is.hi.hbv501g.hopur25.services.ReviewService;
-import is.hi.hbv501g.hopur25.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @Controller
 public class ReviewController {
     private final RecipeService recipeService;
-    private final UserService userService;
     private final ReviewService reviewService;
 
     @Autowired
-    public ReviewController(RecipeService recipeService, UserService userService, ReviewService reviewService) {
+    public ReviewController(RecipeService recipeService, ReviewService reviewService) {
         this.recipeService = recipeService;
-        this.userService = userService;
         this.reviewService = reviewService;
     }
 
@@ -61,41 +62,42 @@ public class ReviewController {
     }
 
     /**
-     * Updates an existing review for a recipe.
-     * This method allows a logged-in user to update their own review for a specific recipe,
-     * changing the comment and/or rating of the review.
-     * The method ensures the user is logged in and owns the review they are trying to update.
+     * Displays a review edit form.
      *
-     * @param reviewId the ID of the review to be updated
-     * @param comment  the new content of the review's comment
-     * @param rating   the new rating for the review (optional)
-     * @param session  the HTTP session that contains the logged-in user
-     * @return a redirect URL to the recipe page if the review is updated, or an unauthorized page if the review does not belong to the logged-in user
+     * @param reviewId ID of the review to be edited
+     * @param model model to hold attributes for the view
+     * @return the URL to update the page
      */
-    @RequestMapping(value = "/review/{reviewId}/update", method = {RequestMethod.GET, RequestMethod.POST})
-    //á þetta að vera recipe/... í staðinn fyrir review? Erum ekki með neitt review
-    public String updateReview(
-            @PathVariable long reviewId,
-            @RequestParam(required = false) String comment,
-            @RequestParam(required = false) Integer rating,
-            HttpSession session) {
-        User loggedInUser = (User) session.getAttribute("LoggedInUser");
-        if (loggedInUser == null) {
-            return "redirect:/login";
-        }
-
+    @RequestMapping("/review/{reviewId}/edit-review")
+    public String editReview(@PathVariable Long reviewId, Model model) {
         Review review = reviewService.findReviewById(reviewId);
-        if (loggedInUser != null && review.getUser().getUsername().equals(loggedInUser.getUsername())) {
-            review.setComment(comment);
-            if (rating != null) {
-                review.setRating(rating);
-            }
-            reviewService.saveReview(review);
-
-            return "redirect:/recipe/" + review.getRecipe().getRecipeId();
-        } else {
-            return "redirect:/unauthorized";
+        if (review == null) {
+            return "error";
         }
+        model.addAttribute("review", review);
+        return "/edit-review";
+    }
+
+    /**
+     * Handles the submission of an edit-review form and updates review accordingly.
+     *
+     * @param updatedReview review object that contains the updated information
+     * @param result binding result to validate the review data
+     * @param model model to hold attributes for the view
+     * @param session the HTTP session to retrieve logged-in user
+     * @return redirect to the recipe the review was posted on
+     */
+    @RequestMapping(value = "/edit-review", method = RequestMethod.POST)
+    public String updateReview(@ModelAttribute("review") Review updatedReview,
+                               BindingResult result, Model model, HttpSession session) {
+        Long reviewId = updatedReview.getId();
+        Review currentReview = reviewService.findReviewById(reviewId);
+
+        currentReview.setComment(updatedReview.getComment());
+        currentReview.setRating(updatedReview.getRating());
+
+        reviewService.updateReview(currentReview);
+        return "redirect:/recipe/" + currentReview.getRecipe().getRecipeId();
     }
 
     /**

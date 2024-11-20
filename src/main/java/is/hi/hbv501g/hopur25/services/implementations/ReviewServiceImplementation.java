@@ -51,7 +51,7 @@ public class ReviewServiceImplementation implements ReviewService {
     @Override
     public List<Review> getReviews() {
         return reviewRepository.findAll();
-    } //á eflaust að vera í ReviewServImp
+    }
 
     /**
      * Retrieves a specific review by its ID.
@@ -74,6 +74,16 @@ public class ReviewServiceImplementation implements ReviewService {
     @Override
     public Review findReviewById(long reviewId) {
         return reviewRepository.findById(reviewId).orElse(null);
+    }
+
+    /**
+     * Updates an existing review in the repository.
+     *
+     * @param updatedReview the updated review to be saved
+     */
+    @Override
+    public void updateReview(Review updatedReview) {
+        reviewRepository.save(updatedReview);
     }
 }
 

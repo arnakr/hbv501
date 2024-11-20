@@ -2,7 +2,6 @@ package is.hi.hbv501g.hopur25.controllers;
 
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
-import is.hi.hbv501g.hopur25.persistence.entities.Review;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestriction;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
 import is.hi.hbv501g.hopur25.services.RecipeService;
@@ -18,6 +17,7 @@ import java.util.List;
 
 @Controller
 public class HomeController {
+
     private final RecipeService recipeService;
 
     @Autowired

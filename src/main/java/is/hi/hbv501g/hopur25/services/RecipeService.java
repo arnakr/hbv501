@@ -1,7 +1,6 @@
 package is.hi.hbv501g.hopur25.services;
 
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
-import is.hi.hbv501g.hopur25.persistence.entities.Review;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestriction;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;

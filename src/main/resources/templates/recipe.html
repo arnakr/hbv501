@@ -70,29 +70,20 @@
     <div th:if="${recipe.reviews != null && !recipe.reviews.isEmpty()}">
         <ul>
             <li th:each="review : ${recipe.reviews}">
+                <p><em><span th:text="${review.user.username}">Notendanafn</span>:</em></p>
                 <p><strong>Umsögn:</strong> <span th:text="${review.comment}"></span></p>
                 <p><strong>Rating:</strong> <span th:text="${review.rating}"></span>/5</p>
-
-                <div th:if="${LoggedInUser != null && review.user.username == LoggedInUser.username}">
-                    <form th:action="@{'/review/' + ${review.id} + '/update'}" method="post" style="display:inline;">
-                        <textarea name="comment" placeholder="Uppfærða athugasemdina þína" required></textarea>
-                        <input type="number" name="rating" min="1" max="5" placeholder="Uppfærð rating">
-                        <button type="submit">Breyta</button>
-                    </form>
-                    <form th:action="@{'/review/' + ${review.id} + '/delete'}" method="post" style="display:inline;">
-                        <button type="submit" onclick="return confirm('Ertu viss um að þú viljir eyða þessari umsögn?');">
-                            Eyða
-                        </button>
+                <div th:if="${session.LoggedInUser.userID == review.user.userID}" class="card-actions">
+                    <form th:action="@{'/review/' + ${review.id} + '/edit-review'}" method="post">
+                        <button type="submit" class="edit-button">Breyta Umsögn</button>
                     </form>
                 </div>
             </li>
         </ul>
     </div>
-
     <div th:if="${recipe.reviews == null || recipe.reviews.isEmpty()}">
         <p>Engar umsagnir</p>
     </div>
-
     <div th:if="${session.LoggedInUser != null}" class="add-review-form">
         <form th:action="@{'/recipe/' + ${recipe.recipeId} + '/addReview'}" method="post">
             <textarea name="comment" placeholder="Skrifa umsögn" required></textarea>
@@ -107,6 +98,5 @@
             <button type="submit">Senda umsögn</button>
         </form>
     </div>
-</div>
 </body>
 </html>

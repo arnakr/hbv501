@@ -1,18 +1,13 @@
 package is.hi.hbv501g.hopur25.services.implementations;
 
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
-import is.hi.hbv501g.hopur25.persistence.entities.Review;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestriction;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
 import is.hi.hbv501g.hopur25.persistence.repositories.RecipeRepository;
-import is.hi.hbv501g.hopur25.persistence.repositories.ReviewRepository;
-import is.hi.hbv501g.hopur25.persistence.repositories.UserRepository;
 import is.hi.hbv501g.hopur25.services.RecipeService;
-import is.hi.hbv501g.hopur25.services.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -25,10 +20,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class RecipeServiceImplementation implements RecipeService {
+
     private final RecipeRepository recipeRepository;
-    private final ReviewRepository reviewRepository;
-    private final UserRepository userRepository;
-    private final UserService userService;
 
     /**
      * Constructor to initialize the RecipeRepository.
@@ -36,11 +29,8 @@ public class RecipeServiceImplementation implements RecipeService {
      * @param recipeRepository the {@link RecipeRepository} to be used for data access
      */
     @Autowired
-    public RecipeServiceImplementation(RecipeRepository recipeRepository, ReviewRepository reviewRepository, UserRepository userRepository, @Qualifier("userService") UserService userService) {
+    public RecipeServiceImplementation(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
-        this.reviewRepository = reviewRepository;
-        this.userRepository = userRepository;
-        this.userService = userService;
     }
 
     /**
@@ -64,7 +54,9 @@ public class RecipeServiceImplementation implements RecipeService {
     public void delete(Long recipeId, User currentUser) {
         Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
         currentUser.getUserRecipes().remove(recipe);
-        recipeRepository.delete(recipe);
+        if (recipe != null) {
+            recipeRepository.delete(recipe);
+        }
     }
 
     /**

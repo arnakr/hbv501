@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Umsögn</title>
+        <link rel="stylesheet" th:href="@{/css/recipe.css}">
+        <link rel="stylesheet" th:href="@{/css/home.css}">
+        <title>Review</title>
+    </head>
+    <body>
+    <h1>Breyta umsögn</h1>
+    <div class="add-review-form">
+        <form action="#" th:action="@{/edit-review}" method="post">
+            <input type="hidden" th:field="${review.id}">
+
+            <label for="comment">Nafn uppskriftar:</label>
+            <input type="text" id="comment" name="comment" th:value="${review.comment}" required/>
+
+            <label for="rating">Rating (1-5):</label>
+            <select id="rating" name="rating" type="number" min="1" max="5" required>
+                <option value="1" th:selected="${review.rating == 1}">1</option>
+                <option value="2" th:selected="${review.rating == 2}">2</option>
+                <option value="3" th:selected="${review.rating == 3}">3</option>
+                <option value="4" th:selected="${review.rating == 4}">4</option>
+                <option value="5" th:selected="${review.rating == 5}">5</option>
+            </select>
+            <button type="submit">Vista breytingar</button>
+        </form>
+    </div>
+    </body>
+</html>

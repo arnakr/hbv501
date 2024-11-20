@@ -19,4 +19,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query("SELECT r FROM Review r WHERE r.rating = :rating")
     List<Review> findByRating(@Param("rating") int rating);
+
 }
