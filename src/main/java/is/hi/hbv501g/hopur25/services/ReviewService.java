@@ -11,7 +11,5 @@ public interface ReviewService {
     Review getReview(long id);
     Review findReviewById(long reviewId);
     void updateReview(Review updatedReview);
-    List<Review> getReviews();
-    Review getReview(int id);
 }
 

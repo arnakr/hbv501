@@ -77,6 +77,11 @@
                     <form th:action="@{'/review/' + ${review.id} + '/edit-review'}" method="post">
                         <button type="submit" class="edit-button">Breyta Umsögn</button>
                     </form>
+                    <form th:action="@{'/review/' + ${review.id} + '/delete'}" method="post">
+                        <button type="submit" onclick="return confirm('Ertu viss um að þú viljir eyða þessari umsögn?');">
+                            Eyða
+                        </button>
+                    </form>
                 </div>
             </li>
         </ul>
@@ -98,5 +103,6 @@
             <button type="submit">Senda umsögn</button>
         </form>
     </div>
+</div>
 </body>
 </html>
