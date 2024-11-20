@@ -109,7 +109,7 @@ public class ReviewController {
      * @param session  the HTTP session that contains the logged-in user
      * @return a redirect URL to the recipe page if the review is deleted, or an unauthorized page if the review does not belong to the logged-in user
      */
-    @PostMapping("/review/{reviewId}/delete") // sama hér, erum við að nota review eða recipe...
+    @PostMapping("/review/{reviewId}/delete") 
     public String deleteReview(@PathVariable Long reviewId, HttpSession session) {
         User loggedInUser = (User) session.getAttribute("LoggedInUser");
         if (loggedInUser == null) {
