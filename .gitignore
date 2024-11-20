@@ -1,36 +1,17 @@
-# Allow the final built JAR file in target/
-!target/demo-0.0.1-SNAPSHOT.jar
-
-HELP.md
+# Ignore the target directory except the built JAR
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+!target/*.jar
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+# Ignore common IDE and tool config files
+*.class
+*.log
+*.tmp
+*.out
 *.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
+.idea/
 .vscode/
+*.swp
+
+# Ignore sensitive files
+**/node_modules/
+**/build/
