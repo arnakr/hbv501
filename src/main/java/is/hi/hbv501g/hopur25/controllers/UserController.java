@@ -1,7 +1,6 @@
 package is.hi.hbv501g.hopur25.controllers;
 
 import is.hi.hbv501g.hopur25.persistence.entities.User;
-import is.hi.hbv501g.hopur25.services.S3Service;
 import is.hi.hbv501g.hopur25.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +15,10 @@ import java.io.IOException;
 @Controller
 public class UserController {
     private final UserService userService;
-    private final S3Service s3Service;
 
     @Autowired
-    public UserController(UserService userService, S3Service s3service) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.s3Service = s3service;
     }
 
     /**
@@ -275,6 +272,7 @@ public class UserController {
             return "redirect:/login";
         }
 
+        /*       VIRKAR EKKI Fyrir RENDER deployment!! EINNIG DELETAÐ S3SERVIE OG AWSCONFIG
         String oldPictureUrl = currentUser.getUserPicture();
         if (oldPictureUrl != null) {
             String oldKey = oldPictureUrl.substring(oldPictureUrl.lastIndexOf("/") + 1);
@@ -282,9 +280,12 @@ public class UserController {
         }
         String s3Url = s3Service.uploadFile(profilePicture);
 
+
         userService.updateUserProfilePicture(currentUser.getUserID(), s3Url);
 
         currentUser.setUserPicture(s3Url);
+        */
+
         session.setAttribute("LoggedInUser", currentUser);
 
         return "redirect:/settings";

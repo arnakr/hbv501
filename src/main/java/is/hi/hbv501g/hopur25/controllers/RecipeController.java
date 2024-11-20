@@ -3,7 +3,6 @@ package is.hi.hbv501g.hopur25.controllers;
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
 import is.hi.hbv501g.hopur25.services.RecipeService;
-import is.hi.hbv501g.hopur25.services.S3Service;
 import is.hi.hbv501g.hopur25.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +20,12 @@ public class RecipeController {
 
     private final RecipeService recipeService;
     private final UserService userService;
-    private final S3Service s3Service;
+
 
     @Autowired
-    public RecipeController(RecipeService recipeService, UserService userService, S3Service s3Service) {
+    public RecipeController(RecipeService recipeService, UserService userService) {
         this.recipeService = recipeService;
         this.userService = userService;
-        this.s3Service = s3Service;
     }
 
     /**
@@ -266,6 +264,7 @@ public class RecipeController {
         System.out.println("Uploaded file: " + recipePicture.getOriginalFilename());
         System.out.println("File size: " + recipePicture.getSize() + " bytes");
 
+        /*  VIRKAR EKKI SVO VIÐ GETUM DEPLOYAÐ Á RENDER
         String oldPictureUrl = recipe.getRecipePictureUrl();
         if (oldPictureUrl != null) {
             String oldKey = oldPictureUrl.substring(oldPictureUrl.lastIndexOf("/") + 1);
@@ -275,7 +274,7 @@ public class RecipeController {
         String s3Url = s3Service.uploadFile(recipePicture);
 
         recipeService.updateRecipePicture(recipeId, s3Url);
-
+        */
         return "redirect:/user-recipes";
     }
 }
