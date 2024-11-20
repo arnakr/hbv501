@@ -168,51 +168,6 @@ public class RecipeServiceImplementation implements RecipeService {
     }
 
     /**
-     * Saves a review in the repository.
-     *
-     * @param review the saved review
-     */
-    @Override
-    public void saveReview(Review review) {
-        reviewRepository.save(review);
-    } //á eflaust að vera í ReviewServImpl
-
-    /**
-     * Retrieves all reviews from the repository.
-     * This method returns a list of all reviews stored in the database.
-     *
-     * @return a list of all reviews
-     */
-    @Override
-    public List<Review> getReviews() {
-        return reviewRepository.findAll();
-    } //á eflaust að vera í ReviewServImp
-
-    /**
-     * Retrieves a specific review by its ID.
-     * This method finds a review by its unique ID. If no review is found for the given ID,
-     * it returns null.
-     *
-     * @param id the ID of the review to retrieve
-     * @return the review with the given ID, or `null` if not found
-     */
-    @Override
-    public Review getReview(int id) {
-        return reviewRepository.findById((long) id).orElse(null);
-    }
-
-    /**
-     * Deletes a review from the repository.
-     * This method deletes the review identified by the provided ID from the database.
-     *
-     * @param id the ID of the review to be deleted
-     */
-    @Override
-    public void deleteReview(int id) {
-        reviewRepository.deleteById((long) id);
-    }
-
-    /**
      * Updates the recipe's picture URL in the database with the given S3 URL.
      * This method retrieves the recipe by its ID and sets the new recipe picture URL.
      *

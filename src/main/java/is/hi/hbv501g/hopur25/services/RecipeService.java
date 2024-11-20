@@ -37,14 +37,6 @@ public interface RecipeService {
 
     void updateRecipe(Recipe updatedRecipe);
 
-    void saveReview(Review review);
-
-    List<Review> getReviews();
-
-    Review getReview(int id);
-
-    void deleteReview(int id);
-
     void updateRecipePicture(Long recipeId, String s3Url);
 }
 

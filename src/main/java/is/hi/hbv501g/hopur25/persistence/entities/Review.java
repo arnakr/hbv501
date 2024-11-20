@@ -70,7 +70,7 @@ public class Review {
         this.rating = rating;
     }
 
-   public Review getReview() {
+    public Review getReview(long id) {
         return review;
     }
 
