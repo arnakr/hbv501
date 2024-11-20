@@ -1,11 +1,12 @@
 package is.hi.hbv501g.hopur25.services.implementations;
 
-import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
 import is.hi.hbv501g.hopur25.persistence.entities.Review;
 import is.hi.hbv501g.hopur25.persistence.repositories.ReviewRepository;
 import is.hi.hbv501g.hopur25.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Service implementation for managing reviews.
@@ -39,6 +40,30 @@ public class ReviewServiceImplementation implements ReviewService {
     @Override
     public void deleteReviewById(long id) {
         reviewRepository.deleteById(id);
+    }
+
+    /**
+     * Retrieves all reviews from the repository.
+     * This method returns a list of all reviews stored in the database.
+     *
+     * @return a list of all reviews
+     */
+    @Override
+    public List<Review> getReviews() {
+        return reviewRepository.findAll();
+    }
+
+    /**
+     * Retrieves a specific review by its ID.
+     * This method finds a review by its unique ID. If no review is found for the given ID,
+     * it returns null.
+     *
+     * @param id the ID of the review to retrieve
+     * @return the review with the given ID, or `null` if not found
+     */
+    @Override
+    public Review getReview(int id) {
+        return reviewRepository.findById((long) id).orElse(null);
     }
 
     /**

@@ -1,18 +1,13 @@
 package is.hi.hbv501g.hopur25.services.implementations;
 
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
-import is.hi.hbv501g.hopur25.persistence.entities.Review;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestriction;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
 import is.hi.hbv501g.hopur25.persistence.repositories.RecipeRepository;
-import is.hi.hbv501g.hopur25.persistence.repositories.ReviewRepository;
-import is.hi.hbv501g.hopur25.persistence.repositories.UserRepository;
 import is.hi.hbv501g.hopur25.services.RecipeService;
-import is.hi.hbv501g.hopur25.services.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -25,10 +20,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class RecipeServiceImplementation implements RecipeService {
+
     private final RecipeRepository recipeRepository;
-    private final ReviewRepository reviewRepository;
-    private final UserRepository userRepository;
-    private final UserService userService;
 
     /**
      * Constructor to initialize the RecipeRepository.
@@ -36,11 +29,8 @@ public class RecipeServiceImplementation implements RecipeService {
      * @param recipeRepository the {@link RecipeRepository} to be used for data access
      */
     @Autowired
-    public RecipeServiceImplementation(RecipeRepository recipeRepository, ReviewRepository reviewRepository, UserRepository userRepository, @Qualifier("userService") UserService userService) {
+    public RecipeServiceImplementation(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
-        this.reviewRepository = reviewRepository;
-        this.userRepository = userRepository;
-        this.userService = userService;
     }
 
     /**
@@ -64,7 +54,9 @@ public class RecipeServiceImplementation implements RecipeService {
     public void delete(Long recipeId, User currentUser) {
         Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
         currentUser.getUserRecipes().remove(recipe);
-        recipeRepository.delete(recipe);
+        if (recipe != null) {
+            recipeRepository.delete(recipe);
+        }
     }
 
     /**
@@ -165,51 +157,6 @@ public class RecipeServiceImplementation implements RecipeService {
     @Override
     public void updateRecipe (Recipe updatedRecipe) {
         recipeRepository.save(updatedRecipe);
-    }
-
-    /**
-     * Saves a review in the repository.
-     *
-     * @param review the saved review
-     */
-    @Override
-    public void saveReview(Review review) {
-        reviewRepository.save(review);
-    } //á eflaust að vera í ReviewServImpl
-
-    /**
-     * Retrieves all reviews from the repository.
-     * This method returns a list of all reviews stored in the database.
-     *
-     * @return a list of all reviews
-     */
-    @Override
-    public List<Review> getReviews() {
-        return reviewRepository.findAll();
-    } //á eflaust að vera í ReviewServImp
-
-    /**
-     * Retrieves a specific review by its ID.
-     * This method finds a review by its unique ID. If no review is found for the given ID,
-     * it returns null.
-     *
-     * @param id the ID of the review to retrieve
-     * @return the review with the given ID, or `null` if not found
-     */
-    @Override
-    public Review getReview(int id) {
-        return reviewRepository.findById((long) id).orElse(null);
-    }
-
-    /**
-     * Deletes a review from the repository.
-     * This method deletes the review identified by the provided ID from the database.
-     *
-     * @param id the ID of the review to be deleted
-     */
-    @Override
-    public void deleteReview(int id) {
-        reviewRepository.deleteById((long) id);
     }
 
     /**

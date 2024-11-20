@@ -120,25 +120,37 @@ public class RecipeController {
         return "redirect:/user/" + loggedInUser.getUserID() + "/favorites";
     }
 
+    /**
+     * Displays a recipe edit form.
+     *
+     * @param recipeId ID of the recipe to be edited
+     * @param model model to hold attributes for the view
+     * @return the URL to update the page
+     */
     @RequestMapping("/recipe/{recipeId}/edit-recipe")
     public String editRecipe(@PathVariable Long recipeId, Model model) {
         Recipe recipe = recipeService.findRecipeById(recipeId);
         if (recipe == null) {
             return "error";
         }
-        System.out.println("OLD RECIPE:" + recipe.toString());
         model.addAttribute("recipe", recipe);
         return "/edit-recipe";
     }
 
+    /**
+     * Handles the submission of an edit-recipe form and updates recipe accordingly.
+     *
+     * @param updatedRecipe recipe object that contains the updated information
+     * @param result binding result to validate the recipe data
+     * @param model model to hold attributes for the view
+     * @param session the HTTP session to retrieve logged-in user
+     * @return redirect to the logged-in user's recipes
+     */
     @RequestMapping(value = "/edit-recipe", method = RequestMethod.POST)
     public String updateRecipe(@ModelAttribute("recipe") Recipe updatedRecipe,
                                BindingResult result, Model model, HttpSession session) {
         Long recipeId = updatedRecipe.getRecipeId();
         Recipe currentRecipe = recipeService.findRecipeById(recipeId);
-
-        System.out.println("NEW INFORMATION:" + updatedRecipe.toString());
-        System.out.println("RECIPE ID: " + recipeId);
 
         currentRecipe.setTitle(updatedRecipe.getTitle());
         currentRecipe.setDescription(updatedRecipe.getDescription());
@@ -146,13 +158,12 @@ public class RecipeController {
         currentRecipe.setMealCategories(updatedRecipe.getMealCategories());
         currentRecipe.setDietaryRestrictions(updatedRecipe.getDietaryRestrictions());
 
-        System.out.println("NEW RECIPE: " + currentRecipe.toString());
         recipeService.updateRecipe(currentRecipe);
         return "redirect:/user-recipes";
     }
 
     /**
-     * Displays the recipe create form
+     * Displays the recipe create form.
      *
      * @param model the model to hold attributes for the view
      * @return /createRecipe
@@ -202,10 +213,10 @@ public class RecipeController {
      * If no user is logged in, the method redirects to the login page.
      * If the recipe is found, it proceeds with deletion.
      *
-     * @param recipeId The unique identifier of the recipe to be deleted.
-     * @param session The current HTTP session, used to retrieve the logged-in user.
+     * @param recipeId The unique identifier of the recipe to be deleted
+     * @param session The current HTTP session, used to retrieve the logged-in user
      * @return A redirect string that navigates the user back to their recipes page after deletion,
-     *         or redirects to the login page if no user is logged in.
+     *         or redirects to the login page if no user is logged in
      */
     @RequestMapping(value = "/recipe/{recipeId}/deleteRecipe", method = RequestMethod.POST)
     public String deleteRecipe(@PathVariable Long recipeId, HttpSession session) {
@@ -227,11 +238,11 @@ public class RecipeController {
      * for their recipe, deletes the old image from the S3 bucket (if it exists), and updates the recipe
      * with the new image URL.
      *
-     * @param recipeId The ID of the recipe whose picture is being updated.
-     * @param recipePicture The new image file uploaded by the user.
-     * @param session The HTTP session used to retrieve the logged-in user's details.
-     * @return A redirect to the "/user-recipes" page after successfully updating the recipe picture.
-     * @throws IOException If an error occurs during the file upload process to S3.
+     * @param recipeId The ID of the recipe whose picture is being updated
+     * @param recipePicture The new image file uploaded by the user
+     * @param session The HTTP session used to retrieve the logged-in user's details
+     * @return A redirect to the "/user-recipes" page after successfully updating the recipe picture
+     * @throws IOException If an error occurs during the file upload process to S3
      */
     @PostMapping("/recipe/{recipeId}/uploadRecipePicture")
     public String uploadRecipePicture(@PathVariable Long recipeId,

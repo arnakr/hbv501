@@ -29,10 +29,8 @@ public class User {
 
     private String userPicture;
 
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Recipe> userRecipes = new ArrayList<>();
-
 
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
@@ -40,8 +38,10 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "recipe_id")
     )
+
     private List<Recipe> userFavourites = new ArrayList<>();
 
+    /* Constructors */
     public User() {
     }
 
@@ -51,6 +51,7 @@ public class User {
         this.password = password;
     }
 
+    /* Getters and setters */
     public long getUserID() {
         return userID;
     }

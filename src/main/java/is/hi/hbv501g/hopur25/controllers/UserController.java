@@ -27,8 +27,8 @@ public class UserController {
     /**
      * Handles the GET request for the signup page.
      *
-     * @param user The user object (optional).
-     * @return The name of the signup view to render.
+     * @param user The user object (optional)
+     * @return The name of the signup view to render
      */
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String signupGET(User user) {
@@ -42,11 +42,11 @@ public class UserController {
      * Saves the new user if all checks pass; otherwise,
      * returns an error message in the form.
      *
-     * @param user   The user object containing signup data.
-     * @param result Holds validation errors, if any.
-     * @param model  The model for passing attributes to the view.
+     * @param user   The user object containing signup data
+     * @param result Holds validation errors, if any
+     * @param model  The model for passing attributes to the view
      * @return Redirects to the home page if signup is successful, otherwise
-     * returns to the signup view on error.
+     * returns to the signup view on error
      */
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String signupPOST(User user, BindingResult result, Model model, HttpSession session) {
@@ -88,8 +88,8 @@ public class UserController {
     /**
      * Handles the GET request for the login page.
      *
-     * @param user The user object (optional).
-     * @return The name of the login view to render.
+     * @param user The user object (optional)
+     * @return The name of the login view to render
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginForm(User user) {
@@ -103,12 +103,12 @@ public class UserController {
      * stores the user in the session and redirects to the home page.
      * If authentication fails, returns to the login page with an error message.
      *
-     * @param user    The user object containing login credentials.
-     * @param result  Holds validation errors, if any.
-     * @param model   The model for passing attributes to the view.
-     * @param session The HTTP session to store logged-in user data.
+     * @param user    The user object containing login credentials
+     * @param result  Holds validation errors, if any
+     * @param model   The model for passing attributes to the view
+     * @param session The HTTP session to store logged-in user data
      * @return Redirects to the home page if login is successful,
-     * or returns to the login page on error.
+     * or returns to the login page on error
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(User user, BindingResult result, Model model, HttpSession session) {
@@ -133,10 +133,10 @@ public class UserController {
      * <p>
      * Redirects to the login page if the user is not authenticated.
      *
-     * @param session The HTTP session to retrieve the logged-in user.
-     * @param model   The model for passing attributes to the view.
+     * @param session The HTTP session to retrieve the logged-in user
+     * @param model   The model for passing attributes to the view
      * @return The name of the settings view or
-     * if not logged in, redirect to the login page.
+     * if not logged in, redirect to the login page
      */
     @RequestMapping("/settings")
     public String settingsPage(HttpSession session, Model model) {
@@ -155,12 +155,12 @@ public class UserController {
      * Validates the user and updates settings. Redirects to the login page
      * if the user is not authenticated. Returns error messages if any updates fail.
      *
-     * @param updatedUser The user object containing updated settings.
-     * @param result      Holds validation errors, if any.
-     * @param model       The model for passing attributes to the view.
-     * @param session     The HTTP session to retrieve the logged-in user.
+     * @param updatedUser The user object containing updated settings
+     * @param result      Holds validation errors, if any
+     * @param model       The model for passing attributes to the view
+     * @param session     The HTTP session to retrieve the logged-in user
      * @return Redirects to the home page if settings are updated successfully,
-     * or returns to the settings page on error.
+     * or returns to the settings page on error
      */
     @RequestMapping(value = "/settings", method = RequestMethod.POST)
     public String settingsPost(@ModelAttribute("LoggedInUser") User updatedUser,
@@ -186,8 +186,8 @@ public class UserController {
      * <p>
      * Redirects the user to the home page after logging out.
      *
-     * @param session The HTTP session to be invalidated.
-     * @return A redirect to the home page.
+     * @param session The HTTP session to be invalidated
+     * @return A redirect to the home page
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session) {
@@ -202,9 +202,9 @@ public class UserController {
      * Retrieves the user's favorite recipes and adds them to the model
      * for display on the favorites page.
      *
-     * @param session The HTTP session to retrieve the logged-in user.
-     * @param model   The model for passing attributes to the view.
-     * @return The name of the favorites view or a redirect to the login page.
+     * @param session The HTTP session to retrieve the logged-in user
+     * @param model   The model for passing attributes to the view
+     * @return The name of the favorites view or a redirect to the login page
      */
     @RequestMapping(value = "/favorites", method = RequestMethod.GET)
     public String showFavorites(HttpSession session, Model model) {
@@ -222,9 +222,9 @@ public class UserController {
      * Displays the user's recipes page for a logged-in user.
      * Redirects to the login page if the user is not authenticated.
      *
-     * @param session The HTTP session to retrieve the logged-in user.
-     * @param model   The model for passing attributes to the view.
-     * @return String of name of the user-recipes view or redirect to login page.
+     * @param session The HTTP session to retrieve the logged-in user
+     * @param model   The model for passing attributes to the view
+     * @return String of name of the user-recipes view or redirect to login page
      */
     @RequestMapping(value = "/user-recipes", method = RequestMethod.GET)
     public String showUserRecipes(HttpSession session, Model model) {
@@ -270,7 +270,6 @@ public class UserController {
      * @return a redirect string to the settings page or login page if the user is not logged in
      * @throws IOException if an error occurs during file operations or uploading to S3
      */
-
     @PostMapping("/uploadProfilePicture")
     public String uploadProfilePicture(@RequestParam("profilePicture") MultipartFile profilePicture, HttpSession session) throws IOException {
         User currentUser = (User) session.getAttribute("LoggedInUser");

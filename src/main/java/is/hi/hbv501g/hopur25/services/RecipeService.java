@@ -1,7 +1,6 @@
 package is.hi.hbv501g.hopur25.services;
 
 import is.hi.hbv501g.hopur25.persistence.entities.Recipe;
-import is.hi.hbv501g.hopur25.persistence.entities.Review;
 import is.hi.hbv501g.hopur25.persistence.entities.User;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.DietaryRestriction;
 import is.hi.hbv501g.hopur25.persistence.entities.enumerations.MealCategory;
@@ -36,14 +35,6 @@ public interface RecipeService {
     List<Recipe> searchByKeywordAndCriteria(String keyword, List<DietaryRestriction> selectedDietaryRestrictions, List<MealCategory> selectedMealCategories);
 
     void updateRecipe(Recipe updatedRecipe);
-
-    void saveReview(Review review);
-
-    List<Review> getReviews();
-
-    Review getReview(int id);
-
-    void deleteReview(int id);
 
     void updateRecipePicture(Long recipeId, String s3Url);
 }

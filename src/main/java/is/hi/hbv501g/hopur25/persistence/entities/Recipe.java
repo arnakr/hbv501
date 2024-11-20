@@ -152,25 +152,12 @@ public class Recipe {
         this.usersWhoFavorited = usersWhoFavorited;
     }
 
-    @Override
-    public String toString() {
-        return "Id: " + recipeId + ", Title: " + title + ", Ingredients: " + ingredients + ", Cook Time: " + cookTime + ", Description: " + description;
-    }
     public LocalDateTime getUploadTime() {
         return uploadTime;
     }
 
     public void setUploadTime(LocalDateTime uploadTime) {
         this.uploadTime = uploadTime;
-    }
-
-    public void setAll(Recipe updatedRecipe) {
-        this.title = updatedRecipe.getTitle();
-        this.ingredients = updatedRecipe.getIngredients();
-        this.description = updatedRecipe.getDescription();
-        this.cookTime = updatedRecipe.getCookTime();
-        this.dietaryRestrictions = updatedRecipe.getDietaryRestrictions();
-        this.mealCategories = updatedRecipe.getMealCategories();
     }
 
     public String getRecipePictureUrl() {
@@ -195,5 +182,10 @@ public class Recipe {
 
     public void setAvgRating(Double avgRating) {
         this.avgRating = avgRating;
+    }
+
+    @Override
+    public String toString() {
+        return "Id: " + recipeId + ", Title: " + title + ", Ingredients: " + ingredients + ", Cook Time: " + cookTime + ", Description: " + description;
     }
 }
