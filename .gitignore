@@ -1,3 +1,6 @@
+# Allow the final built JAR file in target/
+!target/demo-0.0.1-SNAPSHOT.jar
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
